@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
+#    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/11/16 10:31:31 by codespace         #+#    #+#              #
-#    Updated: 2023/11/16 10:33:35 by codespace        ###   ########.fr        #
+#    Created: 2023/11/16 10:47:55 by dacortes          #+#    #+#              #
+#    Updated: 2023/11/16 11:07:18 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,14 +33,14 @@ PROGRESS_BAR :=
 
 SRC = main.c
 LIBFT = ./lib/libft/
-MINIL = ./lib/minilibx_linux/
+MINIL = ./lib/minilibx_mac/
 L_SRC = ./src
 L_LIB = ./lib/libft/libft.a
-L_MLX = ./lib/minilibx_linux/libmlx.a
-L_FRAME = -lXext -lX11 -lm -lz  #-framework OpenGL -framework AppKit
+L_MLX = ./lib/minilibx_mac/libmlx.a
+L_FRAME = -framework OpenGL -framework AppKit
 INC			=	-I ./inc/\
 				-I ./lib/libft/\
-				-I ./lib/minilibx_linux/
+				-I ./lib/minilibx_mac/
 
 ################################################################################
 #                               DIRECTORIES                                    #
