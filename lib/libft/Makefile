@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
+#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/08 10:25:51 by dacortes          #+#    #+#              #
-#    Updated: 2023/09/12 16:26:40 by dacortes         ###   ########.fr        #
+#    Updated: 2023/11/16 10:34:35 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,6 @@ SRCS	=	ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c\
 				ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c\
 				ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c\
 				ft_printf.c ft_type_cs.c ft_type_idupxX.c\
-				get_next_line_bonus.c get_next_line_utils_bonus.c\
-				get_next_line.c get_next_line_utils.c\
 				ft_addend_char.c ft_addstart_char.c ft_strchrpos.c\
 				ft_double_ptrlen.c ft_close_del.c\
 				fd_type_cs.c fd_type_idup.c fd_type_xX.c fd_printf.c\

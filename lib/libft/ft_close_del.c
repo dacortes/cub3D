@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_close_del.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:59:49 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/13 17:00:13 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/16 10:35:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libc.h"
+#include "libft.h"
 
 int	close_del(char *str, char delimiter)
 {
