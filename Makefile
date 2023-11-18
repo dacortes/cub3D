@@ -6,7 +6,7 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 10:31:31 by codespace         #+#    #+#              #
-#    Updated: 2023/11/16 10:33:35 by codespace        ###   ########.fr        #
+#    Updated: 2023/11/18 15:12:57 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 #                               VARIABLES                                      #
 ################################################################################
 
-NAME = test
+NAME = cub3D
 CC = gcc
 RM = rm -rf
 LIBC = ar -rcs
@@ -32,6 +32,8 @@ PROGRESS_BAR :=
 ################################################################################
 
 SRC = main.c
+OS := $(shell uname)
+
 LIBFT = ./lib/libft/
 MINIL = ./lib/minilibx_linux/
 L_SRC = ./src
@@ -77,6 +79,9 @@ italic = \033[3m
 all: dir $(NAME)
 -include $(DEP)
 dir:
+	@if [ $(OS) = "Linux" ]; then \
+		echo "Soy linux"; \
+	fi
 	make -C $(LIBFT) --no-print-directory
 	make -C $(MINIL) --no-print-directory &> /dev/null
 	mkdir -p $(D_OBJ)
