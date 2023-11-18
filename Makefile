@@ -79,25 +79,37 @@ italic = \033[3m
 all: dir $(NAME)
 -include $(DEP)
 dir:
-	@if [ $(OS) = "Linux" ]; then \
-		echo "Soy linux"; \
-	fi
-	make -C $(LIBFT) --no-print-directory
-	make -C $(MINIL) --no-print-directory &> /dev/null
+	@echo dir start
 	mkdir -p $(D_OBJ)
 	mkdir -p $(D_OBJ)/sets
 	mkdir -p $(D_OBJ)/menu
+	@echo dir end
+
+libs:
+	make -C $(LIBFT) --no-print-directory
+ifeq ($(OS), Linux)
+	@echo "Compiling Linux version"; echo "Calling minilibx $!";
+	#Redirigir-lo a /dev/null implica que se ejecute en el background y que se acabe con la rule antes de que este compilada la minilibx.
+	#Esto provoca un error en los archivos que dependen de ella. Tamiben altera el estado de la consola, creando el efecto de que no sale el prompt al final de la compilacion.
+	#make -C $(MINIL) --no-print-directory &> /dev/null ; echo "Called minilibx $!";
+	make -C $(MINIL) --no-print-directory ; echo "Called minilibx $!";
+	@echo "Compiled Linux version";
+else
+	@echo "No soy linux :( $(OS)";
+endif
+	@echo "Compiled Linux version";
+
 $(D_OBJ)/%.o:$(L_SRC)/%.c
 	$(CC) -MMD $(FLAGS) -c $< -o $@ $(INC)
 	$(eval CURRENT_FILE := $(shell echo $$(($(CURRENT_FILE) + 1)))) \
 	$(eval PROGRESS_BAR := $(shell awk "BEGIN { printf \"%.0f\", $(CURRENT_FILE)*100/$(TOTAL_FILES) }")) \
-	printf "\r$B$(ligth)⏳Compiling fractol:$E $(ligth)%-30s [$(CURRENT_FILE)/$(TOTAL_FILES)] [%-50s] %3d%%\033[K" \
+	printf "\r$B$(ligth)⏳Compiling $(NAME):$E $(ligth)%-30s [$(CURRENT_FILE)/$(TOTAL_FILES)] [%-50s] %3d%%\033[K" \
 	"$<..." "$(shell printf '$(G)█%.0s$(E)$(ligth)' {1..$(shell echo "$(PROGRESS_BAR)/2" | bc)})" $(PROGRESS_BAR)
 	
 	@if [ $(PROGRESS_BAR) = 100 ]; then \
 		echo "$(B) All done$(E)"; \
 	fi
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) libs
 	$(CC) $(FLAGS) $(OBJ) $(L_LIB) $(L_MLX) $(L_FRAME) -o $(NAME) $(INC)
 
 ################################################################################
