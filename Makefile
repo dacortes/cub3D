@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 10:31:31 by codespace         #+#    #+#              #
-#    Updated: 2023/11/19 10:21:06 by dacortes         ###   ########.fr        #
+#    Updated: 2023/11/19 10:39:02 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ NAME = cub3D
 CC = gcc
 RM = rm -rf
 LIBC = ar -rcs
+OS := $(shell uname -s)
 FLAGS = -Wall -Wextra -Werror -O3 -g
 
 ################################################################################
@@ -31,21 +32,26 @@ PROGRESS_BAR :=
 #                               SOURCES                                        #
 ################################################################################
 
+ifeq ($(OS), Linux)
+	MINIL = ./lib/minilibx_linux/
+	L_MLX = ./lib/minilibx_linux/libmlx.a
+	L_FRAME = -lXext -lX11 -lm -lz
+	INC			=	-I ./inc/\
+				-I ./lib/libft/\
+				-I ./lib/minilibx_linux/	
+else
+	MINIL = ./lib/minilibx_mac/
+	L_MLX = ./lib/minilibx_mac/libmlx.a
+	L_FRAME = -framework OpenGL -framework AppKit
+	INC			=	-I ./inc/\
+				-I ./lib/libft/\
+				-I ./lib/minilibx_mac/
+endif
+
 SRC = main.c
-OS := $(shell uname)
-
-#L_MLX = ./miniLibX/libmlx.a
-#L_FRAME = -framework OpenGL -framework AppKit
-
 LIBFT = ./lib/libft/
-MINIL = ./lib/minilibx_linux/
 L_SRC = ./src
 L_LIB = ./lib/libft/libft.a
-L_MLX = ./lib/minilibx_linux/libmlx.a
-L_FRAME = -lXext -lX11 -lm -lz  #-framework OpenGL -framework AppKit
-INC			=	-I ./inc/\
-				-I ./lib/libft/\
-				-I ./lib/minilibx_linux/
 
 ################################################################################
 #                               DIRECTORIES                                    #
@@ -82,25 +88,12 @@ italic = \033[3m
 all: dir $(NAME)
 -include $(DEP)
 dir:
-	@echo dir start
 	mkdir -p $(D_OBJ)
 	mkdir -p $(D_OBJ)/sets
 	mkdir -p $(D_OBJ)/menu
-	@echo dir end
-
 libs:
 	make -C $(LIBFT) --no-print-directory
-ifeq ($(OS), Linux)
-	@echo "Compiling Linux version"; echo "Calling minilibx $!";
-	#Redirigir-lo a /dev/null implica que se ejecute en el background y que se acabe con la rule antes de que este compilada la minilibx.
-	#Esto provoca un error en los archivos que dependen de ella. Tamiben altera el estado de la consola, creando el efecto de que no sale el prompt al final de la compilacion.
-	#make -C $(MINIL) --no-print-directory &> /dev/null ; echo "Called minilibx $!";
-	make -C $(MINIL) --no-print-directory ; echo "Called minilibx $!";
-	@echo "Compiled Linux version";
-else
-	@echo "No soy linux :( $(OS)";
-endif
-	@echo "Compiled Linux version";
+	make -C $(MINIL) --no-print-directory
 
 $(D_OBJ)/%.o:$(L_SRC)/%.c
 	$(CC) -MMD $(FLAGS) -c $< -o $@ $(INC)
