@@ -6,11 +6,11 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/16 11:09:35 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/19 15:38:52 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib/minilibx_mac/mlx.h"
+#include "../inc/cub3D.h"
 
 typedef struct	s_data {
 	void	*img;
@@ -27,7 +27,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
-
+#include <stdio.h>
 int	main(void)
 {
 	void	*mlx;

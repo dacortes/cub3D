@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/19 14:19:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/19 15:38:19 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,10 @@
 /*                            INCLUDES                                        */
 /******************************************************************************/
 
+# ifdef INC_MAC
 # include "../lib/minilibx_mac/mlx.h"
+#endif
+# ifdef INC_LINUX
+# include "../lib/minilibx_linux/mlx.h"
+#endif
 #endif 
