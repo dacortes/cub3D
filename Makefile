@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
+#    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 10:31:31 by codespace         #+#    #+#              #
-#    Updated: 2023/11/18 15:12:57 by codespace        ###   ########.fr        #
+#    Updated: 2023/11/19 10:21:06 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,9 @@ PROGRESS_BAR :=
 
 SRC = main.c
 OS := $(shell uname)
+
+#L_MLX = ./miniLibX/libmlx.a
+#L_FRAME = -framework OpenGL -framework AppKit
 
 LIBFT = ./lib/libft/
 MINIL = ./lib/minilibx_linux/
