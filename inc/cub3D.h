@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/19 15:45:16 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/19 15:53:53 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-
+# include "../lib/libft/libft.h"
+# include "../lib/libft/ft_printf.h"
+# include "../lib/libft/get_next_line.h"
 /******************************************************************************/
 /*                            MACROS                                          */
 /******************************************************************************/
