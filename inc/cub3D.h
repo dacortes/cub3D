@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/20 17:44:44 by codespace        ###   ########.fr       */
+/*   Updated: 2023/11/20 19:06:59 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@
 # define ARG 1
 # define MEM 2
 # define OPN 3
-# define PRR 4
+# define MAP 4
+# define PRR 5
 
 # define ERROR -1
 /******************************************************************************/

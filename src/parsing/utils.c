@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:37:07 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/20 17:43:22 by codespace        ###   ########.fr       */
+/*   Updated: 2023/11/20 19:09:52 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ int	msg_error(int err, int exit_, char *cm)
 		fd_printf(2, " (./cub3D <map>.cub)\n");
 	}
 	if (err == OPN)
-		fd_printf(2, "Error: opening file: %s", cm);
+		fd_printf(2, "Error: opening file: %s\n", cm);
+	if (err == MAP)
+		fd_printf(2, "Error: wrong map: %s\n", cm);
 	if (err == PRR)
 		perror("mini");
 	return (exit_);
