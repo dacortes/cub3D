@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/19 18:34:13 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/20 17:44:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,14 @@ typedef struct s_path_text
 	char	*ea;
 }	t_path_text;
 
+/******************************************************************************/
+/*                            FUNCTIONS                                       */
+/******************************************************************************/
+
+/* src/parsing/getpath.c */
+int	parse_open(char *file, int *fd);
+int	get_path_text(char *line, t_path_text *text);
+/* src/parsing/utils.c */
+int	is_space(char c);
+int	msg_error(int err, int exit_, char *cm);
 #endif 

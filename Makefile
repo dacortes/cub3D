@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
+#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 10:31:31 by codespace         #+#    #+#              #
-#    Updated: 2023/11/19 15:37:18 by dacortes         ###   ########.fr        #
+#    Updated: 2023/11/20 17:41:38 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ else
 				-I ./lib/minilibx_mac/
 endif
 
-SRC = main.c
+SRC = parsing/getpath.c parsing/utils.c \
+	main.c
 LIBFT = ./lib/libft/
 L_SRC = ./src
 L_LIB = ./lib/libft/libft.a
@@ -91,8 +92,7 @@ all: dir $(NAME)
 -include $(DEP)
 dir:
 	mkdir -p $(D_OBJ)
-	mkdir -p $(D_OBJ)/sets
-	mkdir -p $(D_OBJ)/menu
+	mkdir -p $(D_OBJ)/parsing
 libs:
 	make -C $(LIBFT) --no-print-directory
 	make -C $(MINIL) --no-print-directory
