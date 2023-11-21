@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:37:07 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/21 10:15:10 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:57:21 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 int	is_space(char c)
 {
 	return ((c == 32 || (c >= 9 && c <= 13)));
+}
+
+int	error_get_data(char **set, char *find)
+{
+	if (!set[0])
+		exit (msg_error(MEM, -1, NULL));
+	if (!*set[0] || (*set[0] == '\n'))
+		exit (msg_error(MAP, -1, "path not found"));
+	if (!*set[0])
+		exit (msg_error(MAP, -1, find));
+	return (EXIT_SUCCESS);
 }
 
 int	msg_error(int err, int exit_, char *cm)

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/21 09:07:21 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:58:05 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 # define MAP 4
 # define PRR 5
 
+# define TRUE   1
+# define FALSE  0
 # define ERROR -1
 /******************************************************************************/
 /*                            COLORS                                          */
@@ -60,35 +62,50 @@
 /******************************************************************************/
 /*                            STRUCTURES                                      */
 /******************************************************************************/
-typedef	struct s_aux
+
+typedef struct s_aux
 {
-	int	no;
-	int	so;
-	int	we;
-	int	ea;
+	char	*line;
+	int		iter;
+	int		no;
+	int		so;
+	int		we;
+	int		ea;
 }	t_aux;
 
-typedef struct s_get_data
+typedef	struct s_color
+{
+	int	red;
+	int	green;
+	int	blue;	
+}	t_color;
+
+typedef struct s_map
 {
 	char	*no;
 	char	*so;
 	char	*we;
 	char	*ea;
-	int		red;
-	int		green;
-	int		blue;
-}	t_get_data;
+	t_color	floor;
+	t_color	ceiling;
+}	t_map;
 
 /******************************************************************************/
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
 /* src/parsing/getpath.c */
+int	check_access(t_map *data);
 int	parse_open(char *file, int *fd);
-int	get_get_data(char *line, t_get_data *data, t_aux *chk);
+// int	get_get_data(char *line, t_map*data, t_aux *chk);
+int	get_get_data(t_map *data, t_aux *chk);
 /* src/parsing/parse.c */
-int	parse_data(char **line, int fd, t_get_data *data);
+int	parse_data(t_aux *chk, int fd, t_map *data);
 /* src/parsing/utils.c */
 int	is_space(char c);
+int	error_get_data(char **set, char *find);
 int	msg_error(int err, int exit_, char *cm);
+
+/* test */
+int	clear_data(t_map*data);
 #endif 

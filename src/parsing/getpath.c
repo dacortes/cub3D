@@ -6,11 +6,31 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:39:22 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/21 11:33:49 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:59:38 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3D.h"
+
+int	parse_text(char *path)
+{
+	if (access("north", R_OK) == ERROR)
+		exit (msg_error(PRR, -1, path));
+	return (EXIT_SUCCESS);
+}
+
+int	check_access(t_map *data)
+{
+	if (data->no)
+		parse_text(data->no);
+	if (data->so)
+		parse_text(data->so);
+	if (data->we)
+		parse_text(data->we);
+	if (data->ea)
+		parse_text(data->ea);
+	return (EXIT_SUCCESS);
+}
 
 int	parse_open(char *file, int *fd)
 {
@@ -22,54 +42,49 @@ int	parse_open(char *file, int *fd)
 	return (EXIT_SUCCESS);
 }
 
-int	search_get_data(char **set, char *line, int i, char *find)
+int	search_get_data(char **set, t_aux *chk, char *find, int *stt)
 {
 	int	len;
 
-	if (!ft_strncmp(&line[i], find, 2))
+	if (!ft_strncmp(&chk->line[chk->iter], find, 2))
 	{
-		if (line[i + 1] && !is_space(line[i + 1]))
-			i += 2;
-		if (line[i] == ' ')
-			++i;
-		if (line[i])
+		(*stt)++;
+		if (*stt > 1)
+			exit (msg_error(MAP, -1, "duplicate texture"));
+		if (chk->line[chk->iter + 1] && !is_space(chk->line[chk->iter + 1]))
+			chk->iter += 2;
+		if (chk->line[chk->iter] == ' ')
+			++chk->iter;
+		if (chk->line[chk->iter])
 		{
-			len = i;
-			while (line[len] && !is_space(line[len]) && line[len] != '\n')
+			len = chk->iter;
+			while (chk->line[len] && !is_space(chk->line[len])
+				&& chk->line[len] != '\n')
 				++len;
-			*set = ft_strndup(&line[i], (len - i));
-			if (!set[0])
-				exit (msg_error(MEM, -1, NULL));
-			if (!*set[0] || (*set[0] == '\n'))
-				exit (msg_error(MAP, -1, "path not found"));
-			ft_printf("%s=*%s*\n", find, *set);
-			if (!*set[0])
-				exit (msg_error(MAP, -1, find));
-			return (1);
+			*set = ft_strndup(&chk->line[chk->iter], (len - chk->iter));
+			error_get_data(set, find);
+			ft_printf("%s\n", *set);
+			return (TRUE);
 		}
 	}
-	return (0);
+	return (FALSE);
 }
 
-int	get_get_data(char *line, t_get_data *data, t_aux *chk)
+int	get_get_data(t_map *data, t_aux *chk)
 {
-	int	i;
-
-	if (!line || !*line)
+	if (!chk->line || !*chk->line)
 		return (ERROR);
-	i = 0;
-	while (line[i] && is_space(line[i]))
-		i++;
-	if (line[i] && line[i + 1])
+	chk->iter = 0;
+	while (chk->line[chk->iter] && is_space(chk->line[chk->iter]))
+		chk->iter++;
+	if (chk->line[chk->iter] && chk->line[chk->iter + 1])
 	{
-		chk->no += search_get_data(&data->no, line, i, "NO");
-		chk->so += search_get_data(&data->so, line, i, "SO");
-		chk->we += search_get_data(&data->we, line, i, "WE");
-		chk->ea += search_get_data(&data->ea, line, i, "EA");
-		if (chk->no > 1 || chk->so > 1 || chk->we > 1 || chk->ea > 1)
-			exit (msg_error(MAP, -1, "many textures"));
-		while (line[i] && is_space(line[i]))
-			i++;
+		search_get_data(&data->no, chk, "NO", &chk->no);
+		search_get_data(&data->so, chk, "SO", &chk->so);
+		search_get_data(&data->we, chk, "WE", &chk->we);
+		search_get_data(&data->ea, chk, "EA", &chk->ea);
+		while (chk->line[chk->iter] && is_space(chk->line[chk->iter]))
+			chk->iter++;
 	}
 	return (EXIT_SUCCESS);
 }
