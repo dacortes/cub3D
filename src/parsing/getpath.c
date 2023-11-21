@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:39:22 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/21 09:16:47 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/21 10:04:00 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ int search_get_data(char **set, char *line, int i, char *find)
 			space = i;
 			while (line[space] && !is_space(line[space]) && line[space] != '\n')
 				space++;
-			len = ft_strlen(&line[i]) - space;
+			len = space;
+			ft_printf("len=%d\n", space);
 			*set = ft_strndup(&line[i], len);
 			if (!set[0])
 				exit (msg_error(MEM, -1, NULL));
-			ft_printf("valor de %s=%s\n", find, *set);
-			ft_printf("*%s*\n", &line[1]);
+			ft_printf("valor de *%s=%s*\n", find, *set);
+			//ft_printf("*%s*\n", &line[1]);
 			if (!*set[0])
 				exit (msg_error(MAP, -1, find));
 			free(*set);
