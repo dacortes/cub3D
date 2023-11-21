@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:39:22 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/21 10:04:00 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/21 10:49:11 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,25 @@ int	parse_open(char *file, int *fd)
 
 int search_get_data(char **set, char *line, int i, char *find)
 {
-	int	space;
 	int	len;
 
 	if (!ft_strncmp(&line[i], find, 2))
 	{
 		if (line[i + 1] && !is_space(line[i + 1]))
 			i += 2;
+		if (line[i] == ' ')
+			++i;
 		if (line[i])
 		{
-			space = i;
-			while (line[space] && !is_space(line[space]) && line[space] != '\n')
-				space++;
-			len = space;
-			ft_printf("len=%d\n", space);
-			*set = ft_strndup(&line[i], len);
+			len = i;
+			while (line[len] && !is_space(line[len]) && line[len] != '\n')
+				++len;
+			*set = ft_strndup(&line[i], (len - i));
 			if (!set[0])
 				exit (msg_error(MEM, -1, NULL));
-			ft_printf("valor de *%s=%s*\n", find, *set);
-			//ft_printf("*%s*\n", &line[1]);
+			if (!*set[0] || (*set[0] == '\n'))
+				exit (msg_error(MAP, -1, "path not found"));
+			ft_printf("*%s*\n", *set);
 			if (!*set[0])
 				exit (msg_error(MAP, -1, find));
 			free(*set);
