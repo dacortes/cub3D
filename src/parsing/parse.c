@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/21 08:59:52 by dacortes         ###   ########.fr       */
+/*   Created: 2023/11/21 08:40:57 by dacortes          #+#    #+#             */
+/*   Updated: 2023/11/21 09:15:35 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "../../inc/cub3D.h"
 
-int	main(int ac, char **av)
+int	parse_data(char **line, int fd, t_get_data *data)
 {
-	t_get_data	text;
-	char *line;
-	int	fd;
+	t_aux	chk;
 
-	fd = -1;
-	if (ac != 2)
-		exit (msg_error(ARG, -1, NULL));
-	parse_open(av[1], &fd);
-	parse_data(&line, fd, &text);	
-	if (fd >= 0)
-		close (fd);
+	ft_bzero(&chk, sizeof(t_aux));
+	*line = ft_calloc(1, 1);
+	if (!*line)
+		exit (msg_error(MEM, -1, NULL));
+	while (*line)
+	{
+		if (*line)
+			free (*line);
+		*line = get_next_line(fd);
+		if (*line)
+			get_get_data(*line, data, &chk);
+	}
+	if (chk.no != 1 || chk.so != 1 || chk.we != 1 || chk.ea != 1)
+		exit (msg_error(MAP, -1, "no texture"));
 	return (EXIT_SUCCESS);
 }

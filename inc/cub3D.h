@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/20 19:06:59 by codespace        ###   ########.fr       */
+/*   Updated: 2023/11/21 09:07:21 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,24 @@
 /******************************************************************************/
 /*                            STRUCTURES                                      */
 /******************************************************************************/
-typedef	struct s_get_color
+typedef	struct s_aux
 {
-	int	red;
-	int	green;
-	int	blue;
-}	t_get_color;
+	int	no;
+	int	so;
+	int	we;
+	int	ea;
+}	t_aux;
 
-typedef struct s_path_text
+typedef struct s_get_data
 {
+	char	*no;
 	char	*so;
 	char	*we;
 	char	*ea;
-}	t_path_text;
+	int		red;
+	int		green;
+	int		blue;
+}	t_get_data;
 
 /******************************************************************************/
 /*                            FUNCTIONS                                       */
@@ -80,7 +85,9 @@ typedef struct s_path_text
 
 /* src/parsing/getpath.c */
 int	parse_open(char *file, int *fd);
-int	get_path_text(char *line, t_path_text *text);
+int	get_get_data(char *line, t_get_data *data, t_aux *chk);
+/* src/parsing/parse.c */
+int	parse_data(char **line, int fd, t_get_data *data);
 /* src/parsing/utils.c */
 int	is_space(char c);
 int	msg_error(int err, int exit_, char *cm);

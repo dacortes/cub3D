@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   getpath.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:39:22 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/20 19:41:19 by codespace        ###   ########.fr       */
+/*   Updated: 2023/11/21 09:16:47 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3D.h"
-
-char	*ft_strndup(const char *src, size_t n)
-{
-	size_t	len;
-	char	*dst;
-
-	len = ft_strlen(src);
-	if (n < len)
-		len = n;
-	dst = (char *)ft_calloc(len + 1, sizeof(char));
-	if (!dst)
-		return (NULL);
-	if (dst)
-		ft_memcpy(dst, src, len);
-	return (dst);
-}
 
 int	parse_open(char *file, int *fd)
 {
@@ -38,7 +22,7 @@ int	parse_open(char *file, int *fd)
 	return (EXIT_SUCCESS);
 }
 
-int search_path_text(char **set, char *line, int i, char *find)
+int search_get_data(char **set, char *line, int i, char *find)
 {
 	int	space;
 	int	len;
@@ -67,27 +51,25 @@ int search_path_text(char **set, char *line, int i, char *find)
 	return (0);
 }
 
-int	get_path_text(char *line, t_path_text *text)
+int	get_get_data(char *line, t_get_data *data, t_aux *chk)
 {
-	int stt;
 	int	i;
 
 	if (!line || !*line)
 		return (ERROR);
 	i = 0;
-	stt = 0;
 	while (line[i] && is_space(line[i]))
 		i++;
 	if (line[i] && line[i + 1])
 	{
-		//search find path text
-		stt += search_path_text(&text->we, line, i, "SO");
-		stt += search_path_text(&text->we, line, i, "NO");
-		stt	+= search_path_text(&text->we, line, i, "WE");
-		stt	+= search_path_text(&text->we, line, i, "EA");
+		chk->no += search_get_data(&data->we, line, i, "NO");
+		chk->so += search_get_data(&data->we, line, i, "SO");
+		chk->we	+= search_get_data(&data->we, line, i, "WE");
+		chk->ea	+= search_get_data(&data->we, line, i, "EA");
+		if (chk->no > 1 || chk->so > 1 || chk->we > 1 || chk->ea > 1)
+			exit (msg_error(MAP, -1, "many textures"));
 		while (line[i] && is_space(line[i]))
 			i++;	
-		//ft_printf("%s\n", &line[i]);
 	}
-	return (stt);
+	return (EXIT_SUCCESS);
 }

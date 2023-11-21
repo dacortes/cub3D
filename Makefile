@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
+#    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 10:31:31 by codespace         #+#    #+#              #
-#    Updated: 2023/11/20 17:41:38 by codespace        ###   ########.fr        #
+#    Updated: 2023/11/21 08:52:59 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ else
 				-I ./lib/minilibx_mac/
 endif
 
-SRC = parsing/getpath.c parsing/utils.c \
+SRC = parsing/getpath.c parsing/utils.c parsing/parse.c\
 	main.c
 LIBFT = ./lib/libft/
 L_SRC = ./src
