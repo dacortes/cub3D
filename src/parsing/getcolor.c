@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:04:25 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/23 13:18:21 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:03:04 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,15 @@ int	check_comma(t_aux *chk, int *len, int flag)
 	}
 	if (!flag && comma != 1)
 		exit (msg_error(MAP, -1, "invalid color"));
-	if (flag && comma != 0)
-		exit (msg_error(MAP, -1, "invalid syntax"));
+	if (flag)
+	{
+		if (comma != 0)
+			exit (msg_error(MAP, -1, "invalid syntax"));
+		ignore_space(chk->line, len);
+		if (chk->line[*len] && (chk->line[*len] != '\n'
+				|| chk->line[*len] != '\0'))
+			exit (msg_error(MAP, -1, "invalid color"));
+	}
 	return (EXIT_SUCCESS);
 }
 
