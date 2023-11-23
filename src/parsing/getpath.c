@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:39:22 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/21 18:59:38 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/23 12:29:29 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	get_get_data(t_map *data, t_aux *chk)
 		search_get_data(&data->so, chk, "SO", &chk->so);
 		search_get_data(&data->we, chk, "WE", &chk->we);
 		search_get_data(&data->ea, chk, "EA", &chk->ea);
+		get_color(&data->floor, chk, "F", &chk->floor);
 		while (chk->line[chk->iter] && is_space(chk->line[chk->iter]))
 			chk->iter++;
 	}

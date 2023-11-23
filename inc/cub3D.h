@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/21 18:58:05 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/23 12:36:44 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@
 /******************************************************************************/
 /*                            MACROS                                          */
 /******************************************************************************/
+
+# define RED   1
+# define GREEN 2
+# define BLUE  3
 
 # define ARG 1
 # define MEM 2
@@ -71,6 +75,8 @@ typedef struct s_aux
 	int		so;
 	int		we;
 	int		ea;
+	int		floor;
+	int		ceiling;
 }	t_aux;
 
 typedef	struct s_color
@@ -94,6 +100,8 @@ typedef struct s_map
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
+/* src/parsing/getcolor.c */
+int	get_color(t_color *set, t_aux *chk, char *find, int *stt);
 /* src/parsing/getpath.c */
 int	check_access(t_map *data);
 int	parse_open(char *file, int *fd);
