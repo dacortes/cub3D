@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:39:22 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/24 08:36:50 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/24 10:59:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,10 @@ int	get_get_data(t_map *data, t_aux *chk)
 		search_get_data(&data->ea, chk, "EA", &chk->ea);
 		get_color(&data->floor, chk, "F", &chk->floor);
 		get_color(&data->floor, chk, "C", &chk->ceiling);
-		while (chk->line[chk->iter] && is_space(chk->line[chk->iter]))
-			chk->iter++;
+		ignore_space(chk->line, &chk->iter);
+		if (chk->line[chk->iter] && (chk->line[chk->iter] != '\n' ||
+			chk->line[chk->iter] != '\0'))
+			exit (msg_error(MAP, -1, "invalid texture"));	
 	}
 	return (EXIT_SUCCESS);
 }

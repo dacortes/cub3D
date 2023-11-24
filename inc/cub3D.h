@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/24 08:26:22 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/24 08:39:20 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,10 @@ int	get_get_data(t_map *data, t_aux *chk);
 int	parse_data(t_aux *chk, int fd, t_map *data);
 /* src/parsing/utils.c */
 int	is_space(char c);
+int	is_num(char *str);
 int	ignore_space(char *str, int *iter);
 int	error_get_data(char **set, char *find);
 int	msg_error(int err, int exit_, char *cm);
-
 /* test */
 int	clear_data(t_map*data);
 #endif 

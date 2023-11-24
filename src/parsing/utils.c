@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:37:07 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/24 08:22:53 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/24 08:39:02 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,27 @@
 int	is_space(char c)
 {
 	return ((c == 32 || (c >= 9 && c <= 13)));
+}
+
+int	is_num(char *str)
+{
+	int	iter;
+
+	iter = 0;
+	while (str[iter])
+	{
+		if (!ft_isdigit(str[iter]))
+			return (FALSE);
+		iter++;
+	}
+	return (TRUE);
+}
+
+int	ignore_space(char *str, int *iter)
+{
+	while (str[*iter] && is_space(str[*iter]))
+		++(*iter);
+	return (EXIT_SUCCESS);
 }
 
 int	error_get_data(char **set, char *find)

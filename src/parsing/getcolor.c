@@ -6,32 +6,11 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:04:25 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/23 15:15:37 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/24 08:44:47 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3D.h"
-
-int	is_num(char *str)
-{
-	int	iter;
-
-	iter = 0;
-	while (str[iter])
-	{
-		if (!ft_isdigit(str[iter]))
-			return (FALSE);
-		iter++;
-	}
-	return (TRUE);
-}
-
-int	ignore_space(char *str, int *iter)
-{
-	while (str[*iter] && is_space(str[*iter]))
-		++(*iter);
-	return (EXIT_SUCCESS);
-}
 
 int	check_comma(t_aux *chk, int *len, int flag)
 {
@@ -85,6 +64,17 @@ int	find_color(int *set, t_aux *chk, int *len)
 	return (EXIT_SUCCESS);
 }
 
+int	check_colors(t_color *set, t_aux *chk, int *len)
+{
+	find_color(&set->red, chk, len);
+	check_comma(chk, len, 0);
+	find_color(&set->green, chk, len);
+	check_comma(chk, len, 0);
+	find_color(&set->blue, chk, len);
+	check_comma(chk, len, 1);
+	return (EXIT_SUCCESS);
+}
+
 int	get_color(t_color *set, t_aux *chk, char *find, int *stt)
 {
 	int	len;
@@ -104,12 +94,7 @@ int	get_color(t_color *set, t_aux *chk, char *find, int *stt)
 			while (chk->line[len] && !is_space(chk->line[len])
 				&& chk->line[len] != '\n')
 				++len;
-			find_color(&set->red, chk, &len);
-			check_comma(chk, &len, 0);
-			find_color(&set->green, chk, &len);
-			check_comma(chk, &len, 0);
-			find_color(&set->blue, chk, &len);
-			check_comma(chk, &len, 1);
+			check_colors(set, chk, &len);
 			return (TRUE);
 		}
 	}
