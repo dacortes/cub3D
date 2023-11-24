@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 10:31:31 by codespace         #+#    #+#              #
-#    Updated: 2023/11/19 10:39:02 by dacortes         ###   ########.fr        #
+#    Updated: 2023/11/22 12:18:50 by jrenau-v         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CC = gcc
 RM = rm -rf
 LIBC = ar -rcs
 OS := $(shell uname -s)
-FLAGS = -Wall -Wextra -Werror -O3 -g
+FLAGS = -fsanitize=address -Wall -Wextra -Werror -O3 -g
 
 ################################################################################
 #  Bar                                                                         #
@@ -36,6 +36,7 @@ ifeq ($(OS), Linux)
 	MINIL = ./lib/minilibx_linux/
 	L_MLX = ./lib/minilibx_linux/libmlx.a
 	L_FRAME = -lXext -lX11 -lm -lz
+	DEF_LIB = -D INC_LINUX=1
 	INC			=	-I ./inc/\
 				-I ./lib/libft/\
 				-I ./lib/minilibx_linux/	
@@ -43,12 +44,13 @@ else
 	MINIL = ./lib/minilibx_mac/
 	L_MLX = ./lib/minilibx_mac/libmlx.a
 	L_FRAME = -framework OpenGL -framework AppKit
+	DEF_LIB = -D INC_MAC=1
 	INC			=	-I ./inc/\
 				-I ./lib/libft/\
 				-I ./lib/minilibx_mac/
 endif
 
-SRC = main.c
+SRC = main.c minimap/minimap.c minimap/points.c
 LIBFT = ./lib/libft/
 L_SRC = ./src
 L_LIB = ./lib/libft/libft.a
@@ -91,12 +93,13 @@ dir:
 	mkdir -p $(D_OBJ)
 	mkdir -p $(D_OBJ)/sets
 	mkdir -p $(D_OBJ)/menu
+	mkdir -p $(D_OBJ)/minimap
 libs:
 	make -C $(LIBFT) --no-print-directory
 	make -C $(MINIL) --no-print-directory
 
-$(D_OBJ)/%.o:$(L_SRC)/%.c
-	$(CC) -MMD $(FLAGS) -c $< -o $@ $(INC)
+$(D_OBJ)/%.o:$(L_SRC)/%.c Makefile
+	$(CC) -MMD $(DEF_LIB) $(FLAGS) -c $< -o $@ $(INC)
 	$(eval CURRENT_FILE := $(shell echo $$(($(CURRENT_FILE) + 1)))) \
 	$(eval PROGRESS_BAR := $(shell awk "BEGIN { printf \"%.0f\", $(CURRENT_FILE)*100/$(TOTAL_FILES) }")) \
 	printf "\r$B$(ligth)⏳Compiling $(NAME):$E $(ligth)%-30s [$(CURRENT_FILE)/$(TOTAL_FILES)] [%-50s] %3d%%\033[K" \
@@ -106,7 +109,7 @@ $(D_OBJ)/%.o:$(L_SRC)/%.c
 		echo "$(B) All done$(E)"; \
 	fi
 $(NAME): $(OBJ) libs
-	$(CC) $(FLAGS) $(OBJ) $(L_LIB) $(L_MLX) $(L_FRAME) -o $(NAME) $(INC)
+	$(CC) $(DEF_LIB) $(FLAGS) $(OBJ) $(L_LIB) $(L_MLX) $(L_FRAME) -o $(NAME) $(INC)
 
 ################################################################################
 #                               CLEAN                                          #
