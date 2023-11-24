@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:39:22 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/23 12:29:29 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/24 08:34:07 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@ int	search_get_data(char **set, t_aux *chk, char *find, int *stt)
 		(*stt)++;
 		if (*stt > 1)
 			exit (msg_error(MAP, -1, "duplicate texture"));
-		if (chk->line[chk->iter + 1] && !is_space(chk->line[chk->iter + 1]))
-			chk->iter += 2;
-		if (chk->line[chk->iter] == ' ')
+		while (chk->line[chk->iter] && !is_space(chk->line[chk->iter])
+			&& chk->iter < (chk->iter + 2))
 			++chk->iter;
+		if (chk->line[chk->iter] && !is_space(chk->line[chk->iter]))
+			exit (msg_error(MAP, -1, "invalid name variable"));
+		ignore_space(chk->line, &chk->iter);
 		if (chk->line[chk->iter])
 		{
 			len = chk->iter;
@@ -62,8 +64,8 @@ int	search_get_data(char **set, t_aux *chk, char *find, int *stt)
 				&& chk->line[len] != '\n')
 				++len;
 			*set = ft_strndup(&chk->line[chk->iter], (len - chk->iter));
-			error_get_data(set, find);
 			ft_printf("%s\n", *set);
+			error_get_data(set, find);
 			return (TRUE);
 		}
 	}
@@ -84,6 +86,7 @@ int	get_get_data(t_map *data, t_aux *chk)
 		search_get_data(&data->we, chk, "WE", &chk->we);
 		search_get_data(&data->ea, chk, "EA", &chk->ea);
 		get_color(&data->floor, chk, "F", &chk->floor);
+		get_color(&data->floor, chk, "C", &chk->ceiling);
 		while (chk->line[chk->iter] && is_space(chk->line[chk->iter]))
 			chk->iter++;
 	}

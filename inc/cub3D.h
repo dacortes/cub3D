@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/23 12:36:44 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/24 08:26:22 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,6 @@
 /******************************************************************************/
 /*                            MACROS                                          */
 /******************************************************************************/
-
-# define RED   1
-# define GREEN 2
-# define BLUE  3
 
 # define ARG 1
 # define MEM 2
@@ -111,6 +107,7 @@ int	get_get_data(t_map *data, t_aux *chk);
 int	parse_data(t_aux *chk, int fd, t_map *data);
 /* src/parsing/utils.c */
 int	is_space(char c);
+int	ignore_space(char *str, int *iter);
 int	error_get_data(char **set, char *find);
 int	msg_error(int err, int exit_, char *cm);
 

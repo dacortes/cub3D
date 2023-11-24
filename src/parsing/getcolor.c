@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:04:25 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/23 15:03:04 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:15:37 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,10 @@ int	get_color(t_color *set, t_aux *chk, char *find, int *stt)
 		(*stt)++;
 		if (*stt > 1)
 			exit (msg_error(MAP, -1, "duplicate color"));
-		if (chk->line[chk->iter + 1] && !is_space(chk->line[chk->iter + 1]))
+		if (chk->line[chk->iter] && !is_space(chk->line[chk->iter]))
 			++chk->iter;
+		if (chk->line[chk->iter] && !is_space(chk->line[chk->iter]))
+			exit (msg_error(MAP, -1, "invalid name variable"));
 		if (chk->line[chk->iter])
 		{
 			len = chk->iter;
