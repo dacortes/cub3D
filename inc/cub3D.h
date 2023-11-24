@@ -6,12 +6,24 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/19 15:45:16 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/22 11:53:16 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+typedef struct	s_img {
+	void	*img;
+	void	*mlx_ptr;
+	void	*win_ptr;
+	char	*addr;
+	int		bits_pxl;
+	int		line_len;
+	int		endian;
+	int		width;  //maybe not needed
+	int		height;  //maybe not needed
+}				t_img;
 
 /******************************************************************************/
 /*                            INCLUDES                                        */
@@ -29,6 +41,10 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+
+# include "minimap.h"
+# include "../lib/libft/libft.h"
+
 
 /******************************************************************************/
 /*                            MACROS                                          */

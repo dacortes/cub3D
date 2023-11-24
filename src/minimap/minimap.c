@@ -1,29 +1,28 @@
 #include "../../inc/cub3D.h"
+#include <stdio.h>
 
-int minimap_draw(t_minimap minimap, unsigned int row, unsigned int col)
+int minimap_draw_square(t_minimap *minimap, t_point coord, int width, int height)
 {
 	int		i;
 	int		j;
-	int		color;
 
-	if (minimap->map.map[row][col])
-		color = fdf_mk_color(125, 0, 255, 0);	
-	else
-		color = fdf_mk_color(125, 0, 0, 255);	
 //	row = minimap.offset.x + row;
 //	col = minimap.offset.y + col;
-	if (row > minimap->map.rows || col > minimap->map.cols)
+	if (coord.x > minimap->cols || coord.y > minimap->rows)
+	{
+		printf("error on draw square inp\n");
 		return (-1);
-	if (row > minimap.rows || col > minimap.cols)
-		return (-1);
+	}
 	i = 0;
-	while (i < minimap.squares_size)
+	while (i < width)
 	{
 		j = 0;
-		while (j < minimap.squares_size)
+		while (j < height)
 		{
-			fdf_put_pixel(minimap.image, row * minimap.squares_size + i,
-				col * minimap.squares_size + j, color);
+			//fdf_put_pixel(minimap->img.img, coord.x * width + i,
+			//coord.y * height + j, coord.color);
+			my_mlx_pixel_put(&minimap->img,  coord.x * width + i,
+					coord.y * height + j, coord.color);
 			j++;
 		}
 		i++;
@@ -31,27 +30,40 @@ int minimap_draw(t_minimap minimap, unsigned int row, unsigned int col)
 	return (0);
 }
 
+/*
 int init_minimap_img(t_minimap minimap)
 {
 	return (0);
 }
+*/
 
-void minimap(t_minimap minimap)
+void draw_minimap(t_minimap *minimap)
 {
-	int row;
-	int col;
+	t_point coord;
+	int		square_type;
 
-	if (mlx_win)
-		printf("Hello minimap\n");
-	row = 0;
-	while (row < minimap.rows)
+	coord.y = 0;
+	while (coord.y < minimap->rows)
 	{
-		col = 0;	
-		while (col < minimap.cols)
+		coord.x = 0;	
+		while (coord.x < minimap->cols)
 		{
-			minimap_draw(minimap, row, col);
-			col++;
+			square_type = minimap->map->map[coord.y + minimap->offsets.y][coord.x + minimap->offsets.x] ;
+			if (square_type == 1)
+			{
+				coord.color = fdf_mk_color(125, 0, 255, 0);	
+			}
+			else if (square_type == -1)
+			{
+				coord.color = fdf_mk_color(0, 0, 0, 0);	
+			}
+			else
+			{
+				coord.color = fdf_mk_color(125, 0, 0, 255);	
+			}
+			minimap_draw_square(minimap, coord, minimap->squares_size, minimap->squares_size);
+			coord.x++;
 		}
-		row++;	
+		coord.y++;	
 	}
 }
