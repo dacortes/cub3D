@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:39:22 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/24 10:59:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/24 14:48:11 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	parse_text(char *path)
 {
-	if (access("north", R_OK) == ERROR)
+	if (access(path, R_OK) == ERROR)
 		exit (msg_error(PRR, -1, path));
 	return (EXIT_SUCCESS);
 }
@@ -45,7 +45,7 @@ int	parse_open(char *file, int *fd)
 int	search_get_data(char **set, t_aux *chk, char *find, int *stt)
 {
 	int	len;
-
+	printf("search_get_data\n");
 	len = 0;
 	if (!ft_strncmp(&chk->line[chk->iter], find, 2))
 	{
@@ -70,31 +70,39 @@ int	search_get_data(char **set, t_aux *chk, char *find, int *stt)
 			*set = ft_strndup(&chk->line[chk->iter], (len - chk->iter));
 			ft_printf("%s\n", *set);
 			error_get_data(set, find);
-			return (TRUE);
+			ignore_space(chk->line, &len);
+			if (chk->line[len] && (chk->line[len] != '\n' ||
+				chk->line[len] != '\0'))
+				exit (msg_error(MAP, -1, "invalid texture"));
+			return (EXIT_SUCCESS);
 		}
 	}
-	return (FALSE);
+	return (ERROR);
 }
 
 int	get_get_data(t_map *data, t_aux *chk)
 {
+	int	done;
+
 	if (!chk->line || !*chk->line)
 		return (ERROR);
 	chk->iter = 0;
 	while (chk->line[chk->iter] && is_space(chk->line[chk->iter]))
 		chk->iter++;
+	if (chk->line[chk->iter] == '\n' || !chk->line[chk->iter])
+		return (ERROR);
+	done = 0;
 	if (chk->line[chk->iter] && chk->line[chk->iter + 1])
 	{
-		search_get_data(&data->no, chk, "NO", &chk->no);
-		search_get_data(&data->so, chk, "SO", &chk->so);
-		search_get_data(&data->we, chk, "WE", &chk->we);
-		search_get_data(&data->ea, chk, "EA", &chk->ea);
-		get_color(&data->floor, chk, "F", &chk->floor);
-		get_color(&data->floor, chk, "C", &chk->ceiling);
-		ignore_space(chk->line, &chk->iter);
-		if (chk->line[chk->iter] && (chk->line[chk->iter] != '\n' ||
-			chk->line[chk->iter] != '\0'))
-			exit (msg_error(MAP, -1, "invalid texture"));	
+		printf("checking line: %s", chk->line);
+		done = done || !search_get_data(&data->no, chk, "NO", &chk->no);
+		done = done || !search_get_data(&data->so, chk, "SO", &chk->so);
+		done = done || !search_get_data(&data->we, chk, "WE", &chk->we);
+		done = done || !search_get_data(&data->ea, chk, "EA", &chk->ea);
+		done = done || !get_color(&data->floor, chk, "F", &chk->floor);
+		done = done || !get_color(&data->floor, chk, "C", &chk->ceiling);
 	}
+	if (!done)
+		exit (msg_error(MAP, -1, "queso"));
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:04:25 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/24 08:44:47 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/24 14:30:27 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ int	get_color(t_color *set, t_aux *chk, char *find, int *stt)
 				&& chk->line[len] != '\n')
 				++len;
 			check_colors(set, chk, &len);
-			return (TRUE);
+			return (EXIT_SUCCESS);
 		}
 	}
-	return (FALSE);
+	return (ERROR);
 }
