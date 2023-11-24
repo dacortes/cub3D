@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:39:22 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/24 08:34:07 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/24 08:36:50 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,18 @@ int	search_get_data(char **set, t_aux *chk, char *find, int *stt)
 {
 	int	len;
 
+	len = 0;
 	if (!ft_strncmp(&chk->line[chk->iter], find, 2))
 	{
 		(*stt)++;
 		if (*stt > 1)
 			exit (msg_error(MAP, -1, "duplicate texture"));
 		while (chk->line[chk->iter] && !is_space(chk->line[chk->iter])
-			&& chk->iter < (chk->iter + 2))
+			&& (len < 2))
+		{
+			++len;
 			++chk->iter;
+		}
 		if (chk->line[chk->iter] && !is_space(chk->line[chk->iter]))
 			exit (msg_error(MAP, -1, "invalid name variable"));
 		ignore_space(chk->line, &chk->iter);
