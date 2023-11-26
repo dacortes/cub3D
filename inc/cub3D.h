@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/24 11:21:13 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/26 15:32:20 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@
 
 typedef struct s_aux
 {
+	int		player;
 	char	*line;
 	int		iter;
 	int		no;
@@ -84,6 +85,8 @@ typedef	struct s_color
 
 typedef struct s_map
 {
+	int		row;
+	int		col;
 	char	*no;
 	char	*so;
 	char	*we;
@@ -98,12 +101,14 @@ typedef struct s_map
 
 /* src/parsing/getcolor.c */
 int	get_color(t_color *set, t_aux *chk, char *find, int *stt);
+/* src/parsing/getmap.c */
+int	get_map(t_map *data, t_aux *chk);
 /* src/parsing/getpath.c */
 int	check_access(t_map *data);
 int	parse_open(char *file, int *fd);
-// int	get_get_data(char *line, t_map*data, t_aux *chk);
 int	get_get_data(t_map *data, t_aux *chk);
 /* src/parsing/parse.c */
+int	parse_map(t_aux *chk, int fd, t_map *data);
 int	parse_data(t_aux *chk, int fd, t_map *data);
 /* src/parsing/utils.c */
 int	is_space(char c);

@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 10:31:31 by codespace         #+#    #+#              #
-#    Updated: 2023/11/23 12:44:56 by dacortes         ###   ########.fr        #
+#    Updated: 2023/11/26 13:41:34 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ else
 				-I ./lib/minilibx_mac/
 endif
 
-SRC = parsing/getcolor.c parsing/getpath.c parsing/utils.c parsing/parse.c\
+SRC = parsing/getcolor.c parsing/getmap.c parsing/getpath.c parsing/utils.c\
+	parsing/parse.c\
 	main.c
 LIBFT = ./lib/libft/
 L_SRC = ./src

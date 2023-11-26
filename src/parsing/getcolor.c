@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:04:25 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/24 14:30:27 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/26 09:23:12 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	find_color(int *set, t_aux *chk, int *len)
 		*set = ft_atoi(cpy);
 		if (*set > 255)
 			exit (msg_error(MAP, -1, "invalid color: out of range"));
-		ft_printf("set color: %d\n", *set);
 		if (cpy)
 			free(cpy);
 		*len += (iter - *len);
