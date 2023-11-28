@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 12:03:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/28 15:29:43 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:56:13 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,8 @@ int	check_line_map(t_map *data, t_aux *chk)
 
 	current = 0;
 	chk->iter = 0;
-	while (chk->line[chk->iter])
-	{
-		if (!is_map(chk->line[chk->iter++], &chk->player))
-			exit (msg_error(MAP, -1, "invalid map line"));
+	while (chk->line[chk->iter] && is_map(chk->line[chk->iter++], &chk->player))
 		current++;
-	}
 	if (data->row < current)
 		data->row = current; 
 	return (EXIT_SUCCESS);
@@ -104,8 +100,6 @@ int	set_char_map(t_aux *chk, t_map *data)
 			data->map[chk->iter][j++] = chk->line[i];
 		i++;
 	}
-	ft_printf("len line :%d\nlen row :%d\n", (int)ft_strlen(data->map[chk->iter]), data->row);
-	ft_printf("set line:%s\n", data->map[chk->iter]);
 	while ((int)ft_strlen(data->map[chk->iter]) < data->row)
 		data->map[chk->iter][j++] = 'V';
 	return (EXIT_SUCCESS);
@@ -126,11 +120,9 @@ int	set_line_map(t_map *data, t_aux *chk)
 	return (EXIT_SUCCESS);
 }
 
-int	get_map(t_aux *chk, int fd, t_map *data)
+int	get_map(t_aux *chk, char *file, t_map *data)
 {
-
-	(void)fd;
-	int tmp = open("map3.txt", O_RDONLY);
+	int fd = open(file, O_RDONLY);
 	ft_bzero(chk, sizeof(t_aux));
 	data->map = ft_calloc(data->col + 1, sizeof(char *));
 	if (!data->map)
@@ -142,11 +134,10 @@ int	get_map(t_aux *chk, int fd, t_map *data)
 	{
 		if (chk->line)
 			free (chk->line);
-		chk->line = get_next_line(tmp);
+		chk->line = get_next_line(fd);
 		if (chk->line)
 			set_line_map(data, chk);
 	}
-	ft_printf("iter:%d\n", chk->iter);
-	close (tmp);
+	close (fd);
 	return (EXIT_SUCCESS);
 }
