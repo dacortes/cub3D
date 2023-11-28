@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 12:03:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/26 15:40:41 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:29:43 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,125 @@ int	check_line_map(t_map *data, t_aux *chk)
 	chk->iter = 0;
 	while (chk->line[chk->iter])
 	{
-		is_map(chk->line[chk->iter++], &chk->player);
+		if (!is_map(chk->line[chk->iter++], &chk->player))
+			exit (msg_error(MAP, -1, "invalid map line"));
 		current++;
 	}
 	if (data->row < current)
 		data->row = current; 
 	return (EXIT_SUCCESS);
 }
-/* 34*/
-int	get_map(t_map *data, t_aux *chk)
+
+int is_map_closed(t_map *data) {
+    int i, j;
+
+    for (i = 0; i < data->row; i++) {
+        if (data->map[i][0] != '1' || data->map[i][data->col - 1] != '1') {
+            return 0;
+        }
+    }
+
+    for (j = 0; j < data->col; j++) {
+        if (data->map[0][j] != '1' || data->map[data->row - 1][j] != '1') {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int	get_map_dimensions(t_map *data, t_aux *chk)
 {
-	int	space;
-	(void)data;
-	space = 0;
-	if (chk->line[0] && ft_strchr(chk->line, '1'))
+	if (chk->line[0] && (ft_strchr(chk->line, '1')
+		|| ft_strchr(chk->line, '0')))
 	{
-		ft_printf("%s", chk->line);
 		check_line_map(data, chk);
 		data->col++;
 	}
 	return  (EXIT_SUCCESS);
+}
+
+int	is_line_map(t_aux *chk)
+{
+	int	i;
+
+	i = 0;
+	while (chk->line[i])
+	{
+		if (!is_map(chk->line[i++], &chk->player))
+			return (FALSE);
+	}
+	return (TRUE);
+}
+
+int	set_char_map(t_aux *chk, t_map *data)
+{
+	int	tb;
+	int	j;
+	int	i;
+
+	i = 0;
+	j = 0;
+	while (chk->line && chk->line[i] && chk->line[i] != '\n')
+	{
+		if (chk->line[i] == ' ')
+			data->map[chk->iter][i] = 'V';
+		else if (chk->line[i] == '\t')
+		{
+			tb = 0;
+			while (tb < 4)
+			{
+				data->map[chk->iter][j++] = 'V';
+				tb++;
+			}
+		}
+		else
+			data->map[chk->iter][j++] = chk->line[i];
+		i++;
+	}
+	ft_printf("len line :%d\nlen row :%d\n", (int)ft_strlen(data->map[chk->iter]), data->row);
+	ft_printf("set line:%s\n", data->map[chk->iter]);
+	while ((int)ft_strlen(data->map[chk->iter]) < data->row)
+		data->map[chk->iter][j++] = 'V';
+	return (EXIT_SUCCESS);
+}
+
+
+
+int	set_line_map(t_map *data, t_aux *chk)
+{
+	if (chk->line[0] && is_line_map(chk))
+	{
+		data->map[chk->iter] = ft_calloc(data->row + 1, sizeof(char));
+		if (!data->map)
+			exit (msg_error(MEM, -1, NULL));
+		set_char_map(chk, data);
+		chk->iter++;
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	get_map(t_aux *chk, int fd, t_map *data)
+{
+
+	(void)fd;
+	int tmp = open("map3.txt", O_RDONLY);
+	ft_bzero(chk, sizeof(t_aux));
+	data->map = ft_calloc(data->col + 1, sizeof(char *));
+	if (!data->map)
+		exit (msg_error(MEM, -1, NULL));
+	chk->line = ft_calloc(1, 1);
+	if (!chk->line)
+		exit (msg_error(MEM, -1, NULL));	
+	while (chk->line)
+	{
+		if (chk->line)
+			free (chk->line);
+		chk->line = get_next_line(tmp);
+		if (chk->line)
+			set_line_map(data, chk);
+	}
+	ft_printf("iter:%d\n", chk->iter);
+	close (tmp);
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/26 15:43:32 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/28 10:10: by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	clear_data(t_map *data)
 {
+	int	i;
+
 	if (data->no)
 		free(data->no);
 	if (data->so)
@@ -22,11 +24,34 @@ int	clear_data(t_map *data)
 		free(data->we);
 	if (data->ea)
 		free(data->ea);
+	i = 0;
+	while (data->map && data->map[i])
+	{
+		free (data->map[i]);
+		data->map[i] = NULL;
+		++i;
+	}
+	if (data->map)
+	{
+		free (data->map);
+		data->map = NULL;
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	printf_map(t_map data)
+{
+	int	i;
+
+	i = 0;
+	while (data.map && data.map[i])
+		ft_printf("%s\n", data.map[i++]);
 	return (EXIT_SUCCESS);
 }
 
 int	main(int ac, char **av)
 {
+	(void)av;
 	t_map	data;
 	t_aux	chk;
 	int		fd;
@@ -48,7 +73,8 @@ int	main(int ac, char **av)
 	// ft_printf("ceiling green %d\n", data.ceiling.green);
 	// ft_printf("ceiling blue %d\n", data.ceiling.blue);
 	ft_printf("numero de filas max:%d\n", data.row);
-	ft_printf("numero de columnas:%d\n", data.col);	
+	ft_printf("numero de columnas:%d\n", data.col);
+	printf_map(data);
 	clear_data(&data);
 	if (fd >= 0)
 		close (fd);

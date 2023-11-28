@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/26 15:32:20 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/28 09:13:51 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_map
 	char	*so;
 	char	*we;
 	char	*ea;
+	char	**map;
 	t_color	floor;
 	t_color	ceiling;
 }	t_map;
@@ -102,7 +103,8 @@ typedef struct s_map
 /* src/parsing/getcolor.c */
 int	get_color(t_color *set, t_aux *chk, char *find, int *stt);
 /* src/parsing/getmap.c */
-int	get_map(t_map *data, t_aux *chk);
+int	get_map(t_aux *chk, int fd, t_map *data);
+int	get_map_dimensions(t_map *data, t_aux *chk);
 /* src/parsing/getpath.c */
 int	check_access(t_map *data);
 int	parse_open(char *file, int *fd);
