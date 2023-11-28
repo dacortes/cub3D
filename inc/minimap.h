@@ -4,6 +4,7 @@
 
 #include <math.h>
 struct minimap_s;
+typedef struct minimap_s t_minimap;
 typedef struct point_s{
 	int				x;
 	int				y;
@@ -24,6 +25,7 @@ typedef struct player_s{
 	t_f_point		dir_vect;
 	float			dir_vect_len;
 	t_f_point		camera;
+	t_point		movement;
 } t_player;
 		
 typedef struct map_s{
@@ -33,7 +35,7 @@ typedef struct map_s{
 	int						width;
 	int						hieght;
 	t_player				player;
-	struct minimap_s		*minimap;
+	t_minimap				*minimap;
 }	t_map;
 
 typedef struct minimap_s{
@@ -46,19 +48,15 @@ typedef struct minimap_s{
 	t_img			img;
 }	t_minimap		;
 
-typedef struct movement_s{
-	int		side;
-	int		front;
-	int		rotate;
-} t_movement;
-
 /* events stuff */
-#define KEY_W		13
-#define KEY_A		0
-#define KEY_S		1
-#define KEY_D		2
-#define KEY_LEFT	124
-#define KEY_RIGHT	123
+#define KEY_W			13
+#define KEY_A			0
+#define KEY_S			1
+#define KEY_D			2
+#define KEY_LEFT		123
+#define KEY_RIGHT		124
+#define MOVEMENT_DELTA	10
+#define ROTATION_DELTA	0.01
 
 /* minimap */
 void draw_minimap(t_minimap *minimap);
