@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 08:40:57 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/28 15:54:47 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/28 17:07:04 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	parse_data(t_aux *chk, int fd, t_map *data)
 
 int	parse_map(t_aux *chk, char *file, t_map *data)
 {
+	int started = 0;
 	int	fd = open(file, O_RDONLY);
 	data->col = 0;
 	ft_bzero(chk, sizeof(t_aux));
@@ -51,12 +52,12 @@ int	parse_map(t_aux *chk, char *file, t_map *data)
 			free (chk->line);
 		chk->line = get_next_line(fd);
 		if (chk->line)
-			get_map_dimensions(data, chk);
+			get_map_dimensions(data, chk, &started); //line
 	}
 	if (chk->line)
 		free (chk->line);
-	if (chk->player != 1)
-		exit (msg_error(MAP, -1, "duplicated player"));
+	// if (chk->player != 1)
+	// 	exit (msg_error(MAP, -1, "duplicated player"));
 	get_map(chk, file, data);
 	return (EXIT_SUCCESS);
 }

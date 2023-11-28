@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 12:03:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/28 15:56:13 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/28 17:19:50 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,34 +33,6 @@ int	check_line_map(t_map *data, t_aux *chk)
 	return (EXIT_SUCCESS);
 }
 
-int is_map_closed(t_map *data) {
-    int i, j;
-
-    for (i = 0; i < data->row; i++) {
-        if (data->map[i][0] != '1' || data->map[i][data->col - 1] != '1') {
-            return 0;
-        }
-    }
-
-    for (j = 0; j < data->col; j++) {
-        if (data->map[0][j] != '1' || data->map[data->row - 1][j] != '1') {
-            return 0;
-        }
-    }
-
-    return 1;
-}
-
-int	get_map_dimensions(t_map *data, t_aux *chk)
-{
-	if (chk->line[0] && (ft_strchr(chk->line, '1')
-		|| ft_strchr(chk->line, '0')))
-	{
-		check_line_map(data, chk);
-		data->col++;
-	}
-	return  (EXIT_SUCCESS);
-}
 
 int	is_line_map(t_aux *chk)
 {
@@ -74,6 +46,36 @@ int	is_line_map(t_aux *chk)
 	}
 	return (TRUE);
 }
+
+int	empty_line(t_aux *chk)
+{
+	int i;
+	i = 0;
+	while (chk->line[i])
+	{
+		if (!is_space(chk->line[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+int	get_map_dimensions(t_map *data, t_aux *chk, int *started)
+{
+
+	if (chk->line[0] && is_line_map(chk) && !empty_line(chk))
+	{
+		if (*started == 2)
+			exit (msg_error(MAP, -1, "empty line"));
+		*started = 1;
+		check_line_map(data, chk);
+		data->col++;
+	}
+	else if (chk->line[0] && empty_line(chk) && *started)
+		*started = 2;
+	return  (EXIT_SUCCESS);
+}
+
 
 int	set_char_map(t_aux *chk, t_map *data)
 {
@@ -109,7 +111,7 @@ int	set_char_map(t_aux *chk, t_map *data)
 
 int	set_line_map(t_map *data, t_aux *chk)
 {
-	if (chk->line[0] && is_line_map(chk))
+	if (chk->line[0] && is_line_map(chk) && !empty_line(chk))
 	{
 		data->map[chk->iter] = ft_calloc(data->row + 1, sizeof(char));
 		if (!data->map)
@@ -123,6 +125,7 @@ int	set_line_map(t_map *data, t_aux *chk)
 int	get_map(t_aux *chk, char *file, t_map *data)
 {
 	int fd = open(file, O_RDONLY);
+
 	ft_bzero(chk, sizeof(t_aux));
 	data->map = ft_calloc(data->col + 1, sizeof(char *));
 	if (!data->map)
