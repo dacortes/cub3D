@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 12:03:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/29 10:07:13 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:28:14 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_line_map(t_map *data, t_aux *chk)
 	while (chk->line[chk->iter] && is_map(chk->line[chk->iter++], &chk->player))
 		current++;
 	if (data->row < current)
-		data->row = current; 
+		data->row = current;
 	return (EXIT_SUCCESS);
 }
 
@@ -37,11 +37,13 @@ int	check_line_map(t_map *data, t_aux *chk)
 int	is_line_map(t_aux *chk)
 {
 	int	i;
+	int	player_null;
 
 	i = 0;
+	player_null = 0;
 	while (chk->line[i])
 	{
-		if (!is_map(chk->line[i++], &chk->player))
+		if (!is_map(chk->line[i++], &player_null))
 			return (FALSE);
 	}
 	return (TRUE);

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 08:40:57 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/29 09:30:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:28:38 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	parse_map(t_aux *chk, char *file, t_map *data)
 	}
 	if (chk->line)
 		free (chk->line);
-	// if (chk->player != 1)
-	// 	exit (msg_error(MAP, -1, "duplicated player"));
+	if (chk->player != 1)
+		exit (msg_error(MAP, -1, "duplicated player"));
 	get_map(chk, file, data);
 	return (EXIT_SUCCESS);
 }
