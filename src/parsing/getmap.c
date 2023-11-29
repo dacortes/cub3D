@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 12:03:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/29 10:28:14 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/29 14:18:40 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,10 @@ int	is_map(char pos, int *player)
 		|| pos == 'S' || pos == 'E' || pos == 'W');
 }
 
-int	check_line_map(t_map *data, t_aux *chk)
+int is_player(int player)
 {
-	int	current;
-
-	current = 0;
-	chk->iter = 0;
-	while (chk->line[chk->iter] && is_map(chk->line[chk->iter++], &chk->player))
-		current++;
-	if (data->row < current)
-		data->row = current;
-	return (EXIT_SUCCESS);
+	return (player == 'N' || player == 'S' || player == 'E' || player == 'W');
 }
-
 
 int	is_line_map(t_aux *chk)
 {
@@ -62,67 +53,185 @@ int	empty_line(t_aux *chk)
 	return (TRUE);
 }
 
-int	get_map_dimensions(t_map *data, t_aux *chk, int *started)
-{
+// int	check_line_map(t_map *data, t_aux *chk)
+// {
+// 	int	current;
 
-	if (chk->line[0] && is_line_map(chk) && !empty_line(chk))
+// 	current = 0;
+// 	chk->iter = 0;
+// 	while (chk->line[chk->iter] && is_map(chk->line[chk->iter++], &chk->player))
+// 		current++;
+// 	if (data->row < current)
+// 		data->row = current;
+// 	return (EXIT_SUCCESS);
+// }
+
+// int	get_map_dimensions(t_map *data, t_aux *chk, int *started)
+// {
+
+// 	if (chk->line[0] && is_line_map(chk) && !empty_line(chk))
+// 	{
+// 		if (*started == 2)
+// 			exit (msg_error(MAP, -1, "empty line"));
+// 		*started = 1;
+// 		check_line_map(data, chk);
+// 		data->col++;//change data->row
+// 	}
+// 	else if (chk->line[0] && empty_line(chk) && *started)
+// 		*started = 2;
+// 	return  (EXIT_SUCCESS);
+// }
+
+// /* falal cuando le coloco tab a la izquierda a un mapa cuadrado*/
+// int	set_char_map(t_aux *chk, t_map *data)
+// {
+// 	int	j;
+// 	int	i;
+// 	int	tb;
+
+// 	i = 0;
+// 	j = 0;
+// 	while (chk->line && chk->line[i] && chk->line[i] != '\n')
+// 	{
+// 		if (chk->line[i] == ' ')
+// 			data->map[chk->iter][j++] = -1;
+// 		else if (chk->line[i] == '\t')
+// 		{
+// 			tb = 0;
+// 			while (tb < 4)
+// 			{
+// 				data->map[chk->iter][j++] = -1;
+// 				tb++;
+// 			}
+// 		}
+// 		else
+// 		{
+// 			if (chk->line[i] == '1')
+// 				data->map[chk->iter][j++] = 1;
+// 			else if (chk->line[i] == '0')
+// 				data->map[chk->iter][j++] = 0;
+// 			else if (is_player(chk->line[i]))
+// 				data->map[chk->iter][j++] = 2;
+// 		}
+// 		i++;
+// 	}
+// 	return (EXIT_SUCCESS);
+// }
+
+
+
+// int	set_line_map(t_map *data, t_aux *chk)
+// {
+// 	if (chk->line[0] && is_line_map(chk) && !empty_line(chk))
+// 	{
+// 		data->map[chk->iter] = malloc(data->row * sizeof(char));
+// 		if (!data->map)
+// 			exit (msg_error(MEM, -1, NULL));
+// 		ft_memset(data->map[chk->iter], -1, data->row);
+// 		set_char_map(chk, data);
+// 		chk->iter++;
+// 	}
+// 	return (EXIT_SUCCESS);
+// }
+
+// int	get_map(t_aux *chk, char *file, t_map *data)
+// {
+// 	int fd = open(file, O_RDONLY);
+
+// 	ft_bzero(chk, sizeof(t_aux));
+// 	data->map = ft_calloc(data->col, sizeof(char *));//change data->row
+// 	if (!data->map)
+// 		exit (msg_error(MEM, -1, NULL));
+// 	chk->line = ft_calloc(1, 1);
+// 	if (!chk->line)
+// 		exit (msg_error(MEM, -1, NULL));	
+// 	while (chk->line)
+// 	{
+// 		if (chk->line)
+// 			free (chk->line);
+// 		chk->line = get_next_line(fd);
+// 		if (chk->line)
+// 			set_line_map(data, chk);
+// 	}
+// 	close (fd);
+// 	return (EXIT_SUCCESS);
+// }
+int	get_column(t_map *data, t_aux *chk)
+{
+	int	current;
+
+	current = 0;
+	chk->iter = 0;
+	while (chk->line[chk->iter] && is_map(chk->line[chk->iter], &chk->player))
+	{
+		if (chk->line[chk->iter] == '\t')
+			current += 4;
+		current++;
+		chk->iter++;
+	}
+	ft_printf("****%d\n", current);
+	if (data->col < current)
+		data->col = current;
+	return (EXIT_SUCCESS);
+}
+
+int	get_dimensions(t_map *data, t_aux *chk, int	*started)
+{
+	if (*chk->line && is_line_map(chk) && !empty_line(chk))
 	{
 		if (*started == 2)
 			exit (msg_error(MAP, -1, "empty line"));
 		*started = 1;
-		check_line_map(data, chk);
-		data->col++;
+		get_column(data, chk);
+		data->row++;
 	}
-	else if (chk->line[0] && empty_line(chk) && *started)
+	else if (*chk->line && (empty_line(chk) || !is_line_map(chk))
+		&& *started)
 		*started = 2;
-	return  (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
-
-int	set_char_map(t_aux *chk, t_map *data)
+int	set_chr_map(t_map *data, t_aux *chk)
 {
-	int	tb;
-	int	j;
+	int	col;
+	int	tab;
 	int	i;
 
 	i = 0;
-	j = 0;
+	col = 0;
 	while (chk->line && chk->line[i] && chk->line[i] != '\n')
 	{
 		if (chk->line[i] == ' ')
-			data->map[chk->iter][i] = -1;
+			data->map[chk->iter][col++] = -1;
 		else if (chk->line[i] == '\t')
 		{
-			tb = 0;
-			while (tb < 4)
-			{
-				data->map[chk->iter][j++] = -1;
-				tb++;
-			}
+			tab = -1;
+			while (++tab < 4)
+				data->map[chk->iter][col++] = -1;	
 		}
 		else
 		{
 			if (chk->line[i] == '1')
-				data->map[chk->iter][j++] = 1;
+				data->map[chk->iter][col++] = 1;
 			else if (chk->line[i] == '0')
-				data->map[chk->iter][j++] = 0;
+				data->map[chk->iter][col++] = 0;
+			else if (is_player(chk->line[i]))
+				data->map[chk->iter][col++] = 2;
 		}
-		i++;
+		i++; 
 	}
 	return (EXIT_SUCCESS);
 }
 
-
-
 int	set_line_map(t_map *data, t_aux *chk)
 {
-	if (chk->line[0] && is_line_map(chk) && !empty_line(chk))
+	if (*chk->line && is_line_map(chk) && !empty_line(chk))
 	{
-		data->map[chk->iter] = malloc((data->row + 1) * sizeof(char));
+		data->map[chk->iter] = malloc(data->col * sizeof(char));
 		if (!data->map)
 			exit (msg_error(MEM, -1, NULL));
-		ft_memset(data->map[chk->iter], -1, data->row);
-		set_char_map(chk, data);
+		ft_memset(data->map[chk->iter], -1, data->col);
+		set_chr_map(data, chk);
 		chk->iter++;
 	}
 	return (EXIT_SUCCESS);
@@ -130,15 +239,17 @@ int	set_line_map(t_map *data, t_aux *chk)
 
 int	get_map(t_aux *chk, char *file, t_map *data)
 {
-	int fd = open(file, O_RDONLY);
+	int	fd;
 
+	fd = -1;
+	parse_open(file, &fd);
 	ft_bzero(chk, sizeof(t_aux));
-	data->map = ft_calloc(data->col + 1, sizeof(char *));
+	data->map = ft_calloc(data->row, sizeof(char *));
 	if (!data->map)
 		exit (msg_error(MEM, -1, NULL));
 	chk->line = ft_calloc(1, 1);
 	if (!chk->line)
-		exit (msg_error(MEM, -1, NULL));	
+		exit (msg_error(MEM, -1, NULL));
 	while (chk->line)
 	{
 		if (chk->line)
@@ -147,6 +258,7 @@ int	get_map(t_aux *chk, char *file, t_map *data)
 		if (chk->line)
 			set_line_map(data, chk);
 	}
-	close (fd);
+	if (fd >= 0)
+		close (fd);
 	return (EXIT_SUCCESS);
 }
