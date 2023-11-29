@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/28 17:08:32 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/29 14:34:50 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ typedef struct s_map
 int	get_color(t_color *set, t_aux *chk, char *find, int *stt);
 /* src/parsing/getmap.c */
 int	get_map(t_aux *chk, char *file, t_map *data);
-int	get_map_dimensions(t_map *data, t_aux *chk, int *started);
+int	get_dimensions(t_map *data, t_aux *chk, int *started);
 /* src/parsing/getpath.c */
 int	check_access(t_map *data);
-int	parse_open(char *file, int *fd);
+int	parse_open(char *file, int *fd); //utils2.c
 int	get_get_data(t_map *data, t_aux *chk);
 /* src/parsing/parse.c */
 int	parse_map(t_aux *chk, char *file, t_map *data);
@@ -118,6 +118,11 @@ int	is_num(char *str);
 int	ignore_space(char *str, int *iter);
 int	error_get_data(char **set, char *find);
 int	msg_error(int err, int exit_, char *cm);
+/* src/parsing/utils2.c*/
+int is_player(int player);
+int	empty_line(t_aux *chk);
+int	is_line_map(t_aux *chk);
+int	is_map(char pos, int *player);
 /* test */
 int	clear_data(t_map*data);
 #endif 

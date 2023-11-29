@@ -60,7 +60,6 @@ int	printf_map(t_map data)
 
 int	main(int ac, char **av)
 {
-	(void)av;
 	t_map	data;
 	t_aux	chk;
 	int		fd;
