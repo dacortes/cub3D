@@ -70,6 +70,10 @@ int	main(int ac, char **av)
 	parse_open(av[1], &fd);
 	parse_data(&chk, fd, &data);
 	parse_map(&chk, av[1], &data);
+	ft_printf("texture no %s\n", data.no);
+	ft_printf("texture ea %s\n", data.ea);
+	ft_printf("texture so %s\n", data.so);
+	ft_printf("texture we %s\n", data.we);
 	printf_map(data);
 	clear_data(&data);
 	if (fd >= 0)

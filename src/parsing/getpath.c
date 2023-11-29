@@ -6,45 +6,35 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:39:22 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/26 09:30:37 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:30:33 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3D.h"
 
-int	parse_text(char *path)
+int	set_texture(char **set, t_aux *chk, char *find, int *len)
 {
-	if (access(path, R_OK) == ERROR)
-		exit (msg_error(PRR, -1, path));
-	return (EXIT_SUCCESS);
-}
-
-int	check_access(t_map *data)
-{
-	if (data->no)
-		parse_text(data->no);
-	if (data->so)
-		parse_text(data->so);
-	if (data->we)
-		parse_text(data->we);
-	if (data->ea)
-		parse_text(data->ea);
-	return (EXIT_SUCCESS);
-}
-
-int	parse_open(char *file, int *fd)
-{
-	if (access(file, R_OK) == ERROR)
-		exit (msg_error(PRR, -1, file));
-	*fd = open(file, O_RDONLY);
-	if (*fd == ERROR)
-		exit (msg_error(OPN, -1, file));
-	return (EXIT_SUCCESS);
+	if (chk->line[chk->iter])
+	{
+		*len = chk->iter;
+		while (chk->line[*len] && !is_space(chk->line[*len])
+			&& chk->line[*len] != '\n')
+			++(*len);
+		*set = ft_strndup(&chk->line[chk->iter], (*len - chk->iter));
+		error_get_data(set, find);
+		ignore_space(chk->line, len);
+		if (chk->line[*len] && (chk->line[*len] != '\n'
+				|| chk->line[*len] != '\0'))
+			exit (msg_error(MAP, -1, "invalid texture"));
+		return (EXIT_SUCCESS);
+	}
+	return (ERROR);
 }
 
 int	search_get_data(char **set, t_aux *chk, char *find, int *stt)
 {
 	int	len;
+
 	len = 0;
 	if (!ft_strncmp(&chk->line[chk->iter], find, 2))
 	{
@@ -60,25 +50,13 @@ int	search_get_data(char **set, t_aux *chk, char *find, int *stt)
 		if (chk->line[chk->iter] && !is_space(chk->line[chk->iter]))
 			exit (msg_error(MAP, -1, "invalid name variable"));
 		ignore_space(chk->line, &chk->iter);
-		if (chk->line[chk->iter])
-		{
-			len = chk->iter;
-			while (chk->line[len] && !is_space(chk->line[len])
-				&& chk->line[len] != '\n')
-				++len;
-			*set = ft_strndup(&chk->line[chk->iter], (len - chk->iter));
-			error_get_data(set, find);
-			ignore_space(chk->line, &len);
-			if (chk->line[len] && (chk->line[len] != '\n' ||
-				chk->line[len] != '\0'))
-				exit (msg_error(MAP, -1, "invalid texture"));
+		if (!set_texture(set, chk, find, &len))
 			return (EXIT_SUCCESS);
-		}
 	}
 	return (ERROR);
 }
 
-int	get_get_data(t_map *data, t_aux *chk)
+int	get_data(t_map *data, t_aux *chk)
 {
 	int	done;
 

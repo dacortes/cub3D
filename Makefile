@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 10:31:31 by codespace         #+#    #+#              #
-#    Updated: 2023/11/29 09:56:07 by dacortes         ###   ########.fr        #
+#    Updated: 2023/11/29 15:44:50 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CC = gcc
 RM = rm -rf
 LIBC = ar -rcs
 OS := $(shell uname -s)
-FLAGS = -Wall -Wextra -Werror -O3 -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -O3 -g #-fsanitize=address
 
 ################################################################################
 #  Bar                                                                         #
@@ -50,8 +50,9 @@ else
 				-I ./lib/minilibx_mac/
 endif
 
-SRC = parsing/getcolor.c parsing/getmap.c parsing/getpath.c parsing/utils.c\
-	parsing/parse.c\
+SRC = parsing/check_access.c parsing/getcolor.c parsing/getdimensions.c\
+	parsing/getmap.c parsing/getpath.c parsing/parse.c parsing/utils.c \
+	parsing/utils2.c\
 	main.c
 LIBFT = ./lib/libft/
 L_SRC = ./src

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/29 14:34:50 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:18:31 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,15 +100,17 @@ typedef struct s_map
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
+/* src/parsing/check_access.c */
+int	parse_text(char *path);
+int	check_access(t_map *data);
+int	parse_open(char *file, int *fd);
 /* src/parsing/getcolor.c */
 int	get_color(t_color *set, t_aux *chk, char *find, int *stt);
 /* src/parsing/getmap.c */
 int	get_map(t_aux *chk, char *file, t_map *data);
 int	get_dimensions(t_map *data, t_aux *chk, int *started);
 /* src/parsing/getpath.c */
-int	check_access(t_map *data);
-int	parse_open(char *file, int *fd); //utils2.c
-int	get_get_data(t_map *data, t_aux *chk);
+int	get_data(t_map *data, t_aux *chk);
 /* src/parsing/parse.c */
 int	parse_map(t_aux *chk, char *file, t_map *data);
 int	parse_data(t_aux *chk, int fd, t_map *data);
