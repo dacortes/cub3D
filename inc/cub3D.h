@@ -13,6 +13,18 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+typedef struct	s_img {
+	void	*img;
+	void	*mlx_ptr;
+	void	*win_ptr;
+	char	*addr;
+	int		bits_pxl;
+	int		line_len;
+	int		endian;
+	int		width;  //maybe not needed
+	int		height;  //maybe not needed
+}				t_img;
+
 /******************************************************************************/
 /*                            INCLUDES                                        */
 /******************************************************************************/
@@ -29,9 +41,12 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+
 # include "../lib/libft/libft.h"
 # include "../lib/libft/ft_printf.h"
 # include "../lib/libft/get_next_line.h"
+# include "minimap.h"
+
 /******************************************************************************/
 /*                            MACROS                                          */
 /******************************************************************************/
@@ -127,4 +142,4 @@ int	is_line_map(t_aux *chk);
 int	is_map(char pos, int *player);
 /* test */
 int	clear_data(t_map*data);
-#endif 
+#endif

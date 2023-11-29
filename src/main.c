@@ -79,4 +79,38 @@ int	main(int ac, char **av)
 	if (fd >= 0)
 		close (fd);
 	return (EXIT_SUCCESS);
+	/*void	*mlx;
+	void	*mlx_win;
+	t_data	img;
+	char	mtrx[][] = {
+		{1,1,1,1,1,1},
+		{1,0,0,0,0,1},
+		{1,0,0,0,0,1},
+		{1,0,0,0,0,1},
+		{1,1,1,1,1,1}
+	};
+	t_map	map;
+	t_minimap	minimap;
+
+	map.map = map_mtrx;
+	map.rows = 6;
+	map.cols = 5;
+
+	minimap.rows = map.rows;
+	minimap.cols = map.cols;
+	minimap.img = mlx_new_image(mlx, 1920, 1080);
+
+
+
+	mlx = mlx_init();
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
+	img.img = mlx_new_image(mlx, 1920, 1080);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
+								&img.endian);
+	my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
+	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+	printf("testing minimap\n");
+	minimap(mlx_win);
+	printf("tested minimap\n");
+	mlx_loop(mlx);*/
 }

@@ -53,7 +53,7 @@ endif
 SRC = parsing/check_access.c parsing/getcolor.c parsing/getdimensions.c\
 	parsing/getmap.c parsing/getpath.c parsing/parse.c parsing/utils.c \
 	parsing/utils2.c\
-	main.c
+	main.c minimap/minimap.c minimap/points.c
 LIBFT = ./lib/libft/
 L_SRC = ./src
 L_LIB = ./lib/libft/libft.a
@@ -95,6 +95,7 @@ all: dir $(NAME)
 dir:
 	mkdir -p $(D_OBJ)
 	mkdir -p $(D_OBJ)/parsing
+	mkdir -p $(D_OBJ)/minimap
 libs:
 	make -C $(LIBFT) --no-print-directory
 	make -C $(MINIL) --no-print-directory
