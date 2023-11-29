@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 12:03:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/28 17:19:50 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:07:13 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,22 +88,25 @@ int	set_char_map(t_aux *chk, t_map *data)
 	while (chk->line && chk->line[i] && chk->line[i] != '\n')
 	{
 		if (chk->line[i] == ' ')
-			data->map[chk->iter][i] = 'V';
+			data->map[chk->iter][i] = -1;
 		else if (chk->line[i] == '\t')
 		{
 			tb = 0;
 			while (tb < 4)
 			{
-				data->map[chk->iter][j++] = 'V';
+				data->map[chk->iter][j++] = -1;
 				tb++;
 			}
 		}
 		else
-			data->map[chk->iter][j++] = chk->line[i];
+		{
+			if (chk->line[i] == '1')
+				data->map[chk->iter][j++] = 1;
+			else if (chk->line[i] == '0')
+				data->map[chk->iter][j++] = 0;
+		}
 		i++;
 	}
-	while ((int)ft_strlen(data->map[chk->iter]) < data->row)
-		data->map[chk->iter][j++] = 'V';
 	return (EXIT_SUCCESS);
 }
 
@@ -113,9 +116,10 @@ int	set_line_map(t_map *data, t_aux *chk)
 {
 	if (chk->line[0] && is_line_map(chk) && !empty_line(chk))
 	{
-		data->map[chk->iter] = ft_calloc(data->row + 1, sizeof(char));
+		data->map[chk->iter] = malloc((data->row + 1) * sizeof(char));
 		if (!data->map)
 			exit (msg_error(MEM, -1, NULL));
+		ft_memset(data->map[chk->iter], -1, data->row);
 		set_char_map(chk, data);
 		chk->iter++;
 	}

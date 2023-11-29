@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 08:40:57 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/28 17:07:04 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/29 09:30:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	parse_map(t_aux *chk, char *file, t_map *data)
 	int started = 0;
 	int	fd = open(file, O_RDONLY);
 	data->col = 0;
+	data->row = 0;
 	ft_bzero(chk, sizeof(t_aux));
 	chk->line = ft_calloc(1, 1);
 	if (!chk->line)

@@ -25,27 +25,36 @@ int	clear_data(t_map *data)
 	if (data->ea)
 		free(data->ea);
 	i = 0;
-	while (data->map && data->map[i])
-	{
-		free (data->map[i]);
-		data->map[i] = NULL;
-		++i;
-	}
-	if (data->map)
-	{
-		free (data->map);
-		data->map = NULL;
-	}
+	// while (data->map && data->map[i])
+	// {
+	// 	free (data->map[i]);
+	// 	data->map[i] = NULL;
+	// 	++i;
+	// }
+	// if (data->map)
+	// {
+	// 	free (data->map);
+	// 	data->map = NULL;
+	// }
 	return (EXIT_SUCCESS);
 }
 
 int	printf_map(t_map data)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	while (data.map && data.map[i])
-		ft_printf("%s\n", data.map[i++]);
+	while (i < data.col)
+	{
+		j = 0;
+		while (j < data.row)
+		{
+			printf("% d", data.map[i][j++]);
+		}
+		printf("\n");
+		i++;
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -63,7 +72,7 @@ int	main(int ac, char **av)
 	parse_data(&chk, fd, &data);
 	parse_map(&chk, av[1], &data);
 	printf_map(data);
-	clear_data(&data);
+	// clear_data(&data);
 	if (fd >= 0)
 		close (fd);
 	return (EXIT_SUCCESS);
