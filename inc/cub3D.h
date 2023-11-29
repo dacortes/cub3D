@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/29 15:18:31 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/29 16:34:58 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,17 @@ typedef struct s_map
 	t_color	ceiling;
 }	t_map;
 
+typedef struct minimap_s
+{
+	int				squares_size;
+	int	rows;
+	int	cols;
+	t_point			img_position;
+	t_map			*map;
+	t_point			offsets;
+	t_img			img;
+}	t_minimap;
+
 /******************************************************************************/
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
@@ -142,4 +153,15 @@ int	is_line_map(t_aux *chk);
 int	is_map(char pos, int *player);
 /* test */
 int	clear_data(t_map*data);
+void draw_minimap(t_minimap *minimap);
+
+/* points.c */
+int		fdf_mk_color(int transparency, int red, int green, int blue);
+void	fdf_print_pnt(t_point p);
+t_point	fdf_set_point(int x, int y, int z, int color);
+void	fdf_put_pixel(void *img_ptr, unsigned int x, unsigned int y, int color);
+
+/* main */
+
+void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
 #endif
