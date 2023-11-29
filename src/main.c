@@ -6,31 +6,80 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/19 15:42:08 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/28 10:10: by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3D.h"
 
-typedef struct	s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+int	clear_data(t_map *data)
 {
-	char	*dst;
+	int	i;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	if (data->no)
+		free(data->no);
+	if (data->so)
+		free(data->so);
+	if (data->we)
+		free(data->we);
+	if (data->ea)
+		free(data->ea);
+	i = 0;
+	while (i < data->row)
+	{
+		free (data->map[i]);
+		data->map[i] = NULL;
+		++i;
+	}
+	if (data->map)
+	{
+		free (data->map);
+		data->map = NULL;
+	}
+	return (EXIT_SUCCESS);
 }
 
-int	main(void)
+int	printf_map(t_map data)
 {
-	void	*mlx;
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < data.row)
+	{
+		j = 0;
+		while (j < data.col)
+		{
+			printf("% d", data.map[i][j++]);
+		}
+		printf("\n");
+		i++;
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	main(int ac, char **av)
+{
+	t_map	data;
+	t_aux	chk;
+	int		fd;
+
+	fd = -1;
+	if (ac != 2)
+		exit (msg_error(ARG, -1, NULL));
+	parse_open(av[1], &fd);
+	parse_data(&chk, fd, &data);
+	parse_map(&chk, av[1], &data);
+	ft_printf("texture no %s\n", data.no);
+	ft_printf("texture ea %s\n", data.ea);
+	ft_printf("texture so %s\n", data.so);
+	ft_printf("texture we %s\n", data.we);
+	printf_map(data);
+	clear_data(&data);
+	if (fd >= 0)
+		close (fd);
+	return (EXIT_SUCCESS);
+	/*void	*mlx;
 	void	*mlx_win;
 	t_data	img;
 	char	mtrx[][] = {
@@ -63,5 +112,5 @@ int	main(void)
 	printf("testing minimap\n");
 	minimap(mlx_win);
 	printf("tested minimap\n");
-	mlx_loop(mlx);
+	mlx_loop(mlx);*/
 }

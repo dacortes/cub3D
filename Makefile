@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 10:31:31 by codespace         #+#    #+#              #
-#    Updated: 2023/11/22 12:18:50 by jrenau-v         ###   ########.fr        #
+#    Updated: 2023/11/29 15:44:50 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CC = gcc
 RM = rm -rf
 LIBC = ar -rcs
 OS := $(shell uname -s)
-FLAGS = -fsanitize=address -Wall -Wextra -Werror -O3 -g
+FLAGS = -Wall -Wextra -Werror -O3 -g #-fsanitize=address
 
 ################################################################################
 #  Bar                                                                         #
@@ -50,7 +50,10 @@ else
 				-I ./lib/minilibx_mac/
 endif
 
-SRC = main.c minimap/minimap.c minimap/points.c
+SRC = parsing/check_access.c parsing/getcolor.c parsing/getdimensions.c\
+	parsing/getmap.c parsing/getpath.c parsing/parse.c parsing/utils.c \
+	parsing/utils2.c\
+	main.c minimap/minimap.c minimap/points.c
 LIBFT = ./lib/libft/
 L_SRC = ./src
 L_LIB = ./lib/libft/libft.a
@@ -91,8 +94,7 @@ all: dir $(NAME)
 -include $(DEP)
 dir:
 	mkdir -p $(D_OBJ)
-	mkdir -p $(D_OBJ)/sets
-	mkdir -p $(D_OBJ)/menu
+	mkdir -p $(D_OBJ)/parsing
 	mkdir -p $(D_OBJ)/minimap
 libs:
 	make -C $(LIBFT) --no-print-directory

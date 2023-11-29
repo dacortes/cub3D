@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/22 11:53:16 by jrenau-v         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:18:31 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,24 @@ typedef struct	s_img {
 # include <string.h>
 # include <unistd.h>
 
-# include "minimap.h"
 # include "../lib/libft/libft.h"
-
+# include "../lib/libft/ft_printf.h"
+# include "../lib/libft/get_next_line.h"
+# include "minimap.h"
 
 /******************************************************************************/
 /*                            MACROS                                          */
 /******************************************************************************/
 
+# define ARG 1
+# define MEM 2
+# define OPN 3
+# define MAP 4
+# define PRR 5
 
+# define TRUE   1
+# define FALSE  0
+# define ERROR -1
 /******************************************************************************/
 /*                            COLORS                                          */
 /******************************************************************************/
@@ -69,5 +78,68 @@ typedef struct	s_img {
 /*                            STRUCTURES                                      */
 /******************************************************************************/
 
+typedef struct s_aux
+{
+	int		player;
+	char	*line;
+	int		iter;
+	int		no;
+	int		so;
+	int		we;
+	int		ea;
+	int		floor;
+	int		ceiling;
+}	t_aux;
 
-#endif 
+typedef	struct s_color
+{
+	int	red;
+	int	green;
+	int	blue;	
+}	t_color;
+
+typedef struct s_map
+{
+	int		row;
+	int		col;
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	char	**map;
+	t_color	floor;
+	t_color	ceiling;
+}	t_map;
+
+/******************************************************************************/
+/*                            FUNCTIONS                                       */
+/******************************************************************************/
+
+/* src/parsing/check_access.c */
+int	parse_text(char *path);
+int	check_access(t_map *data);
+int	parse_open(char *file, int *fd);
+/* src/parsing/getcolor.c */
+int	get_color(t_color *set, t_aux *chk, char *find, int *stt);
+/* src/parsing/getmap.c */
+int	get_map(t_aux *chk, char *file, t_map *data);
+int	get_dimensions(t_map *data, t_aux *chk, int *started);
+/* src/parsing/getpath.c */
+int	get_data(t_map *data, t_aux *chk);
+/* src/parsing/parse.c */
+int	parse_map(t_aux *chk, char *file, t_map *data);
+int	parse_data(t_aux *chk, int fd, t_map *data);
+/* src/parsing/utils.c */
+int	is_space(char c);
+int	is_num(char *str);
+int	ignore_space(char *str, int *iter);
+int	error_get_data(char **set, char *find);
+int	msg_error(int err, int exit_, char *cm);
+/* src/parsing/utils2.c*/
+int is_player(int player);
+int	empty_line(t_aux *chk);
+int	is_line_map(t_aux *chk);
+int	is_map(char pos, int *player);
+/* test */
+int	clear_data(t_map*data);
+#endif
