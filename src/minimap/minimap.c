@@ -73,11 +73,10 @@ void	draw_player(t_minimap *minimap)
 {
 	t_point		position;
 	t_point		direction_end;
-	t_player	player;
-
+	t_player		player;
 
 	player = minimap->map->player;
-	position = player.position;
+	position = fdf_set_point(player.position.x, player.position.y, 0, 0);
 	position.x -= minimap->offsets.x * minimap->squares_size;
 	position.y -= minimap->offsets.y * minimap->squares_size;
 	position.color = fdf_mk_color(0, 255, 255, 0);	

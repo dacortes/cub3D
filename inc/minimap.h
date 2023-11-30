@@ -20,7 +20,7 @@ typedef struct f_point_s{
 }	t_f_point;
 
 typedef struct player_s{
-	t_point			position;
+	t_f_point		position;
 	float			dir_rad;
 	t_f_point		dir_vect;
 	float			dir_vect_len;
@@ -30,6 +30,7 @@ typedef struct player_s{
 		
 typedef struct map_s{
 	char					**map;
+	int				squares_size;
 	int						rows;	
 	int						cols;	
 	int						width;
