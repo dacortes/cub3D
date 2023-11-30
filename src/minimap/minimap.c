@@ -25,12 +25,6 @@ int minimap_draw_square(t_minimap *minimap, t_point pixel, t_point squares_size,
 	return (0);
 }
 
-void draw_minimap(t_minimap *minimap)
-{
-	draw_minimap_tiles(minimap);
-	draw_player(minimap);
-}
-
 void draw_minimap_tiles(t_minimap *minimap)
 {
 	t_point coord;
@@ -59,16 +53,6 @@ void draw_minimap_tiles(t_minimap *minimap)
 	}
 }
 
-t_f_point	from_rad_to_vect(float radians, float len)
-{
-	t_f_point rotated;
-
-	rotated.x = len * cos(radians); //x * cos(radians) - y * sin(radians);
-	rotated.y = len * sin(radians); //x * sin(radians) + y * cos(radians);
-
-	return (rotated);
-}
-
 void	draw_player(t_minimap *minimap)
 {
 	t_point		position;
@@ -93,4 +77,10 @@ void	draw_player(t_minimap *minimap)
 	//fdf_print_pnt(position);
 	//fdf_print_pnt(direction_end);
 	//printf("DRAWING LINE\n");
+}
+
+void draw_minimap(t_minimap *minimap)
+{
+	draw_minimap_tiles(minimap);
+	draw_player(minimap);
 }

@@ -6,24 +6,12 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/22 11:53:16 by jrenau-v         ###   ########.fr       */
+/*   Updated: 2023/11/30 20:14:51 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-
-typedef struct	s_img {
-	void	*img;
-	void	*mlx_ptr;
-	void	*win_ptr;
-	char	*addr;
-	int		bits_pxl;
-	int		line_len;
-	int		endian;
-	int		width;  //maybe not needed
-	int		height;  //maybe not needed
-}				t_img;
 
 /******************************************************************************/
 /*                            INCLUDES                                        */
@@ -69,5 +57,9 @@ typedef struct	s_img {
 /*                            STRUCTURES                                      */
 /******************************************************************************/
 
+
+/******************************************************************************/
+/*                            DEFINITIONS                                     */
+/******************************************************************************/
 
 #endif 

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/30 18:35:17 by jrenau-v         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:54:35 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,101 +15,6 @@
 #define N -1
 t_f_point	from_rad_to_vect(float degrees, float len);
 
-int	fdf_key_press_hook(int key, t_point *movement)
-{
-	if (key == KEY_D && !movement->x)
-		movement->x = 1;
-	if (key == KEY_A && !movement->x)
-		movement->x = -1;
-	if (key == KEY_W && !movement->y)
-		movement->y = 1;
-	if (key == KEY_S && !movement->y)
-		movement->y = -1;
-	if (key == KEY_RIGHT && !movement->z)
-		movement->z = 1;
-	if (key == KEY_LEFT && !movement->z)
-		movement->z = -1;
-	fdf_print_pnt(*movement);
-	printf("The pressed key was: %d\n", key);
-	return (1);	
-}
-
-int	fdf_key_release_hook(int key, t_point *movement)
-{
-	if (key == KEY_D && movement->x == 1)
-		movement->x = 0;
-	if (key == KEY_A && movement->x == -1)
-		movement->x = 0;
-	if (key == KEY_W && movement->y == 1)
-		movement->y = 0;
-	if (key == KEY_S && movement->y == -1)
-		movement->y = 0;
-	if (key == KEY_RIGHT && movement->z == 1)
-		movement->z= 0;
-	if (key == KEY_LEFT && movement->z == -1)
-		movement->z = 0;
-	fdf_print_pnt(*movement);
-	printf("The released key was: %d\n", key);
-	return (1);	
-}
-
-int get_square_on_position(t_map *map, t_f_point position)
-{
-	int row;
-	int col;
-	int	result;
-
-	row = position.y / map->squares_size;
-	col = position.x / map->squares_size;
-	fdf_print_f_pnt(position);
-	result = map->map[row][col];
-	printf(" %d, %d, %d\n", row, col, result);
-
-	return (result);
-
-}
-
-int run_game(t_map *map)
-{
-	t_minimap	*minimap;
-	t_player	*player;
-	t_f_point	initial_position;
-
-	player = &map->player;
-	minimap = map->minimap;
-	initial_position = player->position;
-	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
-	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
-	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad, map->player.dir_vect_len); // this should go inside minimap
-	if (player->movement.y != 0 && player->movement.x != 0)
-	{
-		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.y) /2;
-		player->position.y += (player->dir_vect.y * MOVEMENT_DELTA * player->movement.y) /2;
-		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA * player->movement.x) /2;
-		player->position.y += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.x) /2;
-	}
-	else if (player->movement.y != 0)
-	{
-		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.y ;
-		player->position.y += (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.y ;
-	}
-	else if (player->movement.x != 0)
-	{
-		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.x ;
-		player->position.y += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.x ;
-	}
-
-	if (get_square_on_position(map, player->position) != 0)
-	{
-		printf("Out of bounds %d\n", get_square_on_position(map, player->position));
-		player->position = initial_position;
-	}
-
-	draw_minimap(minimap);
-	mlx_put_image_to_window(minimap->img.mlx_ptr, minimap->img.win_ptr,
-			minimap->img.img, 0, 0);
-	return (1);
-}
 
 
 int	main(void)
