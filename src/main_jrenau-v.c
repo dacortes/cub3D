@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/30 16:02:56 by jrenau-v         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:35:17 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,16 @@ int get_square_on_position(t_map *map, t_f_point position)
 {
 	int row;
 	int col;
+	int	result;
 
-	row = position.x / map->square_sizes;
-	col = position.y / map->square_sizes;
+	row = position.y / map->squares_size;
+	col = position.x / map->squares_size;
+	fdf_print_f_pnt(position);
+	result = map->map[row][col];
+	printf(" %d, %d, %d\n", row, col, result);
 
-	return (map.map[y][x]);
+	return (result);
+
 }
 
 int run_game(t_map *map)
@@ -80,7 +85,7 @@ int run_game(t_map *map)
 	{
 		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.y) /2;
 		player->position.y += (player->dir_vect.y * MOVEMENT_DELTA * player->movement.y) /2;
-		player->position.x += (player->dir_vect.y * MOVEMENT_DELTA * player->movement.x) /2;
+		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA * player->movement.x) /2;
 		player->position.y += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.x) /2;
 	}
 	else if (player->movement.y != 0)
@@ -90,13 +95,13 @@ int run_game(t_map *map)
 	}
 	else if (player->movement.x != 0)
 	{
-		player->position.x += (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.x ;
+		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.x ;
 		player->position.y += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.x ;
 	}
 
-	if (get_square_on_position(map, player->position))
+	if (get_square_on_position(map, player->position) != 0)
 	{
-		printf("Out of bounds\n");
+		printf("Out of bounds %d\n", get_square_on_position(map, player->position));
 		player->position = initial_position;
 	}
 

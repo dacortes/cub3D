@@ -4,19 +4,19 @@
 void draw_minimap_tiles(t_minimap *minimap);
 void draw_player(t_minimap *minimap);
 
-int minimap_draw_square(t_minimap *minimap, t_point pixel, t_point square_sizes, int border)
+int minimap_draw_square(t_minimap *minimap, t_point pixel, t_point squares_size, int border)
 {
 	int		i;
 	int		j;
 
 	i = 0;
-	while (i < square_sizes.x)
+	while (i < squares_size.x)
 	{
 		j = 0;
-		while (j < square_sizes.y)
+		while (j < squares_size.y)
 		{
 			my_mlx_pixel_put(&minimap->img,  pixel.x + i, pixel.y + j, pixel.color);
-			if (i == 0 || j == 0 || i == square_sizes.x -1 || j == square_sizes.y - 1)
+			if (i == 0 || j == 0 || i == squares_size.x -1 || j == squares_size.y - 1)
 				my_mlx_pixel_put(&minimap->img,  pixel.x + i, pixel.y + j, border);
 			j++;
 		}
@@ -49,7 +49,7 @@ void draw_minimap_tiles(t_minimap *minimap)
 			else if (square_type == -1)
 				pixel.color = fdf_mk_color(0, 0, 0, 0);	
 			else
-				pixel.color = fdf_mk_color(0, 0, 0, 255);	
+				pixel.color = fdf_mk_color(254, 0, 0, 255);	
 			pixel.x = coord.x * minimap->squares_size;
 			pixel.y = coord.y * minimap->squares_size;
 			minimap_draw_square(minimap, pixel, fdf_set_point(minimap->squares_size, minimap->squares_size, 0, 0), fdf_mk_color(0, 255, 125, 0));
