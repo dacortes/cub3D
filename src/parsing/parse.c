@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 08:40:57 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/29 15:37:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/02 11:24:35 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,29 @@ int	parse_data(t_aux *chk, int fd, t_map *data)
 	return (EXIT_SUCCESS);
 }
 
+
+int check_map(t_map *data, int x, int y)
+{
+	while (++y < data->row)
+	{
+		x = -1;
+		while (++x < data->col)
+		{
+			if ( x > 0 && ((data->map[y][x - 1] && data->map[y][x - 1] == -1 && data->map[y][x] == 2)
+				|| (x < data->col - 1 && (data->map[y][x + 1] && data->map[y][x + 1] == -1 && data->map[y][x] == 2))
+				|| data->map[y][0] == 2))
+				exit (msg_error(MAP, -1, "Player is outside the boundaries of the map"));
+			if (x > 0 && x < data->col && !data->map[y][x] && ((data->map[y][x + 1] && data->map[y][x + 1] == -1)
+				|| (data->map[y][x - 1] && data->map[y][x - 1] == -1)))
+				exit (msg_error(MAP, -1, "unclosed map"));
+			if (y > 0 && y < data->col && !data->map[y][x] && ((data->map[y + 1][x] && data->map[y + 1][x] == -1)
+				|| (data->map[y - 1][x] && data->map[y - 1][x] == -1)))
+				exit (msg_error(MAP, -1, "unclosed map"));
+		}
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	parse_map(t_aux *chk, char *file, t_map *data)
 {
 	int	started;
@@ -63,5 +86,6 @@ int	parse_map(t_aux *chk, char *file, t_map *data)
 	if (chk->player != 1)
 		exit (msg_error(MAP, -1, "duplicated player"));
 	started = get_map(chk, file, data) + close (fd);
+	check_map(data, -1, -1);
 	return (EXIT_SUCCESS);
 }
