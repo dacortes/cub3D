@@ -7,3 +7,6 @@
 *.txt
 *.sh
 obj
+cub3D
+a.out
+cub3D.dSYM
