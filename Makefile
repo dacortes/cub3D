@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 10:31:31 by codespace         #+#    #+#              #
-#    Updated: 2023/12/02 12:59:09 by dacortes         ###   ########.fr        #
+#    Updated: 2023/12/02 17:56:29 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,8 @@ endif
 SRC = parsing/check_access.c parsing/getcolor.c parsing/getdimensions.c\
 	parsing/getmap.c parsing/getpath.c parsing/parse.c parsing/utils.c \
 	parsing/utils2.c\
-	main.c minimap/points.c
+	minimap/loop.c minimap/minimap.c minimap/points.c\
+	main.c utils.c
 LIBFT = ./lib/libft/
 L_SRC = ./src
 L_LIB = ./lib/libft/libft.a
