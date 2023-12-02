@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/30 20:14:51 by jrenau-v         ###   ########.fr       */
+/*   Updated: 2023/12/02 17:27:41 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@
 /******************************************************************************/
 /*                            STRUCTURES                                      */
 /******************************************************************************/
+struct s_minimap;
+typedef struct s_minimap t_minimap;
 
 typedef struct s_aux
 {
@@ -79,12 +81,38 @@ typedef struct s_aux
 	int		ceiling;
 }	t_aux;
 
+typedef struct point_s
+{
+	int				x;
+	int				y;
+	int				z;
+	int				color;
+}	t_point;
+
 typedef	struct s_color
 {
 	int	red;
 	int	green;
 	int	blue;	
 }	t_color;
+
+typedef struct s_f_point
+{
+	float			x;
+	float			y;
+	float			z;
+	int				color;
+}	t_f_point;
+
+typedef struct s_player
+{
+	t_f_point		position;
+	float			dir_rad;
+	t_f_point		dir_vect;
+	float			dir_vect_len;
+	t_f_point		camera;
+	t_point			movement;
+} t_player;
 
 typedef struct s_map
 {
@@ -97,13 +125,14 @@ typedef struct s_map
 	char	**map;
 	t_color	floor;
 	t_color	ceiling;
+	int		squares_size;
 }	t_map;
 
-typedef struct minimap_s
+typedef struct s_minimap
 {
 	int				squares_size;
-	int	rows;
-	int	cols;
+	int				rows;
+	int				cols;
 	t_point			img_position;
 	t_map			*map;
 	t_point			offsets;
@@ -143,6 +172,36 @@ int	is_map(char pos, int *player);
 int	clear_data(t_map*data);
 void draw_minimap(t_minimap *minimap);
 
+/* minimap */
+// void draw_minimap(t_minimap *minimap);
+
+
+/* points.c */
+int			fdf_mk_color(int transparency, int red, int green, int blue);
+void		fdf_print_pnt(t_point p);
+void		fdf_print_f_pnt(t_f_point p);
+t_point		fdf_set_point(int x, int y, int z, int color);
+void		fdf_put_pixel(void *img_ptr, unsigned int x, unsigned int y, int color);
+void		fdf_draw_line(t_img *img, t_point p1, t_point p2, int clr);
+
+/* main */
+void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
+
+/* loop */
+int			run_game(t_map *map);
+int			fdf_key_press_hook(int key, t_point *movement);
+int			fdf_key_release_hook(int key, t_point *movement);
+
+/* src/minimap/minimap.c */
+int			minimap_draw_square(t_minimap *minimap, t_point pixel, t_point squares_size, int border);
+void		draw_minimap_tiles(t_minimap *minimap);
+void		draw_minimap(t_minimap *minimap);
+void		draw_player(t_minimap *minimap);
+
+/* src/utils.c */
+int			get_square_on_position(t_map *map, t_f_point position);
+t_f_point	from_rad_to_vect(float radians, float len);
+
 /* points.c */
 int		fdf_mk_color(int transparency, int red, int green, int blue);
 void	fdf_print_pnt(t_point p);
@@ -155,6 +214,5 @@ void	fdf_put_pixel(void *img_ptr, unsigned int x, unsigned int y, int color);
 /*                            DEFINITIONS                                     */
 /******************************************************************************/
 
-#endif
 void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
 #endif
