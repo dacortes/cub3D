@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/02 17:29:21 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/02 17:33:20 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	clear_data(t_map *data)
 	if (data->ea)
 		free(data->ea);
 	i = 0;
-	while (i < data->row)
+	while (i < data->rows)
 	{
 		free (data->map[i]);
 		data->map[i] = NULL;
@@ -46,10 +46,10 @@ int	printf_map(t_map data)
 
 
 	i = 0;
-	while (i < data.row)
+	while (i < data.rows)
 	{
 		j = 0;
-		while (j < data.col)
+		while (j < data.cols)
 		{
 			printf("% d", data.map[i][j++]);
 		}

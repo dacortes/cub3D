@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:57:58 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/29 14:58:21 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/02 17:33:20 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	get_column(t_map *data, t_aux *chk)
 		current++;
 		chk->iter++;
 	}
-	if (data->col < current)
-		data->col = current;
+	if (data->cols < current)
+		data->cols = current;
 	return (EXIT_SUCCESS);
 }
 
@@ -38,7 +38,7 @@ int	get_dimensions(t_map *data, t_aux *chk, int	*started)
 			exit (msg_error(MAP, -1, "empty line"));
 		*started = 1;
 		get_column(data, chk);
-		data->row++;
+		data->rows++;
 	}
 	else if (*chk->line && (empty_line(chk) || !is_line_map(chk))
 		&& *started)

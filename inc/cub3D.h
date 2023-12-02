@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/02 17:27:41 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/02 17:37:24 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,16 +116,17 @@ typedef struct s_player
 
 typedef struct s_map
 {
-	int		row;
-	int		col;
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
-	char	**map;
-	t_color	floor;
-	t_color	ceiling;
-	int		squares_size;
+	int			rows;
+	int			cols;
+	char		*no;
+	char		*so;
+	char		*we;
+	char		*ea;
+	char		**map;
+	t_color		floor;
+	t_color		ceiling;
+	t_player	player;
+	int			squares_size;
 }	t_map;
 
 typedef struct s_minimap
@@ -143,6 +144,10 @@ typedef struct s_minimap
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
+
+/******************************************************************************/
+/* parsing                                                                    */
+/******************************************************************************/
 /* src/parsing/check_access.c */
 int	parse_text(char *path);
 int	check_access(t_map *data);

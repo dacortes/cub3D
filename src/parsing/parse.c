@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 08:40:57 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/02 12:10:29 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/02 17:33:20 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,20 @@ int	parse_data(t_aux *chk, int fd, t_map *data)
 
 int	check_map(t_map *data, int x, int y)
 {
-	while (++y < data->row)
+	while (++y < data->rows)
 	{
 		x = -1;
-		while (++x < data->col)
+		while (++x < data->cols)
 		{
 			if (x > 0 && ((data->map[y][x] == 2 && data->map[y][x - 1]
-				&& data->map[y][x - 1] == -1) || (x < data->col - 1
+				&& data->map[y][x - 1] == -1) || (x < data->cols - 1
 				&& (data->map[y][x] == 2 && data->map[y][x + 1]
 				&& data->map[y][x + 1] == -1)) || data->map[y][0] == 2))
 				exit (msg_error(MAP, -1, "Player out of place"));
-			if ((x > 0 && x < data->col && !data->map[y][x]
+			if ((x > 0 && x < data->cols && !data->map[y][x]
 				&& ((data->map[y][x + 1] && data->map[y][x + 1] == -1)
 				|| (data->map[y][x - 1] && data->map[y][x - 1] == -1)))
-				|| (y > 0 && y < data->col && !data->map[y][x]
+				|| (y > 0 && y < data->cols && !data->map[y][x]
 				&& ((data->map[y + 1][x] && data->map[y + 1][x] == -1)
 				|| (data->map[y - 1][x] && data->map[y - 1][x] == -1))))
 				exit (msg_error(MAP, -1, "unclosed map"));
@@ -67,8 +67,8 @@ int	parse_map(t_aux *chk, char *file, t_map *data)
 	int	fd;
 
 	started = 0;
-	data->col = 0;
-	data->row = 0;
+	data->cols = 0;
+	data->rows = 0;
 	parse_open(file, &fd);
 	ft_bzero(chk, sizeof(t_aux));
 	chk->line = ft_calloc(1, 1);

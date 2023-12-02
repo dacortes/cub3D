@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 12:03:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/29 15:06:09 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/02 17:33:20 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ int	set_line_map(t_map *data, t_aux *chk)
 {
 	if (*chk->line && is_line_map(chk) && !empty_line(chk))
 	{
-		data->map[chk->iter] = malloc(data->col * sizeof(char));
+		data->map[chk->iter] = malloc(data->cols * sizeof(char));
 		if (!data->map)
 			exit (msg_error(MEM, -1, NULL));
-		ft_memset(data->map[chk->iter], -1, data->col);
+		ft_memset(data->map[chk->iter], -1, data->cols);
 		set_chr_map(data, chk);
 		chk->iter++;
 	}
@@ -69,7 +69,7 @@ int	get_map(t_aux *chk, char *file, t_map *data)
 	fd = -1;
 	parse_open(file, &fd);
 	ft_bzero(chk, sizeof(t_aux));
-	data->map = ft_calloc(data->row, sizeof(char *));
+	data->map = ft_calloc(data->rows, sizeof(char *));
 	if (!data->map)
 		exit (msg_error(MEM, -1, NULL));
 	chk->line = ft_calloc(1, 1);
