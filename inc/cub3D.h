@@ -6,24 +6,12 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/29 16:34:58 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/30 20:14:51 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-
-typedef struct	s_img {
-	void	*img;
-	void	*mlx_ptr;
-	void	*win_ptr;
-	char	*addr;
-	int		bits_pxl;
-	int		line_len;
-	int		endian;
-	int		width;  //maybe not needed
-	int		height;  //maybe not needed
-}				t_img;
 
 /******************************************************************************/
 /*                            INCLUDES                                        */
@@ -163,5 +151,10 @@ void	fdf_put_pixel(void *img_ptr, unsigned int x, unsigned int y, int color);
 
 /* main */
 
+/******************************************************************************/
+/*                            DEFINITIONS                                     */
+/******************************************************************************/
+
+#endif
 void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
 #endif
