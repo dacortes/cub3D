@@ -36,9 +36,9 @@ int run_game(t_map *map)
 	if (get_square_on_position(map, player->position) != 0)
 		player->position = initial_position;
 	draw_minimap(minimap);
+	render(map);
 	mlx_put_image_to_window(minimap->img.mlx_ptr, minimap->img.win_ptr,
 			minimap->img.img, 0, 0);
-	render(map);
 	return (1);
 }
 
@@ -55,20 +55,22 @@ void render(t_map *map)
 	cam_0 = fdf_set_f_point(map->player.position.x + map->player.dir_vect.x, map->player.position.y + map->player.dir_vect.y, 0, 0);
 	while (cam_i < cam_end)
 	{
-		ray_v.x = cam_0.x + (map->player.cam_vect.x * cam_i / SCREEN_WIDTH); // En caso de funcionar castear a float :)
-		ray_v.y = cam_0.y + (map->player.cam_vect.y * cam_i / SCREEN_WIDTH); // En caso de funcionar castear a float :)
+		ray_v.x = cam_0.x + ((float)map->player.cam_vect.x * (float)cam_i / (float)SCREEN_WIDTH); // En caso de funcionar castear a float :)
+		ray_v.y = cam_0.y + ((float)map->player.cam_vect.y * (float)cam_i / (float)SCREEN_WIDTH); // En caso de funcionar castear a float :)
 
-		if (cam_i % 10 == 0)
+		if (cam_i % 20 == 0)
 		{
-			printf("sdaaaaaaf\n");
+			printf("sdaaaaaaf %d / %d = %f\n", cam_i, SCREEN_WIDTH, (float) cam_i / SCREEN_WIDTH);
 			fdf_print_f_point("ray_v: ", ray_v, "\n");
 			fdf_print_f_point("player_position: ", map->player.position, "\n");
-			fdf_print_f_point("cam_vect: ", cam_vect, "\n");
 			fdf_print_f_point("player_direction: ", map->player.dir_vect, "\n");
 			fdf_print_f_point("cam_0: ", cam_0, "\n");
+			fdf_print_f_point("cam_vect: ", map->player.cam_vect, "\n");
 			
 			t_point ray_start_img = fdf_set_point(map->player.position.x * map->minimap->squares_size, map->player.position.y * map->minimap->squares_size, 0, 0);
 			t_point ray_end_img = fdf_set_point(ray_v.x * map->minimap->squares_size, ray_v.y * map->minimap->squares_size, 0, 0);
+			fdf_print_point("ray_start_img: ", ray_start_img, "\n");
+			fdf_print_point("ray_end_img: ", ray_end_img, "\n");
 			fdf_draw_line(&map->minimap->img, ray_start_img, ray_end_img, fdf_mk_color(0,0,0,0));
 		}
 
