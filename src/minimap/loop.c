@@ -1,12 +1,13 @@
 
 #include "../inc/cub3D.h"
 
+void render(t_map *map);
+
 int run_game(t_map *map)
 {
 	t_minimap	*minimap;
 	t_player	*player;
-	t_f_point	initial_position;
-
+	t_f_point	initial_position; 
 	player = &map->player;
 	minimap = map->minimap;
 	initial_position = player->position;
@@ -14,7 +15,6 @@ int run_game(t_map *map)
 	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
 	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad, map->player.dir_vect_len);
 	map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633), map->player.cam_vect_len); 
-	fdf_print_f_pnt(map->player.cam_vect); printf(" .... %f\n", map->player.cam_vect_len);
 	if (player->movement.y != 0 && player->movement.x != 0)
 	{
 		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.y) /2;
@@ -38,7 +38,42 @@ int run_game(t_map *map)
 	draw_minimap(minimap);
 	mlx_put_image_to_window(minimap->img.mlx_ptr, minimap->img.win_ptr,
 			minimap->img.img, 0, 0);
+	render(map);
 	return (1);
+}
+
+void render(t_map *map)
+{
+	int 		cam_i;
+	int			cam_end;
+//	t_ray		rayy;
+	t_f_point	ray_v;
+	t_f_point	cam_0;
+
+	cam_end = SCREEN_WIDTH / 2;
+	cam_i = 0 - cam_end;
+	cam_0 = fdf_set_f_point(map->player.position.x + map->player.dir_vect.x, map->player.position.y + map->player.dir_vect.y, 0, 0);
+	while (cam_i < cam_end)
+	{
+		ray_v.x = cam_0.x + (map->player.cam_vect.x * cam_i / SCREEN_WIDTH); // En caso de funcionar castear a float :)
+		ray_v.y = cam_0.y + (map->player.cam_vect.y * cam_i / SCREEN_WIDTH); // En caso de funcionar castear a float :)
+
+		if (cam_i % 10 == 0)
+		{
+			printf("sdaaaaaaf\n");
+			fdf_print_f_point("ray_v: ", ray_v, "\n");
+			fdf_print_f_point("player_position: ", map->player.position, "\n");
+			fdf_print_f_point("cam_vect: ", cam_vect, "\n");
+			fdf_print_f_point("player_direction: ", map->player.dir_vect, "\n");
+			fdf_print_f_point("cam_0: ", cam_0, "\n");
+			
+			t_point ray_start_img = fdf_set_point(map->player.position.x * map->minimap->squares_size, map->player.position.y * map->minimap->squares_size, 0, 0);
+			t_point ray_end_img = fdf_set_point(ray_v.x * map->minimap->squares_size, ray_v.y * map->minimap->squares_size, 0, 0);
+			fdf_draw_line(&map->minimap->img, ray_start_img, ray_end_img, fdf_mk_color(0,0,0,0));
+		}
+
+		cam_i++;
+	}
 }
 
 int	fdf_key_press_hook(int key, t_point *movement)

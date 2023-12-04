@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/04 12:41:22 by jrenau-v         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:43:53 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,11 @@ typedef struct s_minimap
 	t_img			img;
 }	t_minimap;
 
+typedef struct s_ray{
+	t_f_point 	vect;
+	float		dist;
+} t_ray;
+
 /******************************************************************************/
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
@@ -188,9 +193,10 @@ void draw_minimap(t_minimap *minimap);
 
 /* points.c */
 int			fdf_mk_color(int transparency, int red, int green, int blue);
-void		fdf_print_pnt(t_point p);
-void		fdf_print_f_pnt(t_f_point p);
+void		fdf_print_point(char *start, t_point p, char *end);
+void		fdf_print_f_point(char *start, t_f_point p, char *end);
 t_point		fdf_set_point(int x, int y, int z, int color);
+t_f_point	fdf_set_f_point(float x, float y, float z, int color);
 void		fdf_put_pixel(void *img_ptr, unsigned int x, unsigned int y, int color);
 void		fdf_draw_line(t_img *img, t_point p1, t_point p2, int clr);
 
@@ -211,12 +217,6 @@ void		draw_player(t_minimap *minimap);
 /* src/utils.c */
 int			get_square_on_position(t_map *map, t_f_point position);
 t_f_point	from_rad_to_vect(float radians, float len);
-
-/* points.c */
-int		fdf_mk_color(int transparency, int red, int green, int blue);
-void	fdf_print_pnt(t_point p);
-t_point	fdf_set_point(int x, int y, int z, int color);
-void	fdf_put_pixel(void *img_ptr, unsigned int x, unsigned int y, int color);
 
 /* main */
 

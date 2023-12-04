@@ -24,14 +24,22 @@ int	fdf_mk_color(int transparency, int red, int green, int blue)
 	return (color);
 }
 
-void	fdf_print_pnt(t_point p)
+void	fdf_print_point(char *start, t_point p, char *end)
 {
+	if (start)
+		printf("%s", start);
 	printf("(%d, %d, %d)", p.x, p.y, p.z); // FORBIDDEN FUNCTION
+	if (end)
+		printf("%s", end);
 }
 
-void	fdf_print_f_pnt(t_f_point p)
+void	fdf_print_f_point(char *start, t_f_point p, char *end)
 {
+	if (start)
+		printf("%s", start);
 	printf("(%f, %f, %f)", p.x, p.y, p.z); // FORBIDDEN FUNCTION
+	if (end)
+		printf("%s", end);
 }
 
 void	fdf_swap_point(t_point *p1, t_point *p2)
