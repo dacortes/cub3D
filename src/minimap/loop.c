@@ -42,38 +42,29 @@ int run_game(t_map *map)
 	return (1);
 }
 
+void print_half_ray(t_map *map, t_f_point ray_v)
+{
+	t_point ray_start_img = fdf_set_point(map->player.position.x * map->minimap->squares_size, map->player.position.y * map->minimap->squares_size, 0, 0);
+	t_point ray_end_img = fdf_set_point(ray_v.x * map->minimap->squares_size, ray_v.y * map->minimap->squares_size, 0, 0);
+	fdf_draw_line(&map->minimap->img, ray_start_img, ray_end_img, fdf_mk_color(0,0,0,0));
+}
 void render(t_map *map)
 {
 	int 		cam_i;
 	int			cam_end;
-//	t_ray		rayy;
 	t_f_point	ray_v;
 	t_f_point	cam_0;
 
 	cam_end = SCREEN_WIDTH / 2;
 	cam_i = 0 - cam_end;
-	cam_0 = fdf_set_f_point(map->player.position.x + map->player.dir_vect.x, map->player.position.y + map->player.dir_vect.y, 0, 0);
+	cam_0 = fdf_set_f_point(map->player.position.x + map->player.dir_vect.x,
+		map->player.position.y + map->player.dir_vect.y, 0, 0);
 	while (cam_i < cam_end)
 	{
-		ray_v.x = cam_0.x + ((float)map->player.cam_vect.x * (float)cam_i / (float)SCREEN_WIDTH); // En caso de funcionar castear a float :)
-		ray_v.y = cam_0.y + ((float)map->player.cam_vect.y * (float)cam_i / (float)SCREEN_WIDTH); // En caso de funcionar castear a float :)
-
+		ray_v.x = cam_0.x + (map->player.cam_vect.x * cam_i / SCREEN_WIDTH);
+		ray_v.y = cam_0.y + (map->player.cam_vect.y * cam_i / SCREEN_WIDTH);
 		if (cam_i % 20 == 0)
-		{
-			printf("sdaaaaaaf %d / %d = %f\n", cam_i, SCREEN_WIDTH, (float) cam_i / SCREEN_WIDTH);
-			fdf_print_f_point("ray_v: ", ray_v, "\n");
-			fdf_print_f_point("player_position: ", map->player.position, "\n");
-			fdf_print_f_point("player_direction: ", map->player.dir_vect, "\n");
-			fdf_print_f_point("cam_0: ", cam_0, "\n");
-			fdf_print_f_point("cam_vect: ", map->player.cam_vect, "\n");
-			
-			t_point ray_start_img = fdf_set_point(map->player.position.x * map->minimap->squares_size, map->player.position.y * map->minimap->squares_size, 0, 0);
-			t_point ray_end_img = fdf_set_point(ray_v.x * map->minimap->squares_size, ray_v.y * map->minimap->squares_size, 0, 0);
-			fdf_print_point("ray_start_img: ", ray_start_img, "\n");
-			fdf_print_point("ray_end_img: ", ray_end_img, "\n");
-			fdf_draw_line(&map->minimap->img, ray_start_img, ray_end_img, fdf_mk_color(0,0,0,0));
-		}
-
+			print_half_ray(map, ray_v);
 		cam_i++;
 	}
 }
