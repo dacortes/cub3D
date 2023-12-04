@@ -97,8 +97,6 @@ void	fdf_draw_line(t_img *img, t_point p1, t_point p2, int clr)
 	d = (float)(p2.y - p1.y) / (float)(p2.x - p1.x);
 	while (cur_p.x <= p2.x)
 	{
-//		fdf_print_pnt(cur_p);
-//		fdf_print_pnt(lst_p);
 		my_mlx_pixel_put(img, cur_p.x, cur_p.y, clr);
 		if (lst_p.y != cur_p.y
 			&& (lst_p.y + 1 != cur_p.y && lst_p.y != cur_p.y + 1))

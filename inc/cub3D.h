@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/02 17:52:56 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/04 12:41:22 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 # define TRUE   1
 # define FALSE  0
 # define ERROR -1
+
 /******************************************************************************/
 /*                            COLORS                                          */
 /******************************************************************************/
@@ -65,6 +66,7 @@
 /******************************************************************************/
 /*                            STRUCTURES                                      */
 /******************************************************************************/
+
 struct s_minimap;
 typedef struct s_minimap t_minimap;
 
@@ -110,6 +112,8 @@ typedef struct s_player
 	float			dir_rad;
 	t_f_point		dir_vect;
 	float			dir_vect_len;
+	t_f_point		cam_vect;
+	float			cam_vect_len;
 	t_f_point		camera;
 	t_point			movement;
 } t_player;

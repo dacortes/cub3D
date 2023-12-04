@@ -55,8 +55,9 @@ void draw_minimap_tiles(t_minimap *minimap)
 
 void	draw_player(t_minimap *minimap)
 {
-	t_point		position;
-	t_point		direction_end;
+	t_point			position;
+	t_point			direction_end;
+	t_point		camera_end;
 	t_player		player;
 
 	player = minimap->map->player;
@@ -68,15 +69,23 @@ void	draw_player(t_minimap *minimap)
 	direction_end.x += player.dir_vect.x * minimap->squares_size;
 	direction_end.y += player.dir_vect.y * minimap->squares_size;
 	fdf_draw_line(&minimap->img, position, direction_end, position.color);
+	camera_end.x = (float)direction_end.x + player.cam_vect.x *  minimap->squares_size;
+	camera_end.y = (float)direction_end.y + player.cam_vect.y *  minimap->squares_size;
+	printf("drecction x: %d, y: %d, d: %f\n", direction_end.x, direction_end.y, (float)direction_end.x / direction_end.y);
+	printf("cam_vect x: %f, y: %f, d: %f\n", player.cam_vect.x, player.cam_vect.y, (float)player.cam_vect.x / player.cam_vect.y);
+
+	//fdf_print_pnt(camera_end); printf(" : : : : : : : : : : " );
+	//fdf_print_f_pnt(player.cam_vect); printf("\n" );
+	camera_end.color = fdf_mk_color(0, 255, 0, 0);
+	fdf_draw_line(&minimap->img, direction_end, camera_end, camera_end.color);
+	camera_end.x = (float)direction_end.x - player.cam_vect.x *  minimap->squares_size;
+	camera_end.y = (float)direction_end.y - player.cam_vect.y *  minimap->squares_size;
+	fdf_draw_line(&minimap->img, direction_end, camera_end, camera_end.color);
 	position.x -= PLAYER_WIDTH / 2;
 	position.y -= PLAYER_HEIGHT / 2;
 
 	minimap_draw_square(minimap, position, fdf_set_point(PLAYER_WIDTH, PLAYER_HEIGHT, 0, 0),
 			fdf_mk_color(0, 255 , 255 , 255));
-
-	//fdf_print_pnt(position);
-	//fdf_print_pnt(direction_end);
-	//printf("DRAWING LINE\n");
 }
 
 void draw_minimap(t_minimap *minimap)

@@ -8,9 +8,7 @@ int get_square_on_position(t_map *map, t_f_point position)
 
 	row = position.y / map->squares_size;
 	col = position.x / map->squares_size;
-	fdf_print_f_pnt(position);
 	result = map->map[row][col];
-	printf(" %d, %d, %d\n", row, col, result);
 
 	return (result);
 
@@ -20,6 +18,7 @@ t_f_point	from_rad_to_vect(float radians, float len)
 {
 	t_f_point rotated;
 
+	printf("radians %f, len %f\n", radians, len);
 	rotated.x = len * cos(radians); //x * cos(radians) - y * sin(radians);
 	rotated.y = len * sin(radians); //x * sin(radians) + y * cos(radians);
 

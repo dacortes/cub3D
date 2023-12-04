@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/02 17:47:48 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/04 13:26:51 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ int	main(void)
 	map.player.dir_rad = 0;
 	map.player.dir_vect_len = 0.5;
 	map.player.dir_vect = from_rad_to_vect(map.player.dir_rad, map.player.dir_vect_len); // this should go inside minimap
+	map.player.cam_vect_len = 0.333;
 	map.minimap = &minimap;
 	fdf_print_f_pnt(map.player.dir_vect);
-	printf("  this was the dir_vector \n");
 //	map.player.direction.x = -2;
 //	map.player.direction.y = 1;
 	minimap.rows = map.rows - 0;

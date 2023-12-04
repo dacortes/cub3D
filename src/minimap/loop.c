@@ -12,7 +12,9 @@ int run_game(t_map *map)
 	initial_position = player->position;
 	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
 	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
-	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad, map->player.dir_vect_len); // this should go inside minimap
+	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad, map->player.dir_vect_len);
+	map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633), map->player.cam_vect_len); 
+	fdf_print_f_pnt(map->player.cam_vect); printf(" .... %f\n", map->player.cam_vect_len);
 	if (player->movement.y != 0 && player->movement.x != 0)
 	{
 		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.y) /2;
@@ -53,8 +55,6 @@ int	fdf_key_press_hook(int key, t_point *movement)
 		movement->z = 1;
 	if (key == KEY_LEFT && !movement->z)
 		movement->z = -1;
-	fdf_print_pnt(*movement);
-	printf("The pressed key was: %d\n", key);
 	return (1);	
 }
 
@@ -72,7 +72,5 @@ int	fdf_key_release_hook(int key, t_point *movement)
 		movement->z= 0;
 	if (key == KEY_LEFT && movement->z == -1)
 		movement->z = 0;
-	fdf_print_pnt(*movement);
-	printf("The released key was: %d\n", key);
 	return (1);	
 }
