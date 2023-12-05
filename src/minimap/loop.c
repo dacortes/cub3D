@@ -14,7 +14,7 @@ int run_game(t_map *map)
 	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
 	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
 	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad, map->player.dir_vect_len);
-	map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633), map->player.cam_vect_len); 
+	map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633), map->player.cam_vect_len);
 	if (player->movement.y != 0 && player->movement.x != 0)
 	{
 		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.y) /2;
@@ -32,7 +32,6 @@ int run_game(t_map *map)
 		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.x ;
 		player->position.y += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.x ;
 	}
-
 	if (get_square_on_position(map, player->position) != 0)
 		player->position = initial_position;
 	draw_minimap(minimap);

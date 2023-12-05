@@ -61,7 +61,7 @@ void	draw_player(t_minimap *minimap)
 	t_player			player;
 
 	player = minimap->map->player;
-	position = fdf_set_point(player.position.x, player.position.y, 0, 0);
+	//position = fdf_set_point(player.position.x, player.position.y, 0, 0);
 	position.x = (player.position.x + minimap->offsets.x) * minimap->squares_size;
 	position.y = (player.position.y + minimap->offsets.y) * minimap->squares_size;
 	position.color = fdf_mk_color(0, 255, 255, 0);	
@@ -72,9 +72,9 @@ void	draw_player(t_minimap *minimap)
 
 	camera_end.x = (float)direction_end.x + player.cam_vect.x * minimap->squares_size;
 	camera_end.y = (float)direction_end.y + player.cam_vect.y * minimap->squares_size;
-
 	camera_end.color = fdf_mk_color(0, 255, 0, 0);
 	fdf_draw_line(&minimap->img, direction_end, camera_end, camera_end.color);
+
 	camera_end.x = (float)direction_end.x - player.cam_vect.x *  minimap->squares_size;
 	camera_end.y = (float)direction_end.y - player.cam_vect.y *  minimap->squares_size;
 	fdf_draw_line(&minimap->img, direction_end, camera_end, camera_end.color);

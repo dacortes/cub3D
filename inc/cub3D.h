@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/04 18:43:53 by jrenau-v         ###   ########.fr       */
+/*   Updated: 2023/12/05 09:45:28 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@
 # define TRUE   1
 # define FALSE  0
 # define ERROR -1
+
+# define NORTH	4.71
+# define EAST	0
+# define SOUTH	1.57
+# define WEST	3.14
 
 /******************************************************************************/
 /*                            COLORS                                          */
