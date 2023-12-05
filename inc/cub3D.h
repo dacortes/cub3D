@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/05 09:45:28 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:42:58 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,15 @@ typedef struct s_f_point
 	int				color;
 }	t_f_point;
 
+typedef struct s_ray{
+	t_f_point	vect;
+	t_f_point	deltas;
+	t_f_point	distances;
+	t_point		position;
+	t_point		directions;
+	int			side;
+} t_ray;
+
 typedef struct s_player
 {
 	t_f_point		position;
@@ -149,11 +158,6 @@ typedef struct s_minimap
 	t_point			offsets;
 	t_img			img;
 }	t_minimap;
-
-typedef struct s_ray{
-	t_f_point 	vect;
-	float		dist;
-} t_ray;
 
 /******************************************************************************/
 /*                            FUNCTIONS                                       */

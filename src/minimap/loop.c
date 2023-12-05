@@ -47,11 +47,110 @@ void print_half_ray(t_map *map, t_f_point ray_v)
 	t_point ray_end_img = fdf_set_point(ray_v.x * map->minimap->squares_size, ray_v.y * map->minimap->squares_size, 0, 0);
 	fdf_draw_line(&map->minimap->img, ray_start_img, ray_end_img, fdf_mk_color(0,0,0,0));
 }
+
+void set_coliding_variables(t_f_point player_pos, t_ray *ray)
+{
+	ray->deltas = fdf_set_f_point(1.0 / ray->vect.x, 1.0 / ray->vect.y, 0, 0);
+	ray->position = fdf_set_point(player_pos.x, player_pos.y, 0, 0);
+	if (ray->vect.x < 0)
+	{
+		ray->distances.x = (player_pos.x - (int) player_pos.x ) * ray->deltas.x; 	
+		ray->directions.x = -1;
+	}	
+	else
+	{
+		ray->distances.x = ( (float) (1 + player_pos.x) - player_pos.x ) * ray->deltas.x; 	
+		ray->directions.x = 1;
+	}
+	if (ray->vect.y < 0)
+	{
+		ray->distances.y = (player_pos.y - (int) player_pos.y ) * ray->deltas.y; 	
+		ray->directions.y = -1;
+	}	
+	else
+	{
+		ray->distances.y = ( (float) (1 + player_pos.y) - player_pos.y ) * ray->deltas.y;
+		ray->directions.y = 1;
+	}
+}
+
+
+void	joan(t_map *map, t_ray *ray)
+{
+	float	diferential;
+	float	constant;
+	float	x, y;
+	t_point		starts, ends;
+
+	if (!ray->side) //get y from x
+	{
+		diferential = ray->vect.y / ray->vect.x;
+		constant = map->player.position.y - map->player.position.x * diferential; 
+		x = ray->vect.x + map->player.position.x;	
+		y = x * diferential + constant;
+	}
+	else  //get x from y
+	{
+		diferential = ray->vect.x / ray->vect.y;
+		constant = map->player.position.x - map->player.position.y * diferential; 
+		y = ray->vect.y + map->player.position.y;	
+		x = y * diferential + constant;
+	}
+
+	starts.x = map->player.position.x * map->minimap->squares_size;
+	starts.y = map->player.position.y * map->minimap->squares_size;
+	ends.x = x * map->minimap->squares_size;
+	ends.y = y * map->minimap->squares_size;
+
+	fdf_draw_line(&map->minimap->img, starts, ends, fdf_mk_color(125, 255, 255, 255));	
+
+}
+
+void	colide_ray(t_map *map, t_ray *ray)
+{
+	int colided;
+
+	colided = 0;
+	set_coliding_variables(map->player.position, ray);
+	if (ray->vect.x == 0 || ray->vect.y == 0)
+		return ;
+	while (!colided)
+	{
+		if (ray->distances.x < ray->distances.y)
+		{
+//			ft_printf("sdaf\n");
+//			printf("   directions%d\n", ray->directions.x);
+//			printf("   ray+_x=%d\n", ray->position.x);
+			ray->position.x += ray->directions.x;
+			ray->distances.x += ray->deltas.x;
+			ray->side = 0;
+//			printf("   ray+_x=%d\n", ray->position.x);
+//			printf("   directions=%d\n", ray->directions.x);
+		}
+		else
+		{
+//			ft_printf("fasd\n");
+			ray->position.y += ray->directions.y;
+			ray->distances.y += ray->deltas.y;
+			ray->side = 1;
+		}
+		fdf_print_point("Ray position: ", ray->position, "\n");
+		printf("ray+_x=%d\n", ray->position.x);
+		printf("ray+_y=%d\n", ray->position.y);
+//		printf("deltas_x=%f\n", ray->deltas.x);
+//		printf("deltas_y=%f\n", ray->deltas.y);
+//		printf("direction_x=%d\n", ray->directions.x);
+//		printf("direction_y=%d\n", ray->directions.y);
+		colided = (map->map[ray->position.y][ray->position.x] != 0);
+		joan(map, ray);
+	}
+}
+
 void render(t_map *map)
 {
 	int 		cam_i;
 	int			cam_end;
-	t_f_point	ray_v;
+	t_ray		ray;
 	t_f_point	cam_0;
 
 	cam_end = SCREEN_WIDTH / 2;
@@ -60,10 +159,11 @@ void render(t_map *map)
 		map->player.position.y + map->player.dir_vect.y, 0, 0);
 	while (cam_i < cam_end)
 	{
-		ray_v.x = cam_0.x + (map->player.cam_vect.x * cam_i / SCREEN_WIDTH);
-		ray_v.y = cam_0.y + (map->player.cam_vect.y * cam_i / SCREEN_WIDTH);
+		ray.vect.x = cam_0.x + (map->player.cam_vect.x * cam_i / SCREEN_WIDTH);
+		ray.vect.y = cam_0.y + (map->player.cam_vect.y * cam_i / SCREEN_WIDTH);
 		if (cam_i % 20 == 0)
-			print_half_ray(map, ray_v);
+			print_half_ray(map, ray.vect);
+		colide_ray(map, &ray);
 		cam_i++;
 	}
 }
