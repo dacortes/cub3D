@@ -2,7 +2,11 @@
 #define PLAYER_WIDTH 5
 #define PLAYER_HEIGHT 5
 #define SQUARES_SIZE 200
-
+#define MAP_SQUARES_SIZE 1
+#define MOVEMENT_DELTA	0.05
+#define ROTATION_DELTA	0.01
+# define SCREEN_WIDTH 1080
+# define SCREEN_HEIGHT 1920
 #include <math.h>
 
 typedef struct	s_img {
@@ -82,15 +86,13 @@ typedef struct	s_img {
 // }	t_minimap		;
 
 
-/* events stuff */
+/* KEY MAPPING */
 #define KEY_W			13
 #define KEY_A			0
 #define KEY_S			1
 #define KEY_D			2
 #define KEY_LEFT		123
 #define KEY_RIGHT		124
-#define MOVEMENT_DELTA	10
-#define ROTATION_DELTA	0.01
 
 /* minimap */
 // void draw_minimap(t_minimap *minimap);

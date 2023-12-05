@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 10:31:31 by codespace         #+#    #+#              #
-#    Updated: 2023/12/02 17:56:29 by dacortes         ###   ########.fr        #
+#    Updated: 2023/12/05 10:37:32 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CC = gcc
 RM = rm -rf
 LIBC = ar -rcs
 OS := $(shell uname -s)
-FLAGS = -Wall -Wextra -Werror -O3 -g #-fsanitize=address
+FLAGS = -Wall -Wextra -Werror -O3 -g -fsanitize=address
 
 ################################################################################
 #  Bar                                                                         #

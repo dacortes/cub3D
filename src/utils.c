@@ -18,7 +18,6 @@ t_f_point	from_rad_to_vect(float radians, float len)
 {
 	t_f_point rotated;
 
-	printf("radians %f, len %f\n", radians, len);
 	rotated.x = len * cos(radians); //x * cos(radians) - y * sin(radians);
 	rotated.y = len * sin(radians); //x * sin(radians) + y * cos(radians);
 

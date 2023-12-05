@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 12:03:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/02 17:33:20 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/05 10:15:15 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,19 @@ int	put_content(t_map *data, t_aux *chk, int *col, int i)
 	else if (chk->line[i] == '0')
 		data->map[chk->iter][(*col)++] = 0;
 	else if (is_player(chk->line[i]))
-		data->map[chk->iter][(*col)++] = 2;
+	{
+		if (chk->line[i] == 'N')
+			data->player.dir_rad = NORTH;
+		else if (chk->line[i] == 'E')
+			data->player.dir_rad = EAST;
+		else if (chk->line[i] == 'W')
+			data->player.dir_rad = WEST;
+		else if (chk->line[i] == 'S')
+			data->player.dir_rad = SOUTH;
+		data->player.position.x = (*col + 0.5) * MAP_SQUARES_SIZE;
+		data->player.position.y = (chk->iter + 0.5) * MAP_SQUARES_SIZE;
+		data->map[chk->iter][(*col)++] = 0;
+	}
 	return (EXIT_SUCCESS);
 }
 
