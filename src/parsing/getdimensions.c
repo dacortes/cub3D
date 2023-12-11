@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:57:58 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/02 17:33:20 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/11 12:32:26 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	get_column(t_map *data, t_aux *chk)
 		chk->iter++;
 	}
 	if (data->cols < current)
-		data->cols = current;
+		data->cols = (current - 1);
 	return (EXIT_SUCCESS);
 }
 

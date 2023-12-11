@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/05 10:38:27 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/11 12:16:35 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	close_win(t_minimap *minimap)
 	exit (0);
 }
 
+
 int	main(int ac, char **av)
 {
 	t_img		img;
@@ -95,24 +96,16 @@ int	main(int ac, char **av)
 	init_parse(&map, ac, av);
 	img.mlx_ptr = mlx_init();
 	img.win_ptr = mlx_new_window(img.mlx_ptr, 1920, 1080, "Hello world!");
-	img.img = mlx_new_image(img.mlx_ptr, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_pxl, &img.line_len,
-								&img.endian);
-	my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
-	mlx_put_image_to_window(img.mlx_ptr, img.win_ptr, img.img, 0, 0);
 	map.squares_size = MAP_SQUARES_SIZE;
 	map.player.movement = fdf_set_point(0, 0, 0, 0);
 	map.player.dir_vect_len = 0.5;
 	map.player.dir_vect = from_rad_to_vect(map.player.dir_rad, map.player.dir_vect_len); // this should go inside minimap
 	map.player.cam_vect_len = 0.333;
 	map.minimap = &minimap;
-	fdf_print_f_point(NULL,map.player.dir_vect, NULL);
 	minimap.rows = map.rows - 0;
 	minimap.cols = map.cols - 0;
 	minimap.offsets = fdf_set_point(0,0,0,0); // Caution the offsets must be lower or equal than map.[rows|cols] - minimap.[rows|cols]
 	minimap.squares_size = SQUARES_SIZE;
-	minimap.map = &map;
-	fdf_print_point(NULL, minimap.offsets, NULL);
 	minimap.map = &map;
 	minimap.img.mlx_ptr = img.mlx_ptr;
 	minimap.img.win_ptr = img.win_ptr;

@@ -8,6 +8,7 @@ int run_game(t_map *map)
 	t_minimap	*minimap;
 	t_player	*player;
 	t_f_point	initial_position; 
+
 	player = &map->player;
 	minimap = map->minimap;
 	initial_position = player->position;
@@ -50,26 +51,26 @@ void print_half_ray(t_map *map, t_f_point ray_v)
 
 void set_coliding_variables(t_f_point player_pos, t_ray *ray)
 {
-	ray->deltas = fdf_set_f_point(1.0 / ray->vect.x, 1.0 / ray->vect.y, 0, 0);
+	ray->deltas = fdf_set_f_point(fabs(1.0 / ray->vect.x), fabs(1.0 / ray->vect.y), 0, 0);
 	ray->position = fdf_set_point(player_pos.x, player_pos.y, 0, 0);
 	if (ray->vect.x < 0)
 	{
-		ray->distances.x = (player_pos.x - (int) player_pos.x ) * ray->deltas.x; 	
+		ray->distances.x = (player_pos.x - ray->position.x ) * ray->deltas.x; 	
 		ray->directions.x = -1;
 	}	
 	else
 	{
-		ray->distances.x = ( (float) (1 + player_pos.x) - player_pos.x ) * ray->deltas.x; 	
+		ray->distances.x = ( ((float) (1 + ray->position.x)) - player_pos.x ) * ray->deltas.x; 	
 		ray->directions.x = 1;
 	}
 	if (ray->vect.y < 0)
 	{
-		ray->distances.y = (player_pos.y - (int) player_pos.y ) * ray->deltas.y; 	
+		ray->distances.y = (player_pos.y - ray->position.y ) * ray->deltas.y; 	
 		ray->directions.y = -1;
 	}	
 	else
 	{
-		ray->distances.y = ( (float) (1 + player_pos.y) - player_pos.y ) * ray->deltas.y;
+		ray->distances.y = ( (float) (1 + ray->position.y) - player_pos.y ) * ray->deltas.y;
 		ray->directions.y = 1;
 	}
 }
@@ -84,24 +85,37 @@ void	joan(t_map *map, t_ray *ray)
 
 	if (!ray->side) //get y from x
 	{
+		// printf("sdafffff\n");
 		diferential = ray->vect.y / ray->vect.x;
+		// printf("diferential: %f\n", diferential);
+		if (fabs(diferential) > 50.0)
+			diferential = 50.0 * ((diferential > 0) * 2 - 1);
+
 		constant = map->player.position.y - map->player.position.x * diferential; 
-		x = ray->vect.x + map->player.position.x;	
+		x = ray->position.x + (ray->vect.x < 0); //+ map->player.position.x;
 		y = x * diferential + constant;
 	}
 	else  //get x from y
 	{
+		// printf("ffffasd\n");
 		diferential = ray->vect.x / ray->vect.y;
+		// printf("diferential: %f\n", diferential);
+		if (fabs(diferential) > 50.0)
+			diferential = 50.0 * ((diferential > 0) * 2 - 1);
 		constant = map->player.position.x - map->player.position.y * diferential; 
-		y = ray->vect.y + map->player.position.y;	
+		y = ray->position.y + (ray->vect.y < 0);// + map->player.position.y;	
 		x = y * diferential + constant;
 	}
 
-	starts.x = map->player.position.x * map->minimap->squares_size;
-	starts.y = map->player.position.y * map->minimap->squares_size;
+	//fdf_print_f_point("Player position", map->player.position, "\n");
+	//fdf_print_f_point("Ray vector ", ray->vect, "\n");
+	//fdf_print_point("Ray position ", ray->position, "\n");
+	// printf("diferential: %f, constant: %f\n", diferential, constant);
+	// printf("x: %f, y: %f\n", x, y);
+	starts.x = map->player.position.x * map->minimap->squares_size; // should aply offset
+	starts.y = map->player.position.y * map->minimap->squares_size; // should aply offset
 	ends.x = x * map->minimap->squares_size;
 	ends.y = y * map->minimap->squares_size;
-
 	fdf_draw_line(&map->minimap->img, starts, ends, fdf_mk_color(125, 255, 255, 255));	
 
 }
@@ -113,37 +127,30 @@ void	colide_ray(t_map *map, t_ray *ray)
 	colided = 0;
 	set_coliding_variables(map->player.position, ray);
 	if (ray->vect.x == 0 || ray->vect.y == 0)
-		return ;
+		return ; // Should be handled
+	// fdf_print_f_point("Deltas: ", ray->deltas, "\n");
 	while (!colided)
 	{
 		if (ray->distances.x < ray->distances.y)
 		{
-//			ft_printf("sdaf\n");
-//			printf("   directions%d\n", ray->directions.x);
-//			printf("   ray+_x=%d\n", ray->position.x);
 			ray->position.x += ray->directions.x;
 			ray->distances.x += ray->deltas.x;
 			ray->side = 0;
-//			printf("   ray+_x=%d\n", ray->position.x);
-//			printf("   directions=%d\n", ray->directions.x);
 		}
 		else
 		{
-//			ft_printf("fasd\n");
 			ray->position.y += ray->directions.y;
 			ray->distances.y += ray->deltas.y;
 			ray->side = 1;
 		}
-		fdf_print_point("Ray position: ", ray->position, "\n");
-		printf("ray+_x=%d\n", ray->position.x);
-		printf("ray+_y=%d\n", ray->position.y);
-//		printf("deltas_x=%f\n", ray->deltas.x);
-//		printf("deltas_y=%f\n", ray->deltas.y);
-//		printf("direction_x=%d\n", ray->directions.x);
-//		printf("direction_y=%d\n", ray->directions.y);
 		colided = (map->map[ray->position.y][ray->position.x] != 0);
 		joan(map, ray);
 	}
+	// fdf_print_f_point("Player position: ", map->player.position, "\n");
+	// fdf_print_f_point("Ray cam intersect: ", ray->cam_intersect, "\n");
+	// fdf_print_f_point("Ray vector: ", ray->vect, "\n");
+	// fdf_print_point("Ray position: ", ray->position, "\n");
+	// printf("\n");
 }
 
 void render(t_map *map)
@@ -159,10 +166,14 @@ void render(t_map *map)
 		map->player.position.y + map->player.dir_vect.y, 0, 0);
 	while (cam_i < cam_end)
 	{
-		ray.vect.x = cam_0.x + (map->player.cam_vect.x * cam_i / SCREEN_WIDTH);
-		ray.vect.y = cam_0.y + (map->player.cam_vect.y * cam_i / SCREEN_WIDTH);
-		if (cam_i % 20 == 0)
-			print_half_ray(map, ray.vect);
+		// if (cam_i++ != 0)
+		// 	continue;
+		ray.cam_intersect.x = cam_0.x + (map->player.cam_vect.x * cam_i / cam_end);
+		ray.cam_intersect.y = cam_0.y + (map->player.cam_vect.y * cam_i / cam_end);
+		if (cam_i % 1 == 0)
+			print_half_ray(map, ray.cam_intersect);
+		ray.vect.x = ray.cam_intersect.x - map->player.position.x;
+		ray.vect.y = ray.cam_intersect.y - map->player.position.y;
 		colide_ray(map, &ray);
 		cam_i++;
 	}

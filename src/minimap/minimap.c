@@ -31,13 +31,13 @@ void draw_minimap_tiles(t_minimap *minimap)
 	t_point pixel;
 	int		square_type;
 
-	coord.y = 0;
+	coord.y = 0; // initialize to miniap->offset and avoid using minima-> offset so much
 	while (coord.y < minimap->rows)
 	{
-		coord.x = 0;	
+		coord.x = 0;	 // initialize to miniap->offset and avoid using minima-> offset so much
 		while (coord.x < minimap->cols)
 		{
-			square_type = minimap->map->map[coord.y + minimap->offsets.y][coord.x + minimap->offsets.x] ;
+			square_type = minimap->map->map[coord.y + minimap->offsets.y][coord.x + minimap->offsets.x];
 			if (square_type == 1)
 				pixel.color = fdf_mk_color(0, 0, 125, 60);	
 			else if (square_type == -1)

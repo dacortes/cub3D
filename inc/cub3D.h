@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/05 15:42:58 by jrenau-v         ###   ########.fr       */
+/*   Updated: 2023/12/11 13:09:56 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct s_f_point
 
 typedef struct s_ray{
 	t_f_point	vect;
+	t_f_point	cam_intersect;
 	t_f_point	deltas;
 	t_f_point	distances;
 	t_point		position;
