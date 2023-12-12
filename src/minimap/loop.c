@@ -9,6 +9,7 @@ int run_game(t_map *map)
 	t_player	*player;
 	t_f_point	initial_position; 
 
+	mlx_clear_window(map->minimap->img.mlx_ptr, map->minimap->img.win_ptr);
 	player = &map->player;
 	minimap = map->minimap;
 	initial_position = player->position;
@@ -35,7 +36,7 @@ int run_game(t_map *map)
 	}
 	if (get_square_on_position(map, player->position) != 0)
 		player->position = initial_position;
-	draw_minimap(minimap);
+//	draw_minimap(minimap);
 	render(map);
 	mlx_put_image_to_window(minimap->img.mlx_ptr, minimap->img.win_ptr,
 			minimap->img.img, 0, 0);
@@ -85,9 +86,7 @@ void	joan(t_map *map, t_ray *ray)
 
 	if (!ray->side) //get y from x
 	{
-		// printf("sdafffff\n");
 		diferential = ray->vect.y / ray->vect.x;
-		// printf("diferential: %f\n", diferential);
 		if (fabs(diferential) > 50.0)
 			diferential = 50.0 * ((diferential > 0) * 2 - 1);
 
@@ -97,21 +96,13 @@ void	joan(t_map *map, t_ray *ray)
 	}
 	else  //get x from y
 	{
-		// printf("ffffasd\n");
 		diferential = ray->vect.x / ray->vect.y;
-		// printf("diferential: %f\n", diferential);
 		if (fabs(diferential) > 50.0)
 			diferential = 50.0 * ((diferential > 0) * 2 - 1);
 		constant = map->player.position.x - map->player.position.y * diferential; 
 		y = ray->position.y + (ray->vect.y < 0);// + map->player.position.y;	
 		x = y * diferential + constant;
 	}
-
-	//fdf_print_f_point("Player position", map->player.position, "\n");
-	//fdf_print_f_point("Ray vector ", ray->vect, "\n");
-	//fdf_print_point("Ray position ", ray->position, "\n");
-	// printf("diferential: %f, constant: %f\n", diferential, constant);
-	// printf("x: %f, y: %f\n", x, y);
 	starts.x = map->player.position.x * map->minimap->squares_size; // should aply offset
 	starts.y = map->player.position.y * map->minimap->squares_size; // should aply offset
 	ends.x = x * map->minimap->squares_size;
@@ -128,7 +119,6 @@ void	colide_ray(t_map *map, t_ray *ray)
 	set_coliding_variables(map->player.position, ray);
 	if (ray->vect.x == 0 || ray->vect.y == 0)
 		return ; // Should be handled
-	// fdf_print_f_point("Deltas: ", ray->deltas, "\n");
 	while (!colided)
 	{
 		if (ray->distances.x < ray->distances.y)
@@ -146,11 +136,6 @@ void	colide_ray(t_map *map, t_ray *ray)
 		colided = (map->map[ray->position.y][ray->position.x] != 0);
 		joan(map, ray);
 	}
-	// fdf_print_f_point("Player position: ", map->player.position, "\n");
-	// fdf_print_f_point("Ray cam intersect: ", ray->cam_intersect, "\n");
-	// fdf_print_f_point("Ray vector: ", ray->vect, "\n");
-	// fdf_print_point("Ray position: ", ray->position, "\n");
-	// printf("\n");
 }
 
 void render(t_map *map)
@@ -162,12 +147,11 @@ void render(t_map *map)
 
 	cam_end = SCREEN_WIDTH / 2;
 	cam_i = 0 - cam_end;
+	ray.i = 100;
 	cam_0 = fdf_set_f_point(map->player.position.x + map->player.dir_vect.x,
 		map->player.position.y + map->player.dir_vect.y, 0, 0);
 	while (cam_i < cam_end)
 	{
-		// if (cam_i++ != 0)
-		// 	continue;
 		ray.cam_intersect.x = cam_0.x + (map->player.cam_vect.x * cam_i / cam_end);
 		ray.cam_intersect.y = cam_0.y + (map->player.cam_vect.y * cam_i / cam_end);
 		if (cam_i % 1 == 0)
@@ -175,7 +159,9 @@ void render(t_map *map)
 		ray.vect.x = ray.cam_intersect.x - map->player.position.x;
 		ray.vect.y = ray.cam_intersect.y - map->player.position.y;
 		colide_ray(map, &ray);
+		cub3d(map, &ray);
 		cam_i++;
+		ray.i++;
 	}
 }
 
@@ -211,4 +197,45 @@ int	fdf_key_release_hook(int key, t_point *movement)
 	if (key == KEY_LEFT && movement->z == -1)
 		movement->z = 0;
 	return (1);	
+}
+
+
+void	cub3d(t_map *map, t_ray *ray)
+{
+	float	perpWallDist;
+	int		lineHeight;
+	int		drawstart;
+	int		drawend;
+
+	(void)map;
+	if (!ray->side)
+		perpWallDist = (ray->distances.x - ray->deltas.x);
+	else
+		perpWallDist = (ray->distances.y - ray->deltas.y);
+	lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
+	drawstart = (-lineHeight / 2 + SCREEN_HEIGHT / 2); //* (drawstart < 0);
+	if (drawstart < 0)
+		drawstart = 0;
+	drawend = lineHeight / 2 + SCREEN_HEIGHT / 2;
+	if (drawend >= SCREEN_HEIGHT)
+		drawend = SCREEN_HEIGHT - 1;	
+	// printf("lineHeight= %i\n", lineHeight);
+	// printf("perpWallDist= %f\n", perpWallDist);
+	int	y = 1;
+	while (y < (drawstart - 1))
+		my_mlx_pixel_put(&map->minimap->img, ray->i, y++, fdf_mk_color(125,map->ceiling.red, map->ceiling.green, map->ceiling.blue));
+	while (y < (drawend - 1))
+	{
+		my_mlx_pixel_put(&map->minimap->img, ray->i, y++, fdf_mk_color(125, 255, 0, 0));	
+	}
+	while (y < (SCREEN_HEIGHT - 1))
+		my_mlx_pixel_put(&map->minimap->img, ray->i, y++, fdf_mk_color(125,map->floor.red, map->floor.green, map->floor.blue));
+	// while (y < (drawend - 1))
+	// {
+	// 	//printf("y=%d ray->i=%d\n", y, ray->i);
+	// 	//my_mlx_pixel_put(&map->minimap->img, ray->i, y++, 0xF000FF00);
+	// 	my_mlx_pixel_put(&map->minimap->img, ray->i, y++, fdf_mk_color(250,0,255,0));
+	// }
+	// printf("drawstar = %d\n", drawstar);
+	// printf("drawend = %d\n", drawend);
 }

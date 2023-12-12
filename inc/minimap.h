@@ -1,12 +1,12 @@
 
 #define PLAYER_WIDTH 5
 #define PLAYER_HEIGHT 5
-#define SQUARES_SIZE 20
+#define SQUARES_SIZE 230
 #define MAP_SQUARES_SIZE 1
 #define MOVEMENT_DELTA	0.05
 #define ROTATION_DELTA	0.01
-# define SCREEN_WIDTH 1080
-# define SCREEN_HEIGHT 1920
+# define SCREEN_WIDTH 2480
+# define SCREEN_HEIGHT 1240
 #include <math.h>
 
 typedef struct	s_img {

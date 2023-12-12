@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/11 12:16:35 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/12 13:13:58 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,16 @@ int	main(int ac, char **av)
 
 	init_parse(&map, ac, av);
 	img.mlx_ptr = mlx_init();
-	img.win_ptr = mlx_new_window(img.mlx_ptr, 1920, 1080, "Hello world!");
+	img.win_ptr = mlx_new_window(img.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Hello world!");
+	// map.img.mlx_ptr = img.mlx_ptr;
+	// map.img.win_ptr = img.win_ptr;
+	// map.img.img = mlx_new_image(map.img.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
+	// map.img.width = SCREEN_WIDTH;
+	// map.img.height = SCREEN_HEIGHT;
+	// map.img.addr = mlx_get_data_addr(map.img.img, &map.img.bits_pxl,
+	// 		&map.img.line_len, &map.img.endian);
+		
+
 	map.squares_size = MAP_SQUARES_SIZE;
 	map.player.movement = fdf_set_point(0, 0, 0, 0);
 	map.player.dir_vect_len = 0.5;
@@ -109,7 +118,7 @@ int	main(int ac, char **av)
 	minimap.map = &map;
 	minimap.img.mlx_ptr = img.mlx_ptr;
 	minimap.img.win_ptr = img.win_ptr;
-	minimap.img.img = mlx_new_image(minimap.img.mlx_ptr, 1920, 1080);
+	minimap.img.img = mlx_new_image(minimap.img.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	minimap.img.width = SCREEN_WIDTH;
 	minimap.img.height = SCREEN_HEIGHT;
 	minimap.img.addr = mlx_get_data_addr(minimap.img.img, &minimap.img.bits_pxl,

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/11 13:09:56 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/12 10:50:07 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,15 @@ typedef struct s_f_point
 	int				color;
 }	t_f_point;
 
-typedef struct s_ray{
+typedef struct s_ray
+{
 	t_f_point	vect;
 	t_f_point	cam_intersect;
 	t_f_point	deltas;
 	t_f_point	distances;
 	t_point		position;
 	t_point		directions;
+	int			i;
 	int			side;
 } t_ray;
 
@@ -146,6 +148,7 @@ typedef struct s_map
 	t_color		ceiling;
 	t_player	player;
 	t_minimap	*minimap;
+	t_img		img;
 	int			squares_size;
 }	t_map;
 
@@ -229,7 +232,7 @@ int			get_square_on_position(t_map *map, t_f_point position);
 t_f_point	from_rad_to_vect(float radians, float len);
 
 /* main */
-
+void		cub3d(t_map *map, t_ray *ray);
 /******************************************************************************/
 /*                            DEFINITIONS                                     */
 /******************************************************************************/
