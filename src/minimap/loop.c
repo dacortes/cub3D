@@ -3,43 +3,59 @@
 
 void render(t_map *map);
 
+// int run_game(void *_map)
 int run_game(t_map *map)
 {
-	t_minimap	*minimap;
-	t_player	*player;
-	t_f_point	initial_position; 
+	printf("sdaf\n");
+	printf("fasd\n");
+	printf("woko\n");
+	printf("sdaf\n");
+	printf("fasd\n");
+	printf("woko\n");
+	printf("sdaf\n");
+	printf("fasd\n");
+	printf("woko\n");
+	(void)map;
+	// t_minimap	*minimap;
+	// t_player	*player;
+	// t_f_point	initial_position; 
+	// t_map		*map = (t_map*) _map;
 
-	mlx_clear_window(map->minimap->img.mlx_ptr, map->minimap->img.win_ptr);
-	player = &map->player;
-	minimap = map->minimap;
-	initial_position = player->position;
-	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
-	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
-	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad, map->player.dir_vect_len);
-	map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633), map->player.cam_vect_len);
-	if (player->movement.y != 0 && player->movement.x != 0)
-	{
-		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.y) /2;
-		player->position.y += (player->dir_vect.y * MOVEMENT_DELTA * player->movement.y) /2;
-		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA * player->movement.x) /2;
-		player->position.y += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.x) /2;
-	}
-	else if (player->movement.y != 0)
-	{
-		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.y ;
-		player->position.y += (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.y ;
-	}
-	else if (player->movement.x != 0)
-	{
-		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.x ;
-		player->position.y += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.x ;
-	}
-	if (get_square_on_position(map, player->position) != 0)
-		player->position = initial_position;
-	render(map);
-	draw_minimap(minimap);
-	mlx_put_image_to_window(minimap->img.mlx_ptr, minimap->img.win_ptr,
-			minimap->img.img, 0, 0);
+	// mlx_clear_window(map->minimap->img.mlx_ptr, map->minimap->img.win_ptr);
+
+	// printf("waka\n");
+	// player = &map->player;
+	// minimap = map->minimap;
+	// initial_position = player->position;
+	// map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
+	// map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
+	// map->player.dir_vect = from_rad_to_vect(map->player.dir_rad, map->player.dir_vect_len);
+	// map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633), map->player.cam_vect_len);
+	// printf("sdaf\n");
+	// if (player->movement.y != 0 && player->movement.x != 0)
+	// {
+	// 	player->position.x += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.y) /2;
+	// 	player->position.y += (player->dir_vect.y * MOVEMENT_DELTA * player->movement.y) /2;
+	// 	player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA * player->movement.x) /2;
+	// 	player->position.y += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.x) /2;
+	// }
+	// else if (player->movement.y != 0)
+	// {
+	// 	player->position.x += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.y ;
+	// 	player->position.y += (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.y ;
+	// }
+	// else if (player->movement.x != 0)
+	// {
+	// 	player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.x ;
+	// 	player->position.y += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.x ;
+	// }
+	// printf("fasd\n");
+	// if (get_square_on_position(map, player->position) != 0)
+	// 	player->position = initial_position;
+	// printf("kokou\n");
+	// render(map);
+	// draw_minimap(minimap);
+	mlx_put_image_to_window(map->img.mlx_ptr, map->img.win_ptr, map->img.img, 0, 0);
 	return (1);
 }
 
@@ -134,7 +150,7 @@ void	colide_ray(t_map *map, t_ray *ray)
 			ray->side = 1;
 		}
 		colided = (map->map[ray->position.y][ray->position.x] != 0);
-		joan(map, ray);
+		//joan(map, ray);
 	}
 }
 
@@ -156,13 +172,12 @@ void render(t_map *map)
 			//printf("sdaf: %d\n", ray.i);
 		ray.cam_intersect.x = cam_0.x + (map->player.cam_vect.x * cam_i / cam_end);
 		ray.cam_intersect.y = cam_0.y + (map->player.cam_vect.y * cam_i / cam_end);
-		if (cam_i % 1 == 0)
-			print_half_ray(map, ray.cam_intersect);
+	//	if (cam_i % 1 == 0)
+		//	print_half_ray(map, ray.cam_intersect);
 		ray.vect.x = ray.cam_intersect.x - map->player.position.x;
 		ray.vect.y = ray.cam_intersect.y - map->player.position.y;
 		colide_ray(map, &ray);
 		cub3d(map, &ray);
-		joan(map, &ray);
 		cam_i++;
 		ray.i++;
 	}
@@ -227,18 +242,18 @@ void	cub3d(t_map *map, t_ray *ray)
 	int	y = 0;
 	while (y < (drawstart - 1))
 	{
-		my_mlx_pixel_put(&map->minimap->img, ray->i, y++, fdf_mk_color(125,map->ceiling.red, map->ceiling.green, map->ceiling.blue));
+		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(125,map->ceiling.red, map->ceiling.green, map->ceiling.blue));
 		if  (ray->i == 1240)
-			my_mlx_pixel_put(&map->minimap->img, ray->i, y++, fdf_mk_color(0,map->ceiling.red, map->ceiling.green, map->ceiling.blue + 255));
+			my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->ceiling.red, map->ceiling.green, map->ceiling.blue + 255));
 		if  (ray->i == 1239 && 0)
-			my_mlx_pixel_put(&map->minimap->img, ray->i, y++, fdf_mk_color(0,map->ceiling.red + 255, map->ceiling.green, map->ceiling.blue + 255));
+			my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->ceiling.red + 255, map->ceiling.green, map->ceiling.blue + 255));
 	}
 	while (y < (drawend - 1))
 	{
-		my_mlx_pixel_put(&map->minimap->img, ray->i, y++, fdf_mk_color(125, 255, 0, 0));	
+		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(125, 255, 0, 0));	
 	}
 	while (y < (SCREEN_HEIGHT - 1))
-		my_mlx_pixel_put(&map->minimap->img, ray->i, y++, fdf_mk_color(125,map->floor.red, map->floor.green, map->floor.blue));
+		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(125,map->floor.red, map->floor.green, map->floor.blue));
 	if (ray->i == 1240)
 	 {
 		printf("drawstart = %d\n", drawstart);
@@ -246,11 +261,4 @@ void	cub3d(t_map *map, t_ray *ray)
 		fdf_print_f_point("Ray distances: ", ray->distances, "\n");
 		fdf_print_point("Ray position: ", ray->position, "\n");
 	 }
-	// while (y < (drawend - 1))
-	// {
-	// 	//printf("y=%d ray->i=%d\n", y, ray->i);
-	// 	//my_mlx_pixel_put(&map->minimap->img, ray->i, y++, 0xF000FF00);
-	// 	my_mlx_pixel_put(&map->minimap->img, ray->i, y++, fdf_mk_color(250,0,255,0));
-	// }
-	// printf("drawend = %d\n", drawend);
 }

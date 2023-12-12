@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/12 10:50:07 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:05:45 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ typedef struct s_map
 	t_player	player;
 	t_minimap	*minimap;
 	t_img		img;
-	int			squares_size;
+	int			squares_size; // Should be deleted
 }	t_map;
 
 typedef struct s_minimap
@@ -218,6 +218,7 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
 
 /* loop */
 int			run_game(t_map *map);
+// int			run_game(void *_map);
 int			fdf_key_press_hook(int key, t_point *movement);
 int			fdf_key_release_hook(int key, t_point *movement);
 
