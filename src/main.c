@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/12 13:13:58 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/12 15:35:15 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,6 @@ int	main(int ac, char **av)
 	minimap.img.height = SCREEN_HEIGHT;
 	minimap.img.addr = mlx_get_data_addr(minimap.img.img, &minimap.img.bits_pxl,
 			&minimap.img.line_len, &minimap.img.endian);
-	mlx_put_image_to_window(minimap.img.mlx_ptr, minimap.img.win_ptr,
-			minimap.img.img, 0, 0);
 	mlx_hook(minimap.img.win_ptr, 2, 1L << 0, fdf_key_press_hook, &map.player.movement); // This has to be changed to movement
 	mlx_hook(minimap.img.win_ptr, 3, 1L << 1, fdf_key_release_hook, &map.player.movement); // This has to be changed to movement
 	mlx_hook(minimap.img.win_ptr, 17, 0, close_win, &minimap);
