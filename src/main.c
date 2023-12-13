@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/12 18:46:34 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/13 18:31:10 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,96 +149,85 @@ int	create_trgb(int t, int r, int g, int b)
 // 	return (1);
 // }
 
+
+
+// int	say_hello(t_map *map)
+// {
+// 	// printf("hello %p\n", map);
+// 	int y = 0;
+// 	while (y < 500)
+// 	{
+// 		my_mlx_pixel_put(&map->img, 5, y++, 0x00FF00);
+// 	}
+// 	mlx_put_image_to_window(map->img.mlx_ptr, map->img.win_ptr, map->img.img, 0, 0);
+// 	return (1);
+// }
+
 // int	main(int ac, char **av)
 // {
 // 	(void)ac;
 // 	(void)av;
 // 	t_map	map;
-// //	t_img		img_minimap;
 
 // 	map.img.mlx_ptr = mlx_init();
 // 	map.img.win_ptr = mlx_new_window(map.img.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Pan");
 // 	map.img.img = mlx_new_image(map.img.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 // 	map.img.addr = mlx_get_data_addr(map.img.img, &map.img.bits_pxl,
 // 		&map.img.line_len, &map.img.endian);
-// 	// int y = 0;
-// 	// while (y < 500)
-// 	// 	my_mlx_pixel_put(&map.img, 5, y++, 0x00FF00);
-
-
-// //	img_minimap.mlx_ptr = map.img.mlx_ptr;
-// //	img_minimap.win_ptr = map.img.win_ptr;
-// //	img_minimap.img = mlx_new_image(img_minimap.mlx_ptr, MINIMAP_SIZE, MINIMAP_SIZE);
-// //	img_minimap.addr = mlx_get_data_addr(img_minimap.img, &img_minimap.bits_pxl,
-// //		&img_minimap.line_len, &img_minimap.endian);
-// 	//t_minimap	minimap;
-
-// /*
-// 	init_parse(&map, ac, av);
-// 	map.player.movement = fdf_set_point(0, 0, 0, 0);
-// 	map.player.dir_vect_len = 0.5;
-// 	map.player.dir_vect = from_rad_to_vect(map.player.dir_rad, map.player.dir_vect_len); // this should go inside minimap
-// 	map.player.cam_vect_len = 0.333;
-// 	map.minimap = &minimap;
-// 	minimap.rows = map.rows - 0;
-// 	minimap.cols = map.cols - 0;
-// 	minimap.offsets = fdf_set_point(0,0,0,0); // Caution the offsets must be lower or equal than map.[rows|cols] - minimap.[rows|cols]
-// 	if (map.rows > map.cols) 
-// 		minimap.squares_size = MINIMAP_SIZE / map.rows;
-// 	else
-// 		minimap.squares_size = MINIMAP_SIZE / map.cols;	
-// 	minimap.img.width = MINIMAP_SIZE;
-// 	minimap.img.height = MINIMAP_SIZE;
-// */
-// //	minimap.img = img_minimap;
-
-
-
-
-
-
-
-// 	// mlx_put_image_to_window(img_minimap.mlx_ptr, img_minimap.win_ptr,img_minimap.img, 0, 0);
-// 	// run_game(&map);
-	
-// 	// mlx_put_image_to_window(map.img.mlx_ptr, map.img.win_ptr,map.img.img, 0, 0);
 // 	mlx_hook(map.img.win_ptr, 17, 0, close_win, &map);
-// 	mlx_hook(map.img.win_ptr, 2, 1L << 0, fdf_key_press_hook, &map.player.movement); // This has to be changed to movement
-// 	mlx_hook(map.img.win_ptr, 3, 1L << 1, fdf_key_release_hook, &map.player.movement); // This has to be changed to movement
-// 	//mlx_loop_hook(map.img.win_ptr, run_game, (void *) &map);
-// 	mlx_loop_hook(map.img.win_ptr, say_hello, NULL);
+// 	mlx_hook(map.img.win_ptr, 2, 1L << 0, fdf_key_press_hook, &map);
+// 	mlx_hook(map.img.win_ptr, 3, 1L << 1, fdf_key_release_hook, &map);
+// 	mlx_loop_hook(map.img.mlx_ptr, say_hello, (void *)&map);
 // 	mlx_loop(map.img.mlx_ptr);
-// 	// free(map.map);
-// 	// clear_data(&map);
 // 	return (EXIT_SUCCESS);
 // }
-
-int	say_hello(t_map *map)
-{
-	int y = 0;
-	while (y < 500)
-	{
-		my_mlx_pixel_put(&map->img, 5, y++, 0x00FF00);
-	}
-	mlx_put_image_to_window(map->img.mlx_ptr, map->img.win_ptr, map->img.img, 0, 0);
-	return (1);
-}
 
 int	main(int ac, char **av)
 {
 	(void)ac;
 	(void)av;
-	t_map	map;
+	t_map		map;
+	t_minimap	minimap;
 
 	map.img.mlx_ptr = mlx_init();
 	map.img.win_ptr = mlx_new_window(map.img.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "Pan");
 	map.img.img = mlx_new_image(map.img.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	map.img.addr = mlx_get_data_addr(map.img.img, &map.img.bits_pxl,
 		&map.img.line_len, &map.img.endian);
+
+	minimap.img.mlx_ptr = map.img.mlx_ptr;
+	minimap.img.win_ptr = map.img.win_ptr;
+	minimap.img.img = mlx_new_image(minimap.img.mlx_ptr, MINIMAP_SIZE, MINIMAP_SIZE);
+	minimap.img.addr = mlx_get_data_addr(minimap.img.img, &minimap.img.bits_pxl,
+		&minimap.img.line_len, &minimap.img.endian);
+
+
+	init_parse(&map, ac, av);
+	map.player.movement = fdf_set_point(0, 0, 0, 0);
+	map.player.dir_vect_len = 0.5;
+	map.player.dir_vect = from_rad_to_vect(map.player.dir_rad, map.player.dir_vect_len); // this should go inside minimap
+	map.player.cam_vect_len = 0.333;
+	map.minimap = &minimap;
+	minimap.rows = map.rows - 0;
+	minimap.cols = map.cols - 0;
+	minimap.offsets = fdf_set_point(0,0,0,0); // Caution the offsets must be lower or equal than map.[rows|cols] - minimap.[rows|cols]
+	if (map.rows > map.cols) 
+		minimap.squares_size = MINIMAP_SIZE / map.rows;
+	else
+		minimap.squares_size = MINIMAP_SIZE / map.cols;	
+	minimap.img.width = MINIMAP_SIZE;
+	minimap.img.height = MINIMAP_SIZE;
+
+	// mlx_put_image_to_window(img_minimap.mlx_ptr, img_minimap.win_ptr,img_minimap.img, 0, 0);
+	// run_game(&map);
+	
+	// mlx_put_image_to_window(map.img.mlx_ptr, map.img.win_ptr,map.img.img, 0, 0);
 	mlx_hook(map.img.win_ptr, 17, 0, close_win, &map);
-	mlx_hook(map.img.win_ptr, 2, 1L << 0, fdf_key_press_hook, &map);
-	mlx_hook(map.img.win_ptr, 3, 1L << 1, fdf_key_release_hook, &map);
-	mlx_loop_hook(map.img.win_ptr, say_hello, &map);
+	mlx_hook(map.img.win_ptr, 2, 1L << 0, fdf_key_press_hook, &map.player.movement); // This has to be changed to movement
+	mlx_hook(map.img.win_ptr, 3, 1L << 1, fdf_key_release_hook, &map.player.movement); // This has to be changed to movement
+	mlx_loop_hook(map.img.mlx_ptr, run_game, (void *) &map);
 	mlx_loop(map.img.mlx_ptr);
+	free(map.map);
+	clear_data(&map);
 	return (EXIT_SUCCESS);
 }

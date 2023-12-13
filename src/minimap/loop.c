@@ -6,54 +6,46 @@ void render(t_map *map);
 // int run_game(void *_map)
 int run_game(t_map *map)
 {
-	printf("sdaf\n");
-	printf("fasd\n");
-	printf("woko\n");
-	printf("sdaf\n");
-	printf("fasd\n");
-	printf("woko\n");
-	printf("sdaf\n");
-	printf("fasd\n");
-	printf("woko\n");
-	(void)map;
-	// t_minimap	*minimap;
-	// t_player	*player;
-	// t_f_point	initial_position; 
-	// t_map		*map = (t_map*) _map;
+	t_minimap	*minimap;
+	t_player	*player;
+	t_f_point	initial_position; 
 
-	// mlx_clear_window(map->minimap->img.mlx_ptr, map->minimap->img.win_ptr);
-
-	// printf("waka\n");
-	// player = &map->player;
-	// minimap = map->minimap;
-	// initial_position = player->position;
-	// map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
-	// map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
-	// map->player.dir_vect = from_rad_to_vect(map->player.dir_rad, map->player.dir_vect_len);
-	// map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633), map->player.cam_vect_len);
-	// printf("sdaf\n");
-	// if (player->movement.y != 0 && player->movement.x != 0)
-	// {
-	// 	player->position.x += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.y) /2;
-	// 	player->position.y += (player->dir_vect.y * MOVEMENT_DELTA * player->movement.y) /2;
-	// 	player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA * player->movement.x) /2;
-	// 	player->position.y += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.x) /2;
-	// }
-	// else if (player->movement.y != 0)
-	// {
-	// 	player->position.x += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.y ;
-	// 	player->position.y += (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.y ;
-	// }
-	// else if (player->movement.x != 0)
-	// {
-	// 	player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.x ;
-	// 	player->position.y += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.x ;
-	// }
-	// printf("fasd\n");
-	// if (get_square_on_position(map, player->position) != 0)
-	// 	player->position = initial_position;
-	// printf("kokou\n");
-	// render(map);
+	mlx_clear_window(map->minimap->img.mlx_ptr, map->minimap->img.win_ptr);
+	player = &map->player;
+	minimap = map->minimap;
+	initial_position = player->position;
+	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
+	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
+	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad, map->player.dir_vect_len);
+	map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633), map->player.cam_vect_len);
+	fdf_print_point("run Player mov=", player->movement, "\n");
+	if (player->movement.y != 0 && player->movement.x != 0)
+	{
+		printf("asd\n");
+		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.y) /2;
+		player->position.y += (player->dir_vect.y * MOVEMENT_DELTA * player->movement.y) /2;
+		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA * player->movement.x) /2;
+		player->position.y += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.x) /2;
+	}
+	else if (player->movement.y != 0)
+	{
+		printf("fsd\n");
+		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.y ;
+		player->position.y += (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.y ;
+	}
+	else if (player->movement.x != 0)
+	{
+		printf("kokou\n");
+		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.x ;
+		player->position.y += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.x ;
+	}
+	if (get_square_on_position(map, player->position) != 0)
+	{
+		printf("NOPE: ");
+		fdf_print_f_point("run Player position=", player->position, "\n");
+		player->position = initial_position;
+	}
+	render(map);
 	// draw_minimap(minimap);
 	mlx_put_image_to_window(map->img.mlx_ptr, map->img.win_ptr, map->img.img, 0, 0);
 	return (1);
@@ -185,6 +177,7 @@ void render(t_map *map)
 
 int	fdf_key_press_hook(int key, t_point *movement)
 {
+	printf("press key press\n");
 	if (key == KEY_D && !movement->x)
 		movement->x = 1;
 	if (key == KEY_A && !movement->x)
@@ -197,11 +190,13 @@ int	fdf_key_press_hook(int key, t_point *movement)
 		movement->z = 1;
 	if (key == KEY_LEFT && !movement->z)
 		movement->z = -1;
+	fdf_print_point("Player mov=", *movement, "\n");
 	return (1);	
 }
 
 int	fdf_key_release_hook(int key, t_point *movement)
 {
+	printf("release key relist\n");
 	if (key == KEY_D && movement->x == 1)
 		movement->x = 0;
 	if (key == KEY_A && movement->x == -1)
@@ -256,9 +251,10 @@ void	cub3d(t_map *map, t_ray *ray)
 		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(125,map->floor.red, map->floor.green, map->floor.blue));
 	if (ray->i == 1240)
 	 {
-		printf("drawstart = %d\n", drawstart);
-		printf("drawend = %d\n", drawend);
-		fdf_print_f_point("Ray distances: ", ray->distances, "\n");
-		fdf_print_point("Ray position: ", ray->position, "\n");
+		// printf("drawstart = %d\n", drawstart);
+		// printf("drawend = %d\n", drawend);
+		// fdf_print_f_point("Ray distances: ", ray->distances, "\n");
+		// fdf_print_point("Ray position: ", ray->position, "\n");
+		;
 	 }
 }

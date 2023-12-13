@@ -6,8 +6,8 @@ int get_square_on_position(t_map *map, t_f_point position)
 	int col;
 	int	result;
 
-	row = position.y / map->squares_size;
-	col = position.x / map->squares_size;
+	row = position.y;
+	col = position.x;
 	result = map->map[row][col];
 
 	return (result);
