@@ -18,10 +18,10 @@ int run_game(t_map *map)
 	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
 	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad, map->player.dir_vect_len);
 	map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633), map->player.cam_vect_len);
-	fdf_print_point("run Player mov=", player->movement, "\n");
+	// fdf_print_point("run Player mov=", player->movement, "\n");
 	if (player->movement.y != 0 && player->movement.x != 0)
 	{
-		printf("asd\n");
+		// printf("asd\n");
 		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.y) /2;
 		player->position.y += (player->dir_vect.y * MOVEMENT_DELTA * player->movement.y) /2;
 		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA * player->movement.x) /2;
@@ -29,20 +29,19 @@ int run_game(t_map *map)
 	}
 	else if (player->movement.y != 0)
 	{
-		printf("fsd\n");
+		// printf("fsd\n");
 		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.y ;
 		player->position.y += (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.y ;
 	}
 	else if (player->movement.x != 0)
 	{
-		printf("kokou\n");
+		// printf("kokou\n");
 		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.x ;
 		player->position.y += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.x ;
 	}
 	if (get_square_on_position(map, player->position) != 0)
 	{
-		printf("NOPE: ");
-		fdf_print_f_point("run Player position=", player->position, "\n");
+		// fdf_print_f_point("run Player position=", player->position, "\n");
 		player->position = initial_position;
 	}
 	render(map);
@@ -160,14 +159,12 @@ void render(t_map *map)
 		map->player.position.y + map->player.dir_vect.y, 0, 0);
 	while (cam_i < cam_end)
 	{
-//		if (cam_i == 0)
-			//printf("sdaf: %d\n", ray.i);
 		ray.cam_intersect.x = cam_0.x + (map->player.cam_vect.x * cam_i / cam_end);
 		ray.cam_intersect.y = cam_0.y + (map->player.cam_vect.y * cam_i / cam_end);
-	//	if (cam_i % 1 == 0)
-		//	print_half_ray(map, ray.cam_intersect);
 		ray.vect.x = ray.cam_intersect.x - map->player.position.x;
+		ray.vect.x += ((ray.vect.x < 0) * 2 - 1) * 0.0001;
 		ray.vect.y = ray.cam_intersect.y - map->player.position.y;
+		ray.vect.y += ((ray.vect.y < 0) * 2 - 1) * 0.0001;
 		colide_ray(map, &ray);
 		cub3d(map, &ray);
 		cam_i++;
@@ -175,9 +172,9 @@ void render(t_map *map)
 	}
 }
 
+
 int	fdf_key_press_hook(int key, t_point *movement)
 {
-	printf("press key press\n");
 	if (key == KEY_D && !movement->x)
 		movement->x = 1;
 	if (key == KEY_A && !movement->x)
@@ -190,13 +187,11 @@ int	fdf_key_press_hook(int key, t_point *movement)
 		movement->z = 1;
 	if (key == KEY_LEFT && !movement->z)
 		movement->z = -1;
-	fdf_print_point("Player mov=", *movement, "\n");
 	return (1);	
 }
 
 int	fdf_key_release_hook(int key, t_point *movement)
 {
-	printf("release key relist\n");
 	if (key == KEY_D && movement->x == 1)
 		movement->x = 0;
 	if (key == KEY_A && movement->x == -1)
@@ -231,30 +226,14 @@ void	cub3d(t_map *map, t_ray *ray)
 		drawstart = 0;
 	drawend = lineHeight / 2 + SCREEN_HEIGHT / 2;
 	if (drawend >= SCREEN_HEIGHT)
-		drawend = SCREEN_HEIGHT - 1;	
-	// printf("lineHeight= %i\n", lineHeight);
-	// printf("perpWallDist= %f\n", perpWallDist);
+		drawend = SCREEN_HEIGHT - 1;
 	int	y = 0;
 	while (y < (drawstart - 1))
-	{
 		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(125,map->ceiling.red, map->ceiling.green, map->ceiling.blue));
-		if  (ray->i == 1240)
-			my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->ceiling.red, map->ceiling.green, map->ceiling.blue + 255));
-		if  (ray->i == 1239 && 0)
-			my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->ceiling.red + 255, map->ceiling.green, map->ceiling.blue + 255));
-	}
 	while (y < (drawend - 1))
 	{
 		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(125, 255, 0, 0));	
 	}
 	while (y < (SCREEN_HEIGHT - 1))
 		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(125,map->floor.red, map->floor.green, map->floor.blue));
-	if (ray->i == 1240)
-	 {
-		// printf("drawstart = %d\n", drawstart);
-		// printf("drawend = %d\n", drawend);
-		// fdf_print_f_point("Ray distances: ", ray->distances, "\n");
-		// fdf_print_point("Ray position: ", ray->position, "\n");
-		;
-	 }
 }
