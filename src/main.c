@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/14 17:43:01 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/14 18:25:10 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,16 @@ int	main(int ac, char **av)
 	minimap.img.addr = mlx_get_data_addr(minimap.img.img, &minimap.img.bits_pxl,
 		&minimap.img.line_len, &minimap.img.endian);
 
-	
+
+	void	*img;
+	int	h = 500;
+	int	w = 500;
+	img = mlx_xpm_file_to_image(map.img.mlx_ptr, map.no, &w, &h);
+	mlx_put_image_to_window(map.img.mlx_ptr, map.img.win_ptr, img, 100, 100);
 	mlx_hook(map.img.win_ptr, 17, 0, close_win, &map);
 	mlx_hook(map.img.win_ptr, 2, 1L << 0, fdf_key_press_hook, &map.player.movement); // This has to be changed to movement
 	mlx_hook(map.img.win_ptr, 3, 1L << 1, fdf_key_release_hook, &map.player.movement); // This has to be changed to movement
-	mlx_loop_hook(map.img.mlx_ptr, run_game, (void *) &map);
+	// mlx_loop_hook(map.img.mlx_ptr, run_game, (void *) &map);
 	mlx_loop(map.img.mlx_ptr);
 	free(map.map);
 	clear_data(&map);
