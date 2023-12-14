@@ -207,12 +207,25 @@ void	cub3d(t_map *map, t_ray *ray)
 	int		lineHeight;
 	int		drawstart;
 	int		drawend;
+	int 	color;
 
 	(void)map;
 	if (!ray->side)
+	{
 		perpWallDist = (ray->distances.x - ray->deltas.x);
+				if (ray->vect.x < 0)
+					color = 0xffff200;	
+				else
+					color = 0xffff00;	
+	}
 	else
+	{
 		perpWallDist = (ray->distances.y - ray->deltas.y);
+				if (ray->vect.y < 0)
+					color = 0xff200ff;	
+				else
+					color = 0xff00ff;	
+	}
 	lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
 	drawstart = (-lineHeight / 2 + SCREEN_HEIGHT / 2);
 	if (drawstart < 0)
@@ -225,7 +238,7 @@ void	cub3d(t_map *map, t_ray *ray)
 		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->ceiling.red, map->ceiling.green, map->ceiling.blue));
 	while (y < (drawend - 1))
 	{
-		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0, 255, 255, 150));	
+		my_mlx_pixel_put(&map->img, ray->i, y++, color);	
 	}
 	while (y < (SCREEN_HEIGHT - 1))
 		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->floor.red, map->floor.green, map->floor.blue));
