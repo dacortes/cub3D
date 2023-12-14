@@ -39,9 +39,7 @@ void draw_minimap_tiles(t_minimap *minimap)
 		{
 			square_type = minimap->map->map[coord.y + minimap->offsets.y][coord.x + minimap->offsets.x];
 			if (square_type == 1)
-				pixel.color = fdf_mk_color(0, 0, 125, 60);	
-			else if (square_type == -1)
-				pixel.color = fdf_mk_color(0, 0, 0, 0);	
+				pixel.color = fdf_mk_color(0, 0, 125, 60);
 			else
 				pixel.color = fdf_mk_color(254, 0, 0, 255);	
 			pixel.x = coord.x * minimap->squares_size;

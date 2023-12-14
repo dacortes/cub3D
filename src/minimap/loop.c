@@ -18,10 +18,8 @@ int run_game(t_map *map)
 	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
 	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad, map->player.dir_vect_len);
 	map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633), map->player.cam_vect_len);
-	// fdf_print_point("run Player mov=", player->movement, "\n");
 	if (player->movement.y != 0 && player->movement.x != 0)
 	{
-		// printf("asd\n");
 		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.y) /2;
 		player->position.y += (player->dir_vect.y * MOVEMENT_DELTA * player->movement.y) /2;
 		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA * player->movement.x) /2;
@@ -29,24 +27,20 @@ int run_game(t_map *map)
 	}
 	else if (player->movement.y != 0)
 	{
-		// printf("fsd\n");
 		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.y ;
 		player->position.y += (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.y ;
 	}
 	else if (player->movement.x != 0)
 	{
-		// printf("kokou\n");
 		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.x ;
 		player->position.y += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.x ;
 	}
 	if (get_square_on_position(map, player->position) != 0)
-	{
-		// fdf_print_f_point("run Player position=", player->position, "\n");
 		player->position = initial_position;
-	}
+	draw_minimap(minimap);
 	render(map);
-	// draw_minimap(minimap);
 	mlx_put_image_to_window(map->img.mlx_ptr, map->img.win_ptr, map->img.img, 0, 0);
+	mlx_put_image_to_window(minimap->img.mlx_ptr, minimap->img.win_ptr, minimap->img.img, 0, 0);
 	return (1);
 }
 
@@ -114,8 +108,7 @@ void	joan(t_map *map, t_ray *ray)
 	starts.y = map->player.position.y * map->minimap->squares_size; // should aply offset
 	ends.x = x * map->minimap->squares_size;
 	ends.y = y * map->minimap->squares_size;
-	fdf_draw_line(&map->minimap->img, starts, ends, fdf_mk_color(0, 255, 255, 255));	
-
+	fdf_draw_line(&map->minimap->img, starts, ends, fdf_mk_color(0, 225, 255, 255));	
 }
 
 void	colide_ray(t_map *map, t_ray *ray)
@@ -141,7 +134,7 @@ void	colide_ray(t_map *map, t_ray *ray)
 			ray->side = 1;
 		}
 		colided = (map->map[ray->position.y][ray->position.x] != 0);
-		//joan(map, ray);
+		joan(map, ray);
 	}
 }
 
@@ -221,7 +214,7 @@ void	cub3d(t_map *map, t_ray *ray)
 	else
 		perpWallDist = (ray->distances.y - ray->deltas.y);
 	lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
-	drawstart = (-lineHeight / 2 + SCREEN_HEIGHT / 2); //* (drawstart < 0);
+	drawstart = (-lineHeight / 2 + SCREEN_HEIGHT / 2);
 	if (drawstart < 0)
 		drawstart = 0;
 	drawend = lineHeight / 2 + SCREEN_HEIGHT / 2;
@@ -229,11 +222,11 @@ void	cub3d(t_map *map, t_ray *ray)
 		drawend = SCREEN_HEIGHT - 1;
 	int	y = 0;
 	while (y < (drawstart - 1))
-		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(125,map->ceiling.red, map->ceiling.green, map->ceiling.blue));
+		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->ceiling.red, map->ceiling.green, map->ceiling.blue));
 	while (y < (drawend - 1))
 	{
-		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(125, 255, 0, 0));	
+		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0, 255, 255, 150));	
 	}
 	while (y < (SCREEN_HEIGHT - 1))
-		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(125,map->floor.red, map->floor.green, map->floor.blue));
+		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->floor.red, map->floor.green, map->floor.blue));
 }
