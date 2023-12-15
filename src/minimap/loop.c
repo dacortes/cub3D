@@ -161,6 +161,7 @@ void render(t_map *map)
 		ray.vect.y += ((ray.vect.y < 0) * 2 - 1) * 0.0001;
 		colide_ray(map, &ray);
 		cub3d(map, &ray);
+		printf("\n------------\n");
 		cam_i++;
 		ray.i++;
 	}
@@ -220,7 +221,7 @@ void	cub3d(t_map *map, t_ray *ray)
 	int		drawstart;
 	int		drawend;
 	int 	color;
-	t_img	texture = map->texture_no;
+	t_img	*texture = &map->texture_no;
 
 	(void)map;
 	if (!ray->side)
@@ -247,20 +248,27 @@ void	cub3d(t_map *map, t_ray *ray)
 	if (drawend >= SCREEN_HEIGHT)
 		drawend = SCREEN_HEIGHT - 1;
 	int	y = 0;
-	while (y < (drawstart - 1))
+	while (y < drawstart)
 		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->ceiling.red, map->ceiling.green, map->ceiling.blue));
-	while (y < (drawend - 1))
+	t_point	pixel = fdf_set_point(0,0,0,0);
+	while (y < drawend)
 	{
-		t_point	pixel;
+		
+		pixel.x = texture->width * (ray->colisions.x - (int) ray->colisions.x);
+//		pixel.y = texture->height * ((drawend - drawstart - y - drawstart) / (drawend - drawstart));
+		pixel.y = texture->height * (((float)(y - drawstart)) / (drawend - drawstart));
+//		pixel.y = y - drawstart;
+//		printf("y: %d, drawstart: %d", y, drawstart);
+	//	fdf_print_f_point("<", ray->colisions, " ");
+		//fdf_print_point("", pixel, ">");
 
-		pixel.x = map->textures_size.x * (ray->colisions.x - (int) - ray->colisions.x);
-		pixel.y = map->textures_size.y * ((drawend - drawstart - y - drawstart) / (drawend - drawstart));
-
-
-		color = (int) *(map->texture_no.addr + (pixel.y * texture.line_len + pixel.x * (texture.bits_pxl / 8)));
+		color = (int) *(map->texture_no.addr + (pixel.y * texture->line_len + pixel.x * (texture->bits_pxl / 8)));
+		color = color & 0x00ffffff;
+//		printf("x: %d, y: %d, %x\n", pixel.x, pixel.y, color);
 //		*(int*)color;
 		my_mlx_pixel_put(&map->img, ray->i, y++, color);
 	}
+//	printf("\n");
 	while (y < (SCREEN_HEIGHT - 1))
 		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->floor.red, map->floor.green, map->floor.blue));
 }

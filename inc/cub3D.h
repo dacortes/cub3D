@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/15 19:57:35 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/15 20:39:14 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,6 @@ typedef struct s_map
 	t_img		texture_so;
 	t_img		texture_we;
 	t_img		texture_ea;
-	t_point		textures_size;
 	t_color		floor;
 	t_color		ceiling;
 	t_player	player;

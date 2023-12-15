@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/15 20:03:48 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/15 20:38:31 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	main(int ac, char **av)
 	minimap.img.height = minimap.squares_size * map.rows;
 	minimap.img.width = minimap.squares_size * map.cols;
 	minimap.map = &map;
-	map.textures_size = fdf_set_point(64, 64, 0, 0);
+	// map.textures_size = fdf_set_point(64, 64, 0, 0);
 	minimap.img.mlx_ptr = map.img.mlx_ptr;
 	minimap.img.win_ptr = map.img.win_ptr;
 	minimap.img.img = mlx_new_image(minimap.img.mlx_ptr, minimap.img.width, minimap.img.height);
