@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/14 18:25:10 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/15 20:03:48 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,23 +122,27 @@ int	main(int ac, char **av)
 	minimap.img.height = minimap.squares_size * map.rows;
 	minimap.img.width = minimap.squares_size * map.cols;
 	minimap.map = &map;
-	
+	map.textures_size = fdf_set_point(64, 64, 0, 0);
 	minimap.img.mlx_ptr = map.img.mlx_ptr;
 	minimap.img.win_ptr = map.img.win_ptr;
 	minimap.img.img = mlx_new_image(minimap.img.mlx_ptr, minimap.img.width, minimap.img.height);
 	minimap.img.addr = mlx_get_data_addr(minimap.img.img, &minimap.img.bits_pxl,
 		&minimap.img.line_len, &minimap.img.endian);
 
-
-	void	*img;
-	int	h = 500;
-	int	w = 500;
-	img = mlx_xpm_file_to_image(map.img.mlx_ptr, map.no, &w, &h);
-	mlx_put_image_to_window(map.img.mlx_ptr, map.img.win_ptr, img, 100, 100);
+	//init texture
+	map.texture_no.img = mlx_xpm_file_to_image(map.img.mlx_ptr, map.no, &map.texture_no.width, &map.texture_no.height);
+	map.texture_no.addr = mlx_get_data_addr(map.texture_no.img, &map.texture_no.bits_pxl,
+		&map.texture_no.line_len, &map.texture_no.endian);
+	// void	*img;
+	// int	h = map.textures_size.y;
+	// int	w = map.textures_size.x;
+	// img = mlx_xpm_file_to_image(map.img.mlx_ptr, map.no, &map.textures_size.x, &map.textures_size.y);
+	// fdf_print_point("textures size=", map.textures_size, "\n");
+	// printf("h=%d w=%d\n", h, w);
 	mlx_hook(map.img.win_ptr, 17, 0, close_win, &map);
 	mlx_hook(map.img.win_ptr, 2, 1L << 0, fdf_key_press_hook, &map.player.movement); // This has to be changed to movement
 	mlx_hook(map.img.win_ptr, 3, 1L << 1, fdf_key_release_hook, &map.player.movement); // This has to be changed to movement
-	// mlx_loop_hook(map.img.mlx_ptr, run_game, (void *) &map);
+	mlx_loop_hook(map.img.mlx_ptr, run_game, (void *) &map);
 	mlx_loop(map.img.mlx_ptr);
 	free(map.map);
 	clear_data(&map);

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/14 12:34:16 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/15 19:57:35 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ typedef struct s_ray
 	t_f_point	distances;
 	t_point		position;
 	t_point		directions;
+	t_f_point	colisions;
 	int			i;
 	int			side;
 } t_ray;
@@ -144,6 +145,11 @@ typedef struct s_map
 	char		*we;
 	char		*ea;
 	char		**map;
+	t_img		texture_no;
+	t_img		texture_so;
+	t_img		texture_we;
+	t_img		texture_ea;
+	t_point		textures_size;
 	t_color		floor;
 	t_color		ceiling;
 	t_player	player;

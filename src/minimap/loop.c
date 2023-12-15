@@ -108,6 +108,7 @@ void	joan(t_map *map, t_ray *ray)
 	starts.y = map->player.position.y * map->minimap->squares_size; // should aply offset
 	ends.x = x * map->minimap->squares_size;
 	ends.y = y * map->minimap->squares_size;
+	ray->colisions = fdf_set_f_point(x, y, 0, 0);
 	fdf_draw_line(&map->minimap->img, starts, ends, fdf_mk_color(0, 225, 255, 255));	
 }
 
@@ -201,6 +202,17 @@ int	fdf_key_release_hook(int key, t_point *movement)
 }
 
 
+// int		get_texture_pixel(t_ray *ray, t_map *map, char *texture, float i_proportion)
+// {
+// 	(void)map;
+// 	(void)texture;
+// 	t_point	pixel;
+
+// 	pixel.x = map->textures_size.x * (ray->colisions.x - (int) - ray->colisions.x);
+// 	pixel.y = map->textures_size.y * ();
+// 	return (pixel);
+// }
+
 void	cub3d(t_map *map, t_ray *ray)
 {
 	float	perpWallDist;
@@ -208,23 +220,24 @@ void	cub3d(t_map *map, t_ray *ray)
 	int		drawstart;
 	int		drawend;
 	int 	color;
+	t_img	texture = map->texture_no;
 
 	(void)map;
 	if (!ray->side)
 	{
 		perpWallDist = (ray->distances.x - ray->deltas.x);
-				if (ray->vect.x < 0)
-					color = 0xffff200;	
-				else
-					color = 0xffff00;	
+		// if (ray->vect.x < 0)
+		// 	color = 0xffff200;	
+		// else
+		// 	color = 0xffff00;	
 	}
 	else
 	{
 		perpWallDist = (ray->distances.y - ray->deltas.y);
-				if (ray->vect.y < 0)
-					color = 0xff200ff;	
-				else
-					color = 0xff00ff;	
+				// if (ray->vect.y < 0)
+				// 	color = 0xff200ff;	
+				// else
+				// 	color = 0xff00ff;	
 	}
 	lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
 	drawstart = (-lineHeight / 2 + SCREEN_HEIGHT / 2);
@@ -238,7 +251,15 @@ void	cub3d(t_map *map, t_ray *ray)
 		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->ceiling.red, map->ceiling.green, map->ceiling.blue));
 	while (y < (drawend - 1))
 	{
-		my_mlx_pixel_put(&map->img, ray->i, y++, color);	
+		t_point	pixel;
+
+		pixel.x = map->textures_size.x * (ray->colisions.x - (int) - ray->colisions.x);
+		pixel.y = map->textures_size.y * ((drawend - drawstart - y - drawstart) / (drawend - drawstart));
+
+
+		color = (int) *(map->texture_no.addr + (pixel.y * texture.line_len + pixel.x * (texture.bits_pxl / 8)));
+//		*(int*)color;
+		my_mlx_pixel_put(&map->img, ray->i, y++, color);
 	}
 	while (y < (SCREEN_HEIGHT - 1))
 		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->floor.red, map->floor.green, map->floor.blue));
