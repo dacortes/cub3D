@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/15 20:39:14 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:38:51 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,12 @@ typedef struct s_minimap
 /******************************************************************************/
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
+
+/* src/init/init.c */
+int	init_var(t_map *map, t_minimap *minimap);
+int	init_texture(t_img *texture, t_img *img, char *path);
+int	init_mlx(t_img *map, t_img *mini, char *name_win, int type);
+
 /* src/parsing/check_access.c */
 int	parse_text(char *path);
 int	check_access(t_map *data);
