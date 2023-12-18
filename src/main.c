@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/16 18:42:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/18 08:49:57 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,12 @@ int	init_parse(t_map *data, int ac, char **av)
 	return (EXIT_SUCCESS);
 }
 
-int	close_win(t_map *minimap)
+int	hooks(t_map *map)
 {
-	(void)minimap;
-	exit (0);
-}
-
-int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
+	mlx_hook(map->img.win_ptr, 17, 0, close_win, map);
+	mlx_hook(map->img.win_ptr, 2, 1L << 0, fdf_key_press_hook, &map->player.movement); // This has to be changed to movement
+	mlx_hook(map->img.win_ptr, 3, 1L << 1, fdf_key_release_hook, &map->player.movement); // This has to be changed to movement
+	return (EXIT_SUCCESS);
 }
 
 int	main(int ac, char **av)
@@ -102,9 +99,7 @@ int	main(int ac, char **av)
 	init_var(&map, &minimap);
 	init_mlx(&map.img, &minimap.img, NULL, FALSE);
 	init_texture(&map.texture_no, &map.img, map.no);
-	mlx_hook(map.img.win_ptr, 17, 0, close_win, &map);
-	mlx_hook(map.img.win_ptr, 2, 1L << 0, fdf_key_press_hook, &map.player.movement); // This has to be changed to movement
-	mlx_hook(map.img.win_ptr, 3, 1L << 1, fdf_key_release_hook, &map.player.movement); // This has to be changed to movement
+	hooks(&map);
 	mlx_loop_hook(map.img.mlx_ptr, run_game, (void *) &map);
 	mlx_loop(map.img.mlx_ptr);
 	free(map.map);

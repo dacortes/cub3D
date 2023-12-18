@@ -185,6 +185,8 @@ int	fdf_key_press_hook(int key, t_point *movement)
 
 int	fdf_key_release_hook(int key, t_point *movement)
 {
+	if (key == KEY_ESC)
+		exit (printf("Exit cub3D\n") * EXIT_SUCCESS);
 	if (key == KEY_D && movement->x == 1)
 		movement->x = 0;
 	if (key == KEY_A && movement->x == -1)

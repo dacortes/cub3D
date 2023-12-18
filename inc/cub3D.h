@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/16 18:38:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/18 08:53:25 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,11 +172,6 @@ typedef struct s_minimap
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
-
-/******************************************************************************/
-/*                            FUNCTIONS                                       */
-/******************************************************************************/
-
 /* src/init/init.c */
 int	init_var(t_map *map, t_minimap *minimap);
 int	init_texture(t_img *texture, t_img *img, char *path);
@@ -211,17 +206,12 @@ int	is_map(char pos, int *player);
 int	clear_data(t_map*data);
 void draw_minimap(t_minimap *minimap);
 
-/* minimap */
-// void draw_minimap(t_minimap *minimap);
-
-
 /* points.c */
 int			fdf_mk_color(int transparency, int red, int green, int blue);
 void		fdf_print_point(char *start, t_point p, char *end);
 void		fdf_print_f_point(char *start, t_f_point p, char *end);
 t_point		fdf_set_point(int x, int y, int z, int color);
 t_f_point	fdf_set_f_point(float x, float y, float z, int color);
-void		fdf_put_pixel(void *img_ptr, unsigned int x, unsigned int y, int color);
 void		fdf_draw_line(t_img *img, t_point p1, t_point p2, int clr);
 
 /* main */
@@ -229,7 +219,6 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
 
 /* loop */
 int			run_game(t_map *map);
-// int			run_game(void *_map);
 int			fdf_key_press_hook(int key, t_point *movement);
 int			fdf_key_release_hook(int key, t_point *movement);
 
@@ -240,6 +229,7 @@ void		draw_minimap(t_minimap *minimap);
 void		draw_player(t_minimap *minimap);
 
 /* src/utils.c */
+int			close_win(t_map *map);
 int			get_square_on_position(t_map *map, t_f_point position);
 t_f_point	from_rad_to_vect(float radians, float len);
 
