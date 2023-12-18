@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/18 17:26:00 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/18 18:47:13 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int	main(int ac, char **av)
 	init_mlx(&map.img, &minimap.img, NULL, FALSE);
 	init_texture(&map.texture_no, &map.img, map.no);
 	init_texture(&map.texture_so, &map.img, map.so);
+	init_texture(&map.texture_we, &map.img, map.we);
+	init_texture(&map.texture_ea, &map.img, map.ea);
 	hooks(&map);
 	mlx_loop_hook(map.img.mlx_ptr, run_game, (void *) &map);
 	mlx_loop(map.img.mlx_ptr);
