@@ -208,6 +208,7 @@ void	cub3d(t_map *map, t_ray *ray)
 	int		lineHeight;
 	int		drawstart;
 	int		drawend;
+	// char 	_color;
 	int 	color;
 	t_img	*texture = &map->texture_no;
 
@@ -244,7 +245,7 @@ void	cub3d(t_map *map, t_ray *ray)
 		pixel.x = texture->width * (ray->colisions.x - (int) ray->colisions.x);
 		pixel.y = texture->height * (((float)(y - drawstart)) / (drawend - drawstart));
 
-		color = (int) *(map->texture_no.addr + (pixel.y * texture->line_len + pixel.x * (texture->bits_pxl / 8)));
+		color = *(int *)(map->texture_no.addr + (pixel.y * texture->line_len + pixel.x * (texture->bits_pxl / 8)));
 		color = color & 0x00ffffff;
 		my_mlx_pixel_put(&map->img, ray->i, y++, color);
 	}

@@ -1,7 +1,8 @@
 NO ./north.xpm
-SO ./south
-WE ./west
-EA ./east
+SO ./south.xpm
+WE ./west.xpm
+EA ./east.xpm
+
 
 F              150,            255,       150
 
