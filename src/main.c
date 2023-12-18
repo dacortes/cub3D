@@ -6,14 +6,11 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/18 08:49:57 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:29:18 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3D.h"
-
-t_f_point	from_rad_to_vect(float degrees, float len);
-
 
 int	clear_data(t_map *data)
 {
@@ -47,7 +44,6 @@ int	printf_map(t_map data)
 	int	i;
 	int	j;
 
-
 	i = 0;
 	while (i < data.rows)
 	{
@@ -75,15 +71,17 @@ int	init_parse(t_map *data, int ac, char **av)
 	parse_map(&chk, av[1], data);
 	printf_map(*data);
 	if (fd >= 0)
-		close (fd);	
+		close (fd);
 	return (EXIT_SUCCESS);
 }
 
 int	hooks(t_map *map)
 {
 	mlx_hook(map->img.win_ptr, 17, 0, close_win, map);
-	mlx_hook(map->img.win_ptr, 2, 1L << 0, fdf_key_press_hook, &map->player.movement); // This has to be changed to movement
-	mlx_hook(map->img.win_ptr, 3, 1L << 1, fdf_key_release_hook, &map->player.movement); // This has to be changed to movement
+	mlx_hook(map->img.win_ptr, 2, 1L << 0, fdf_key_press_hook, \
+		&map->player.movement);
+	mlx_hook(map->img.win_ptr, 3, 1L << 1, fdf_key_release_hook, \
+		&map->player.movement);
 	return (EXIT_SUCCESS);
 }
 
@@ -92,8 +90,6 @@ int	main(int ac, char **av)
 	t_map		map;
 	t_minimap	minimap;
 
-	(void)ac;
-	(void)av;
 	init_parse(&map, ac, av);
 	init_mlx(&map.img, NULL, "cub3D", TRUE);
 	init_var(&map, &minimap);
