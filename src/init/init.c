@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 18:36:50 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/16 18:40:16 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:49:04 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 int	init_var(t_map *map, t_minimap *minimap)
 {
 	map->player.movement = fdf_set_point(0, 0, 0, 0);
-	map->player.dir_vect_len = 0.5;
+	//map->player.dir_vect_len = 0.5;
+	map->player.dir_vect_len = 0.6;
 	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad, \
 		map->player.dir_vect_len);
-	map->player.cam_vect_len = 0.333;
+	//map->player.cam_vect_len = 0.333;
+	map->player.cam_vect_len = 0.777;
 	map->minimap = minimap;
 	minimap->rows = map->rows - 0;
 	minimap->cols = map->cols - 0;

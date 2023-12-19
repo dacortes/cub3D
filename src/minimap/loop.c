@@ -168,17 +168,17 @@ void render(t_map *map)
 
 int	fdf_key_press_hook(int key, t_point *movement)
 {
-	if (key == KEY_D && !movement->x)
+	if (key == KEY_D)
 		movement->x = 1;
-	if (key == KEY_A && !movement->x)
+	if (key == KEY_A)
 		movement->x = -1;
-	if (key == KEY_W && !movement->y)
+	if (key == KEY_W)
 		movement->y = 1;
-	if (key == KEY_S && !movement->y)
+	if (key == KEY_S)
 		movement->y = -1;
-	if (key == KEY_RIGHT && !movement->z)
+	if (key == KEY_RIGHT)
 		movement->z = 1;
-	if (key == KEY_LEFT && !movement->z)
+	if (key == KEY_LEFT)
 		movement->z = -1;
 	return (1);	
 }
@@ -187,17 +187,17 @@ int	fdf_key_release_hook(int key, t_point *movement)
 {
 	if (key == KEY_ESC)
 		exit (printf("Exit cub3D\n") * EXIT_SUCCESS);
-	if (key == KEY_D && movement->x == 1)
+	if (key == KEY_D)
 		movement->x = 0;
-	if (key == KEY_A && movement->x == -1)
+	if (key == KEY_A)
 		movement->x = 0;
-	if (key == KEY_W && movement->y == 1)
+	if (key == KEY_W)
 		movement->y = 0;
-	if (key == KEY_S && movement->y == -1)
+	if (key == KEY_S)
 		movement->y = 0;
-	if (key == KEY_RIGHT && movement->z == 1)
+	if (key == KEY_RIGHT)
 		movement->z= 0;
-	if (key == KEY_LEFT && movement->z == -1)
+	if (key == KEY_LEFT)
 		movement->z = 0;
 	return (1);	
 }
@@ -206,7 +206,9 @@ void	cub3d(t_map *map, t_ray *ray)
 {
 	float	perpWallDist;
 	int		lineHeight;
+	int		calculated_drawstart;
 	int		drawstart;
+	int		calculated_drawend;
 	int		drawend;
 	// char 	_color;
 	int 	color;
@@ -228,25 +230,29 @@ void	cub3d(t_map *map, t_ray *ray)
 	}
 	else
 	{
-		perpWallDist = (ray->distances.y - ray->deltas.y); // TOCHECK
-				if (ray->vect.y < 0)
-				{
-					texture = &map->texture_no;
-				 	color = 0x2020ff;//north	
-				}
-				 else
-				{
-					texture = &map->texture_so;
-				 	color = 0xff20ff; //sout	
-				}
+		perpWallDist = (ray->distances.y - ray->deltas.y);
+		if (ray->vect.y < 0)
+		{
+			texture = &map->texture_no;
+			color = 0x2020ff;//north	
+		}
+		 else
+		{
+			texture = &map->texture_so;
+			color = 0xff20ff; //sout	
+		}
 	}
-	lineHeight = (int)(SCREEN_HEIGHT / perpWallDist); // TEDPENDANT
-	drawstart = (-lineHeight / 2 + SCREEN_HEIGHT / 2); // DEPENDANT
-	if (drawstart < 0)
+	lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
+	calculated_drawstart = (-lineHeight / 2 + SCREEN_HEIGHT / 2);
+	if (calculated_drawstart < 0)
 		drawstart = 0;
-	drawend = lineHeight / 2 + SCREEN_HEIGHT / 2;
-	if (drawend >= SCREEN_HEIGHT)
+	else
+		drawstart = calculated_drawstart;
+	calculated_drawend = lineHeight / 2 + SCREEN_HEIGHT / 2;
+	if (calculated_drawend >= SCREEN_HEIGHT)
 		drawend = SCREEN_HEIGHT - 1;
+	else
+		drawend = calculated_drawend;
 	int	y = 0;
 	while (y < drawstart)
 		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->ceiling.red, map->ceiling.green, map->ceiling.blue)); // optimizable
@@ -257,12 +263,15 @@ void	cub3d(t_map *map, t_ray *ray)
 		if (ray->side)
 		{
 			pixel.x = texture->width * (ray->colisions.x - (int) ray->colisions.x);
-			pixel.y = texture->height * (((float)(y - drawstart)) / (drawend - drawstart));
+		//	pixel.y = texture->height * (((float)(y - drawstart)) / (drawend - drawstart)); // optimisable
+		//pixel.y = texture->height * (((float)(y - drawstart)) / (calculated_drawend - calculated_drawstart)); // optimisable
+			pixel.y = texture->height * (((float)(y - drawstart - (calculated_drawstart - drawstart))) / (calculated_drawend - calculated_drawstart)); // optimisable
 		}
 		else
 		{
 			pixel.x = texture->width * (ray->colisions.y - (int) ray->colisions.y);
-			pixel.y = texture->height * (((float)(y - drawstart)) / (drawend - drawstart));
+			//pixel.y = texture->height * (((float)(y - drawstart)) / (drawend - drawstart)); // optimisable
+			pixel.y = texture->height * (((float)(y - drawstart - (calculated_drawstart - drawstart))) / (calculated_drawend - calculated_drawstart)); // optimisable
 		}
 
 		color = *(int *)(texture->addr + (pixel.y * texture->line_len + pixel.x * (texture->bits_pxl / 8)));

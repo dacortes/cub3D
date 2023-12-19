@@ -6,7 +6,7 @@
 #define MAP_SQUARES_SIZE 1
 #define MOVEMENT_DELTA	0.05
 // #define MOVEMENT_DELTA	0.2
-#define ROTATION_DELTA	0.01
+#define ROTATION_DELTA	0.03
 # define SCREEN_WIDTH 2480
 # define SCREEN_HEIGHT 1240
 #include <math.h>
