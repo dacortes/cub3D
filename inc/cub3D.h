@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/18 08:53:25 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/19 09:32:03 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@
 # define MEM 2
 # define OPN 3
 # define MAP 4
-# define PRR 5
+# define FRM 5
+# define PRR 6
 
 # define TRUE   1
 # define FALSE  0
@@ -181,6 +182,7 @@ int	init_mlx(t_img *map, t_img *mini, char *name_win, int type);
 int	parse_text(char *path);
 int	check_access(t_map *data);
 int	parse_open(char *file, int *fd);
+int	check_extension(char *path, char *extension);
 /* src/parsing/getcolor.c */
 int	get_color(t_color *set, t_aux *chk, char *find, int *stt);
 /* src/parsing/getmap.c */

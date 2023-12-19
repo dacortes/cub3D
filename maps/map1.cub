@@ -1,7 +1,7 @@
-NO ./north.xpm
-SO ./south.xpm
-WE ./west.xpm
-EA ../east.xpm
+NO ./texture/north.xpm
+SO ./texture/south.xpm
+WE ./texture/west.xpm
+EA ./texture/east.xpm
 
 
 F              150,            255,       150
