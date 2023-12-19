@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/19 09:32:03 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/19 10:28:43 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@
 /*                            STRUCTURES                                      */
 /******************************************************************************/
 
-struct s_minimap;
-typedef struct s_minimap t_minimap;
+struct	s_minimap;
+typedef struct s_minimap	t_minimap;
 
 typedef struct s_aux
 {
@@ -97,7 +97,7 @@ typedef struct point_s
 	int				color;
 }	t_point;
 
-typedef	struct s_color
+typedef struct s_color
 {
 	int	red;
 	int	green;
@@ -123,7 +123,7 @@ typedef struct s_ray
 	t_f_point	colisions;
 	int			i;
 	int			side;
-} t_ray;
+}	t_ray;
 
 typedef struct s_player
 {
@@ -135,7 +135,7 @@ typedef struct s_player
 	float			cam_vect_len;
 	t_f_point		camera;
 	t_point			movement;
-} t_player;
+}	t_player;
 
 typedef struct s_map
 {
@@ -174,39 +174,39 @@ typedef struct s_minimap
 /******************************************************************************/
 
 /* src/init/init.c */
-int	init_var(t_map *map, t_minimap *minimap);
-int	init_texture(t_img *texture, t_img *img, char *path);
-int	init_mlx(t_img *map, t_img *mini, char *name_win, int type);
+int			init_var(t_map *map, t_minimap *minimap);
+int			init_texture(t_img *texture, t_img *img, char *path);
+int			init_mlx(t_img *map, t_img *mini, char *name_win, int type);
 
 /* src/parsing/check_access.c */
-int	parse_text(char *path);
-int	check_access(t_map *data);
-int	parse_open(char *file, int *fd);
-int	check_extension(char *path, char *extension);
+int			parse_text(char *path);
+int			check_access(t_map *data);
+int			parse_open(char *file, int *fd);
+int			check_extension(char *path, char *extension);
 /* src/parsing/getcolor.c */
-int	get_color(t_color *set, t_aux *chk, char *find, int *stt);
+int			get_color(t_color *set, t_aux *chk, char *find, int *stt);
 /* src/parsing/getmap.c */
-int	get_map(t_aux *chk, char *file, t_map *data);
-int	get_dimensions(t_map *data, t_aux *chk, int *started);
+int			get_map(t_aux *chk, char *file, t_map *data);
+int			get_dimensions(t_map *data, t_aux *chk, int *started);
 /* src/parsing/getpath.c */
-int	get_data(t_map *data, t_aux *chk);
+int			get_data(t_map *data, t_aux *chk);
 /* src/parsing/parse.c */
-int	parse_map(t_aux *chk, char *file, t_map *data);
-int	parse_data(t_aux *chk, int fd, t_map *data);
+int			parse_map(t_aux *chk, char *file, t_map *data);
+int			parse_data(t_aux *chk, int fd, t_map *data);
 /* src/parsing/utils.c */
-int	is_space(char c);
-int	is_num(char *str);
-int	ignore_space(char *str, int *iter);
-int	error_get_data(char **set, char *find);
-int	msg_error(int err, int exit_, char *cm);
+int			is_space(char c);
+int			is_num(char *str);
+int			ignore_space(char *str, int *iter);
+int			error_get_data(char **set, char *find);
+int			msg_error(int err, int exit_, char *cm);
 /* src/parsing/utils2.c*/
-int is_player(int player);
-int	empty_line(t_aux *chk);
-int	is_line_map(t_aux *chk);
-int	is_map(char pos, int *player);
+int 		is_player(int player);
+int			empty_line(t_aux *chk);
+int			is_line_map(t_aux *chk);
+int			is_map(char pos, int *player);
 /* test */
-int	clear_data(t_map*data);
-void draw_minimap(t_minimap *minimap);
+int			clear_data(t_map*data);
+void 		draw_minimap(t_minimap *minimap);
 
 /* points.c */
 int			fdf_mk_color(int transparency, int red, int green, int blue);
@@ -217,7 +217,7 @@ t_f_point	fdf_set_f_point(float x, float y, float z, int color);
 void		fdf_draw_line(t_img *img, t_point p1, t_point p2, int clr);
 
 /* main */
-void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
+void		my_mlx_pixel_put(t_img *data, int x, int y, int color);
 
 /* loop */
 int			run_game(t_map *map);
@@ -237,9 +237,4 @@ t_f_point	from_rad_to_vect(float radians, float len);
 
 /* main */
 void		cub3d(t_map *map, t_ray *ray);
-/******************************************************************************/
-/*                            DEFINITIONS                                     */
-/******************************************************************************/
-
-void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
 #endif

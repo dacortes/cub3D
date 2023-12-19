@@ -1,8 +1,4 @@
 #include "../../inc/cub3D.h"
-#include <stdio.h>
-
-void draw_minimap_tiles(t_minimap *minimap);
-void draw_player(t_minimap *minimap);
 
 int minimap_draw_square(t_minimap *minimap, t_point pixel, t_point squares_size, int border)
 {
@@ -39,12 +35,12 @@ void draw_minimap_tiles(t_minimap *minimap)
 		{
 			square_type = minimap->map->map[coord.y + minimap->offsets.y][coord.x + minimap->offsets.x];
 			if (square_type == 1)
-				pixel.color = fdf_mk_color(20, 0, 125, 60);
+				pixel.color = fdf_mk_color(20, 0, 0, 0);
 			else
 				pixel.color = fdf_mk_color(254, 0, 0, 255);	
 			pixel.x = coord.x * minimap->squares_size;
 			pixel.y = coord.y * minimap->squares_size;
-			minimap_draw_square(minimap, pixel, fdf_set_point(minimap->squares_size, minimap->squares_size, 0, 0), fdf_mk_color(0, 255, 125, 0));
+			minimap_draw_square(minimap, pixel, fdf_set_point(minimap->squares_size, minimap->squares_size, 0, 0), fdf_mk_color(200, 255, 255, 255));
 			coord.x++;
 		}
 		coord.y++;
@@ -69,7 +65,7 @@ void	draw_player(t_minimap *minimap)
 
 	camera_end.x = (float)direction_end.x + player.cam_vect.x * minimap->squares_size;
 	camera_end.y = (float)direction_end.y + player.cam_vect.y * minimap->squares_size;
-	camera_end.color = fdf_mk_color(0, 255, 0, 0);
+	camera_end.color = fdf_mk_color(100, 255, 0, 0);
 	fdf_draw_line(&minimap->img, direction_end, camera_end, camera_end.color);
 
 	camera_end.x = (float)direction_end.x - player.cam_vect.x *  minimap->squares_size;
