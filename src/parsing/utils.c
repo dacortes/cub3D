@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:37:07 by codespace         #+#    #+#             */
-/*   Updated: 2023/11/29 14:35:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/19 09:13:16 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	msg_error(int err, int exit_, char *cm)
 		fd_printf(2, "Error\nopening file: %s\n", cm);
 	if (err == MAP)
 		fd_printf(2, "Error\nwrong map: %s\n", cm);
+	if (err == FRM)
+		fd_printf(2, "Error\ninvalid format: %s\n", cm);
 	if (err == PRR)
 		perror("Error\n");
 	return (exit_);

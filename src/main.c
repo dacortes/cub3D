@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 10:57:07 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/18 18:47:13 by jrenau-v         ###   ########.fr       */
+/*   Updated: 2023/12/19 09:32:29 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	init_parse(t_map *data, int ac, char **av)
 	fd = -1;
 	if (ac != 2)
 		exit (msg_error(ARG, -1, NULL));
+	check_extension(av[1], ".cub");
 	parse_open(av[1], &fd);
 	parse_data(&chk, fd, data);
 	parse_map(&chk, av[1], data);
