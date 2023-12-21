@@ -6,30 +6,17 @@
 /*   By: jrenau-v <jrenau-v@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 19:46:34 by jrenau-v          #+#    #+#             */
-/*   Updated: 2023/12/19 19:52:23 by jrenau-v         ###   ########.fr       */
+/*   Updated: 2023/12/21 15:38:29 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3D.h"
 
+void	joan(t_map *map, t_ray *ray);
 void	render(t_map *map);
 
-int	run_game(t_map *map)
+void	move_player(t_player *player)
 {
-	t_minimap	*minimap;
-	t_player	*player;
-	t_f_point	initial_position;
-
-	mlx_clear_window(map->minimap->img.mlx_ptr, map->minimap->img.win_ptr);
-	player = &map->player;
-	minimap = map->minimap;
-	initial_position = player->position;
-	map->player.dir_rad += ROTATION_DELTA * map->player.movement.z;
-	map->player.dir_rad += ROTATION_DELTA * map->player.movement.z;
-	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad,
-			map->player.dir_vect_len);
-	map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633),
-			map->player.cam_vect_len);
 	if (player->movement.y != 0 && player->movement.x != 0)
 	{
 		player->position.x += (player->dir_vect.x
@@ -55,6 +42,25 @@ int	run_game(t_map *map)
 		player->position.y += (player->dir_vect.x
 				* MOVEMENT_DELTA) * player->movement.x ;
 	}
+}
+
+int	run_game(t_map *map)
+{
+	t_minimap	*minimap;
+	t_player	*player;
+	t_f_point	initial_position;
+
+	mlx_clear_window(map->minimap->img.mlx_ptr, map->minimap->img.win_ptr);
+	player = &map->player;
+	minimap = map->minimap;
+	initial_position = player->position;
+	map->player.dir_rad += ROTATION_DELTA * map->player.movement.z;
+	map->player.dir_rad += ROTATION_DELTA * map->player.movement.z;
+	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad,
+			map->player.dir_vect_len);
+	map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633),
+			map->player.cam_vect_len);
+	move_player(player);
 	if (get_square_on_position(map, player->position) != 0)
 		player->position = initial_position;
 	draw_minimap(minimap);
@@ -66,82 +72,54 @@ int	run_game(t_map *map)
 	return (1);
 }
 
+/*
 void	print_half_ray(t_map *map, t_f_point ray_v)
 {
-	t_point ray_start_img = fdf_set_point(map->player.position.x * map->minimap->squares_size, map->player.position.y * map->minimap->squares_size, 0, 0);
-	t_point ray_end_img = fdf_set_point(ray_v.x * map->minimap->squares_size, ray_v.y * map->minimap->squares_size, 0, 0);
-	fdf_draw_line(&map->minimap->img, ray_start_img, ray_end_img, fdf_mk_color(0,0,0,0));
+	t_point	ray_start_img = fdf_set_point(map->player.position.x
+			 * map->minimap->squares_size,
+			map->player.position.y * map->minimap->squares_size, 0, 0);
+	t_point ray_end_img = fdf_set_point(ray_v.x
+			 * map->minimap->squares_size,
+			ray_v.y * map->minimap->squares_size, 0, 0);
+	fdf_draw_line(&map->minimap->img, ray_start_img,
+			ray_end_img, fdf_mk_color(0,0,0,0));
 }
-
+*/
 void	set_coliding_variables(t_f_point player_pos, t_ray *ray)
 {
-	ray->deltas = fdf_set_f_point(fabs(1.0 / ray->vect.x), fabs(1.0 / ray->vect.y), 0, 0);
+	ray->deltas = fdf_set_f_point(fabs(1.0 / ray->vect.x),
+			fabs(1.0 / ray->vect.y), 0, 0);
 	ray->position = fdf_set_point(player_pos.x, player_pos.y, 0, 0);
 	if (ray->vect.x < 0)
 	{
-		ray->distances.x = (player_pos.x - ray->position.x ) * ray->deltas.x; 	
+		ray->distances.x = (player_pos.x - ray->position.x) * ray->deltas.x;
 		ray->directions.x = -1;
-	}	
+	}
 	else
 	{
-		ray->distances.x = ( ((float) (1 + ray->position.x)) - player_pos.x ) * ray->deltas.x; 	
+		ray->distances.x = (((float)(1 + ray->position.x)) - player_pos.x)
+			* ray->deltas.x;
 		ray->directions.x = 1;
 	}
 	if (ray->vect.y < 0)
 	{
-		ray->distances.y = (player_pos.y - ray->position.y ) * ray->deltas.y; 	
+		ray->distances.y = (player_pos.y - ray->position.y) * ray->deltas.y;
 		ray->directions.y = -1;
-	}	
+	}
 	else
 	{
-		ray->distances.y = ( (float) (1 + ray->position.y) - player_pos.y ) * ray->deltas.y;
+		ray->distances.y = ((float)(1 + ray->position.y) - player_pos.y)
+			* ray->deltas.y;
 		ray->directions.y = 1;
 	}
 }
 
-
-void	joan(t_map *map, t_ray *ray)
-{
-	float	diferential;
-	float	constant;
-	float	x, y;
-	t_point		starts, ends;
-
-	if (!ray->side) //get y from x
-	{
-		diferential = ray->vect.y / ray->vect.x;
-		if (fabs(diferential) > 50.0)
-			diferential = 50.0 * ((diferential > 0) * 2 - 1);
-
-		constant = map->player.position.y - map->player.position.x * diferential; 
-		x = ray->position.x + (ray->vect.x < 0); //+ map->player.position.x;
-		y = x * diferential + constant;
-	}
-	else  //get x from y
-	{
-		diferential = ray->vect.x / ray->vect.y;
-		if (fabs(diferential) > 50.0)
-			diferential = 50.0 * ((diferential > 0) * 2 - 1);
-		constant = map->player.position.x - map->player.position.y * diferential; 
-		y = ray->position.y + (ray->vect.y < 0);// + map->player.position.y;	
-		x = y * diferential + constant;
-	}
-	starts.x = map->player.position.x * map->minimap->squares_size; // should aply offset
-	starts.y = map->player.position.y * map->minimap->squares_size; // should aply offset
-	ends.x = x * map->minimap->squares_size;
-	ends.y = y * map->minimap->squares_size;
-	ray->colisions = fdf_set_f_point(x, y, 0, 0);
-	fdf_draw_line(&map->minimap->img, starts, ends, fdf_mk_color(0, 225, 255, 255));	
-}
-
 void	colide_ray(t_map *map, t_ray *ray)
 {
-	int colided;
+	int	colided;
 
 	colided = 0;
 	set_coliding_variables(map->player.position, ray);
-	if (ray->vect.x == 0 || ray->vect.y == 0)
-		return ; // Should be handled
 	while (!colided)
 	{
 		if (ray->distances.x < ray->distances.y)
@@ -161,9 +139,9 @@ void	colide_ray(t_map *map, t_ray *ray)
 	}
 }
 
-void render(t_map *map)
+void	render(t_map *map)
 {
-	int 		cam_i;
+	int			cam_i;
 	int			cam_end;
 	t_ray		ray;
 	t_f_point	cam_0;
@@ -172,22 +150,23 @@ void render(t_map *map)
 	cam_i = 0 - cam_end;
 	ray.i = 0;
 	cam_0 = fdf_set_f_point(map->player.position.x + map->player.dir_vect.x,
-		map->player.position.y + map->player.dir_vect.y, 0, 0);
+			map->player.position.y + map->player.dir_vect.y, 0, 0);
 	while (cam_i < cam_end)
 	{
-		ray.cam_intersect.x = cam_0.x + (map->player.cam_vect.x * cam_i / cam_end);
-		ray.cam_intersect.y = cam_0.y + (map->player.cam_vect.y * cam_i / cam_end);
+		ray.cam_intersect.x = cam_0.x
+			+ (map->player.cam_vect.x * cam_i / cam_end);
+		ray.cam_intersect.y = cam_0.y
+			+ (map->player.cam_vect.y * cam_i / cam_end);
 		ray.vect.x = ray.cam_intersect.x - map->player.position.x;
-		ray.vect.x += ((ray.vect.x < 0) * 2 - 1) * 0.0001;
+		ray.vect.x += ((ray.vect.x > 0) * 2 - 1) * 0.0001;
 		ray.vect.y = ray.cam_intersect.y - map->player.position.y;
-		ray.vect.y += ((ray.vect.y < 0) * 2 - 1) * 0.0001;
+		ray.vect.y += ((ray.vect.y > 0) * 2 - 1) * 0.0001;
 		colide_ray(map, &ray);
 		cub3d(map, &ray);
 		cam_i++;
 		ray.i++;
 	}
 }
-
 
 // int	fdf_key_press_hook(int key, t_point *movement)
 // {
@@ -227,61 +206,50 @@ void render(t_map *map)
 
 void	cub3d(t_map *map, t_ray *ray)
 {
-	float	perpWallDist;
-	int		lineHeight;
+	float	perp_wall_dist;
+	int		line_height;
 	int		calculated_drawstart;
 	int		drawstart;
 	int		calculated_drawend;
 	int		drawend;
-	int 	color;
-	t_img	*texture = &map->texture_no;
+	int		color;
+	t_img	*texture;
+	int	y = 0;
+	t_point	pixel;
 
 	if (!ray->side)
 	{
-		perpWallDist = (ray->distances.x - ray->deltas.x);
-		 if (ray->vect.x < 0)
-		{
+		perp_wall_dist = (ray->distances.x - ray->deltas.x);
+		if (ray->vect.x < 0)
 			texture = &map->texture_we;
-		 	color = 0xff2020;//west	
-		}
-		 else
-		{
+		else
 			texture = &map->texture_ea;
-		 	color = 0x20ff20;	//east
-		}
 	}
 	else
 	{
-		perpWallDist = (ray->distances.y - ray->deltas.y);
+		perp_wall_dist = (ray->distances.y - ray->deltas.y);
 		if (ray->vect.y < 0)
-		{
 			texture = &map->texture_no;
-			color = 0x2020ff;//north	
-		}
-		 else
-		{
+		else
 			texture = &map->texture_so;
-			color = 0xff20ff; //sout	
-		}
 	}
-	lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
-	calculated_drawstart = (-lineHeight / 2 + SCREEN_HEIGHT / 2);
+	line_height = (int)(SCREEN_HEIGHT / perp_wall_dist);
+	calculated_drawstart = (-line_height / 2 + SCREEN_HEIGHT / 2);
 	if (calculated_drawstart < 0)
 		drawstart = 0;
 	else
 		drawstart = calculated_drawstart;
-	calculated_drawend = lineHeight / 2 + SCREEN_HEIGHT / 2;
+	calculated_drawend = line_height / 2 + SCREEN_HEIGHT / 2;
 	if (calculated_drawend >= SCREEN_HEIGHT)
 		drawend = SCREEN_HEIGHT - 1;
 	else
 		drawend = calculated_drawend;
-	int	y = 0;
+	y = 0;
 	while (y < drawstart)
-		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->ceiling.red, map->ceiling.green, map->ceiling.blue)); // optimizable
-	t_point	pixel = fdf_set_point(0,0,0,0);
+		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0, map->ceiling.red, map->ceiling.green, map->ceiling.blue)); // optimizable
+	pixel = fdf_set_point(0, 0, 0, 0);
 	while (y < drawend)
 	{
-		
 		if (ray->side)
 		{
 			pixel.x = texture->width * (ray->colisions.x - (int) ray->colisions.x);
@@ -292,11 +260,44 @@ void	cub3d(t_map *map, t_ray *ray)
 			pixel.x = texture->width * (ray->colisions.y - (int) ray->colisions.y);
 			pixel.y = texture->height * (((float)(y - drawstart - (calculated_drawstart - drawstart))) / (calculated_drawend - calculated_drawstart)); // optimisable
 		}
-
 		color = *(int *)(texture->addr + (pixel.y * texture->line_len + pixel.x * (texture->bits_pxl / 8)));
 		color = color & 0x00ffffff;
 		my_mlx_pixel_put(&map->img, ray->i, y++, color);
 	}
 	while (y < (SCREEN_HEIGHT - 1))
 		my_mlx_pixel_put(&map->img, ray->i, y++, fdf_mk_color(0,map->floor.red, map->floor.green, map->floor.blue));
+}
+
+void	joan(t_map *map, t_ray *ray)
+{
+	float		diferential;
+	float		constant;
+	float		x, y;
+	t_point		starts;
+	t_point		ends;
+
+	if (!ray->side)
+	{
+		diferential = ray->vect.y / ray->vect.x;
+		if (fabs(diferential) > 50.0)
+			diferential = 50.0 * ((diferential > 0) * 2 - 1);
+		constant = map->player.position.y - map->player.position.x * diferential; 
+		x = ray->position.x + (ray->vect.x < 0); //+ map->player.position.x;
+		y = x * diferential + constant;
+	}
+	else
+	{
+		diferential = ray->vect.x / ray->vect.y;
+		if (fabs(diferential) > 50.0)
+			diferential = 50.0 * ((diferential > 0) * 2 - 1);
+		constant = map->player.position.x - map->player.position.y * diferential; 
+		y = ray->position.y + (ray->vect.y < 0);// + map->player.position.y;	
+		x = y * diferential + constant;
+	}
+	starts.x = map->player.position.x * map->minimap->squares_size; // should aply offset
+	starts.y = map->player.position.y * map->minimap->squares_size; // should aply offset
+	ends.x = x * map->minimap->squares_size;
+	ends.y = y * map->minimap->squares_size;
+	ray->colisions = fdf_set_f_point(x, y, 0, 0);
+	fdf_draw_line(&map->minimap->img, starts, ends, fdf_mk_color(0, 225, 255, 255));	
 }

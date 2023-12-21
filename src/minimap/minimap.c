@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 10:44:06 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/21 12:01:26 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/21 14:24:30 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	draw_player(t_minimap *minimap)
 		fdf_mk_color(0, 255, 255, 255));
 }
 
-void draw_minimap(t_minimap *minimap)
+void	draw_minimap(t_minimap *minimap)
 {
 	draw_minimap_tiles(minimap);
 	draw_player(minimap);

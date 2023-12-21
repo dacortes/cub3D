@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/21 10:26:40 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/21 14:07:46 by jrenau-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@
 /*                            STRUCTURES                                      */
 /******************************************************************************/
 
-struct	s_minimap;
+struct						s_minimap;
 typedef struct s_minimap	t_minimap;
 
 typedef struct s_aux
@@ -200,13 +200,13 @@ int			ignore_space(char *str, int *iter);
 int			error_get_data(char **set, char *find);
 int			msg_error(int err, int exit_, char *cm);
 /* src/parsing/utils2.c*/
-int 		is_player(int player);
+int			is_player(int player);
 int			empty_line(t_aux *chk);
 int			is_line_map(t_aux *chk);
 int			is_map(char pos, int *player);
 /* test */
 int			clear_data(t_map*data);
-void 		draw_minimap(t_minimap *minimap);
+void		draw_minimap(t_minimap *minimap);
 
 /* points.c */
 int			fdf_mk_color(int transparency, int red, int green, int blue);
@@ -227,7 +227,8 @@ int			fdf_key_press_hook(int key, t_point *movement);
 int			fdf_key_release_hook(int key, t_point *movement);
 
 /* src/minimap/minimap.c */
-int			minimap_draw_square(t_minimap *minimap, t_point pixel, t_point squares_size, int border);
+int			minimap_draw_square(t_minimap *minimap, t_point pixel,
+				t_point squares_size, int border);
 void		draw_minimap_tiles(t_minimap *minimap);
 void		draw_minimap(t_minimap *minimap);
 void		draw_player(t_minimap *minimap);
