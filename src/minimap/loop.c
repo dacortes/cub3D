@@ -1,56 +1,79 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   loop.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jrenau-v <jrenau-v@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/19 19:46:34 by jrenau-v          #+#    #+#             */
+/*   Updated: 2023/12/19 19:52:23 by jrenau-v         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../inc/cub3D.h"
 
-void render(t_map *map);
+void	render(t_map *map);
 
-int run_game(t_map *map)
+int	run_game(t_map *map)
 {
 	t_minimap	*minimap;
 	t_player	*player;
-	t_f_point	initial_position; 
+	t_f_point	initial_position;
 
 	mlx_clear_window(map->minimap->img.mlx_ptr, map->minimap->img.win_ptr);
 	player = &map->player;
 	minimap = map->minimap;
 	initial_position = player->position;
-	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
-	map->player.dir_rad +=  ROTATION_DELTA * map->player.movement.z;
-	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad, map->player.dir_vect_len);
-	map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633), map->player.cam_vect_len);
+	map->player.dir_rad += ROTATION_DELTA * map->player.movement.z;
+	map->player.dir_rad += ROTATION_DELTA * map->player.movement.z;
+	map->player.dir_vect = from_rad_to_vect(map->player.dir_rad,
+			map->player.dir_vect_len);
+	map->player.cam_vect = from_rad_to_vect((map->player.dir_rad + 1.57079633),
+			map->player.cam_vect_len);
 	if (player->movement.y != 0 && player->movement.x != 0)
 	{
-		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.y) /2;
-		player->position.y += (player->dir_vect.y * MOVEMENT_DELTA * player->movement.y) /2;
-		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA * player->movement.x) /2;
-		player->position.y += (player->dir_vect.x * MOVEMENT_DELTA * player->movement.x) /2;
+		player->position.x += (player->dir_vect.x
+				* MOVEMENT_DELTA * player->movement.y) / 2;
+		player->position.y += (player->dir_vect.y
+				* MOVEMENT_DELTA * player->movement.y) / 2;
+		player->position.x -= (player->dir_vect.y
+				* MOVEMENT_DELTA * player->movement.x) / 2;
+		player->position.y += (player->dir_vect.x
+				* MOVEMENT_DELTA * player->movement.x) / 2;
 	}
 	else if (player->movement.y != 0)
 	{
-		player->position.x += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.y ;
-		player->position.y += (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.y ;
+		player->position.x += (player->dir_vect.x
+				* MOVEMENT_DELTA) * player->movement.y ;
+		player->position.y += (player->dir_vect.y
+				* MOVEMENT_DELTA) * player->movement.y ;
 	}
 	else if (player->movement.x != 0)
 	{
-		player->position.x -= (player->dir_vect.y * MOVEMENT_DELTA) * player->movement.x ;
-		player->position.y += (player->dir_vect.x * MOVEMENT_DELTA) * player->movement.x ;
+		player->position.x -= (player->dir_vect.y
+				* MOVEMENT_DELTA) * player->movement.x ;
+		player->position.y += (player->dir_vect.x
+				* MOVEMENT_DELTA) * player->movement.x ;
 	}
 	if (get_square_on_position(map, player->position) != 0)
 		player->position = initial_position;
 	draw_minimap(minimap);
 	render(map);
-	mlx_put_image_to_window(map->img.mlx_ptr, map->img.win_ptr, map->img.img, 0, 0);
-	mlx_put_image_to_window(minimap->img.mlx_ptr, minimap->img.win_ptr, minimap->img.img, 0, 0);
+	mlx_put_image_to_window(map->img.mlx_ptr,
+		map->img.win_ptr, map->img.img, 0, 0);
+	mlx_put_image_to_window(minimap->img.mlx_ptr,
+		minimap->img.win_ptr, minimap->img.img, 0, 0);
 	return (1);
 }
 
-void print_half_ray(t_map *map, t_f_point ray_v)
+void	print_half_ray(t_map *map, t_f_point ray_v)
 {
 	t_point ray_start_img = fdf_set_point(map->player.position.x * map->minimap->squares_size, map->player.position.y * map->minimap->squares_size, 0, 0);
 	t_point ray_end_img = fdf_set_point(ray_v.x * map->minimap->squares_size, ray_v.y * map->minimap->squares_size, 0, 0);
 	fdf_draw_line(&map->minimap->img, ray_start_img, ray_end_img, fdf_mk_color(0,0,0,0));
 }
 
-void set_coliding_variables(t_f_point player_pos, t_ray *ray)
+void	set_coliding_variables(t_f_point player_pos, t_ray *ray)
 {
 	ray->deltas = fdf_set_f_point(fabs(1.0 / ray->vect.x), fabs(1.0 / ray->vect.y), 0, 0);
 	ray->position = fdf_set_point(player_pos.x, player_pos.y, 0, 0);
