@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:07:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/12/19 10:28:43 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/12/21 10:26:40 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,8 @@ t_point		fdf_set_point(int x, int y, int z, int color);
 t_f_point	fdf_set_f_point(float x, float y, float z, int color);
 void		fdf_draw_line(t_img *img, t_point p1, t_point p2, int clr);
 
+/* src/minimap/utils.c */
+void		fdf_swap_point(t_point *p1, t_point *p2);
 /* main */
 void		my_mlx_pixel_put(t_img *data, int x, int y, int color);
 
