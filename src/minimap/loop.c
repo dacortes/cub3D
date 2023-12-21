@@ -166,41 +166,41 @@ void render(t_map *map)
 }
 
 
-int	fdf_key_press_hook(int key, t_point *movement)
-{
-	if (key == KEY_D)
-		movement->x = 1;
-	if (key == KEY_A)
-		movement->x = -1;
-	if (key == KEY_W)
-		movement->y = 1;
-	if (key == KEY_S)
-		movement->y = -1;
-	if (key == KEY_RIGHT)
-		movement->z = 1;
-	if (key == KEY_LEFT)
-		movement->z = -1;
-	return (1);	
-}
+// int	fdf_key_press_hook(int key, t_point *movement)
+// {
+// 	if (key == KEY_D)
+// 		movement->x = 1;
+// 	if (key == KEY_A)
+// 		movement->x = -1;
+// 	if (key == KEY_W)
+// 		movement->y = 1;
+// 	if (key == KEY_S)
+// 		movement->y = -1;
+// 	if (key == KEY_RIGHT)
+// 		movement->z = 1;
+// 	if (key == KEY_LEFT)
+// 		movement->z = -1;
+// 	return (1);	
+// }
 
-int	fdf_key_release_hook(int key, t_point *movement)
-{
-	if (key == KEY_ESC)
-		exit (printf("Exit cub3D\n") * EXIT_SUCCESS);
-	if (key == KEY_D)
-		movement->x = 0;
-	if (key == KEY_A)
-		movement->x = 0;
-	if (key == KEY_W)
-		movement->y = 0;
-	if (key == KEY_S)
-		movement->y = 0;
-	if (key == KEY_RIGHT)
-		movement->z= 0;
-	if (key == KEY_LEFT)
-		movement->z = 0;
-	return (1);	
-}
+// int	fdf_key_release_hook(int key, t_point *movement)
+// {
+// 	if (key == KEY_ESC)
+// 		exit (printf("Exit cub3D\n") * EXIT_SUCCESS);
+// 	if (key == KEY_D)
+// 		movement->x = 0;
+// 	if (key == KEY_A)
+// 		movement->x = 0;
+// 	if (key == KEY_W)
+// 		movement->y = 0;
+// 	if (key == KEY_S)
+// 		movement->y = 0;
+// 	if (key == KEY_RIGHT)
+// 		movement->z= 0;
+// 	if (key == KEY_LEFT)
+// 		movement->z = 0;
+// 	return (1);	
+// }
 
 void	cub3d(t_map *map, t_ray *ray)
 {
@@ -210,7 +210,6 @@ void	cub3d(t_map *map, t_ray *ray)
 	int		drawstart;
 	int		calculated_drawend;
 	int		drawend;
-	// char 	_color;
 	int 	color;
 	t_img	*texture = &map->texture_no;
 
@@ -263,14 +262,11 @@ void	cub3d(t_map *map, t_ray *ray)
 		if (ray->side)
 		{
 			pixel.x = texture->width * (ray->colisions.x - (int) ray->colisions.x);
-		//	pixel.y = texture->height * (((float)(y - drawstart)) / (drawend - drawstart)); // optimisable
-		//pixel.y = texture->height * (((float)(y - drawstart)) / (calculated_drawend - calculated_drawstart)); // optimisable
 			pixel.y = texture->height * (((float)(y - drawstart - (calculated_drawstart - drawstart))) / (calculated_drawend - calculated_drawstart)); // optimisable
 		}
 		else
 		{
 			pixel.x = texture->width * (ray->colisions.y - (int) ray->colisions.y);
-			//pixel.y = texture->height * (((float)(y - drawstart)) / (drawend - drawstart)); // optimisable
 			pixel.y = texture->height * (((float)(y - drawstart - (calculated_drawstart - drawstart))) / (calculated_drawend - calculated_drawstart)); // optimisable
 		}
 
