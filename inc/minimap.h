@@ -1,15 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minimap.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jrenau-v <jrenau-v@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/21 14:08:15 by jrenau-v          #+#    #+#             */
+/*   Updated: 2023/12/21 14:21:34 by jrenau-v         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#ifndef MINIMAP_H
+# define MINIMAP_H
+# include <math.h>
+# define _MINIMAP_H
+# define PLAYER_WIDTH 5
+# define PLAYER_HEIGHT 5
+//#define SQUARES_SIZE 20
+# define MINIMAP_SIZE 200
+# define MAP_SQUARES_SIZE 1
+# define MOVEMENT_DELTA	0.05
+// #define MOVEMENT_DELTA	0.2
+# define ROTATION_DELTA	0.03
+# define SCREEN_WIDTH 2480
+# define SCREEN_HEIGHT 1240
 
-#define PLAYER_WIDTH 5
-#define PLAYER_HEIGHT 5
-#define SQUARES_SIZE 20
-#define MAP_SQUARES_SIZE 1
-#define MOVEMENT_DELTA	0.05
-#define ROTATION_DELTA	0.01
-# define SCREEN_WIDTH 1080
-# define SCREEN_HEIGHT 1920
-#include <math.h>
-
-typedef struct	s_img {
+typedef struct s_img
+{
 	void	*img;
 	void	*mlx_ptr;
 	void	*win_ptr;
@@ -17,8 +33,8 @@ typedef struct	s_img {
 	int		bits_pxl;
 	int		line_len;
 	int		endian;
-	int		width;  //maybe not needed
-	int		height;  //maybe not needed
+	int		width; //maybe not needed
+	int		height; //maybe not needed
 }				t_img;
 
 // typedef struct map_s{
@@ -26,7 +42,6 @@ typedef struct	s_img {
 // 	int	rows;	
 // 	int	cols;	
 // }	t_map;
-
 
 // struct minimap_s;
 // typedef struct minimap_s t_minimap;
@@ -36,7 +51,6 @@ typedef struct	s_img {
 // 	int				z;
 // 	int				color;
 // }	t_point;
-
 
 // typedef struct f_point_s{
 // 	float			x;
@@ -53,7 +67,7 @@ typedef struct	s_img {
 // 	t_f_point		camera;
 // 	t_point			movement;
 // } t_player;
-		
+
 // typedef struct map_s{
 // 	char			**map;
 // 	int				squares_size;
@@ -85,26 +99,27 @@ typedef struct	s_img {
 // 	t_img			img;
 // }	t_minimap		;
 
-
 /* KEY MAPPING */
-#define KEY_W			13
-#define KEY_A			0
-#define KEY_S			1
-#define KEY_D			2
-#define KEY_LEFT		123
-#define KEY_RIGHT		124
+# define KEY_W			13
+# define KEY_A			0
+# define KEY_S			1
+# define KEY_D			2
+# define KEY_ESC			53
+# define KEY_LEFT		123
+# define KEY_RIGHT		124
 
 /* minimap */
 // void draw_minimap(t_minimap *minimap);
-
 
 /* points.c */
 // int			fdf_mk_color(int transparency, int red, int green, int blue);
 // void		fdf_print_pnt(t_point p);
 // void		fdf_print_f_pnt(t_f_point p);
 // t_point		fdf_set_point(int x, int y, int z, int color);
-// void		fdf_put_pixel(void *img_ptr, unsigned int x, unsigned int y, int color);
-// void		fdf_draw_line(t_img *img, t_point p1, t_point p2, int clr);
+// void		fdf_put_pixel(void *img_ptr, unsigned int x,
+//				 unsigned int y, int color);
+// void		fdf_draw_line(t_img *img, t_point p1,
+//				t_point p2, int clr);
 
 // /* main */
 // void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
@@ -115,7 +130,8 @@ typedef struct	s_img {
 // int			fdf_key_release_hook(int key, t_point *movement);
 
 // /* src/minimap/minimap.c */
-// int			minimap_draw_square(t_minimap *minimap, t_point pixel, t_point squares_size, int border);
+// int			minimap_draw_square(t_minimap *minimap, t_point pixel,
+//					t_point squares_size, int border);
 // void		draw_minimap_tiles(t_minimap *minimap);
 // void		draw_minimap(t_minimap *minimap);
 // void		draw_player(t_minimap *minimap);
@@ -123,7 +139,6 @@ typedef struct	s_img {
 // /* src/utils.c */
 // int			get_square_on_position(t_map *map, t_f_point position);
 // t_f_point	from_rad_to_vect(float radians, float len);
-
 
 // /* points.c */
 // int		fdf_mk_color(int transparency, int red, int green, int blue);
@@ -135,3 +150,4 @@ typedef struct	s_img {
 
 // void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
 
+#endif

@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 10:31:31 by codespace         #+#    #+#              #
-#    Updated: 2023/12/05 10:37:32 by dacortes         ###   ########.fr        #
+#    Updated: 2023/12/21 18:29:17 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CC = gcc
 RM = rm -rf
 LIBC = ar -rcs
 OS := $(shell uname -s)
-FLAGS = -Wall -Wextra -Werror -O3 -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -O3 -g #-fsanitize=address
 
 ################################################################################
 #  Bar                                                                         #
@@ -50,10 +50,12 @@ else
 				-I ./lib/minilibx_mac/
 endif
 
-SRC = parsing/check_access.c parsing/getcolor.c parsing/getdimensions.c\
-	parsing/getmap.c parsing/getpath.c parsing/parse.c parsing/utils.c \
+SRC = init/init.c\
+	parsing/check_access.c parsing/getcolor.c parsing/getdimensions.c\
+	parsing/getmap.c parsing/getpath.c parsing/parse.c parsing/utils.c\
 	parsing/utils2.c\
-	minimap/loop.c minimap/minimap.c minimap/points.c\
+	minimap/bob_ross.c minimap/events.c minimap/loop.c minimap/minimap.c\
+	minimap/points.c minimap/ray_calculator.c minimap/utils.c\
 	main.c utils.c
 LIBFT = ./lib/libft/
 L_SRC = ./src
@@ -95,6 +97,7 @@ all: dir $(NAME)
 -include $(DEP)
 dir:
 	mkdir -p $(D_OBJ)
+	mkdir -p $(D_OBJ)/init	
 	mkdir -p $(D_OBJ)/parsing
 	mkdir -p $(D_OBJ)/minimap
 libs:

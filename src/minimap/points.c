@@ -1,55 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   points.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/21 10:27:08 by dacortes          #+#    #+#             */
+/*   Updated: 2023/12/21 10:27:19 by dacortes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3D.h"
-
-void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->line_len + x * (data->bits_pxl / 8));
-	*(unsigned int*)dst = color;
-}
-
-
-int	fdf_mk_color(int transparency, int red, int green, int blue)
-{
-	int	color;
-
-	color = 0;
-	color = color | transparency;
-	color = color << 8;
-	color = color | red;
-	color = color << 8;
-	color = color | green;
-	color = color << 8;
-	color = color | blue;
-	return (color);
-}
-
-void	fdf_print_point(char *start, t_point p, char *end)
-{
-	if (start)
-		printf("%s", start);
-	printf("(%d, %d, %d)", p.x, p.y, p.z); // FORBIDDEN FUNCTION
-	if (end)
-		printf("%s", end);
-}
-
-void	fdf_print_f_point(char *start, t_f_point p, char *end)
-{
-	if (start)
-		printf("%s", start);
-	printf("(%f, %f, %f)", p.x, p.y, p.z); // FORBIDDEN FUNCTION
-	if (end)
-		printf("%s", end);
-}
-
-void	fdf_swap_point(t_point *p1, t_point *p2)
-{
-	t_point	aux_p;
-
-	aux_p = *p1;
-	*p1 = *p2;
-	*p2 = aux_p;
-}
 
 t_point	fdf_set_point(int x, int y, int z, int color)
 {
@@ -95,7 +56,6 @@ void	fdf_draw_line(t_img *img, t_point p1, t_point p2, int clr)
 	t_point	lst_p;	
 	t_point	cur_p;	
 
-
 	if (p1.x == p2.x)
 		return (fdf_draw_on_same_x(img, p1, p2, clr));
 	if (p1.x > p2.x)
@@ -118,27 +78,3 @@ void	fdf_draw_line(t_img *img, t_point p1, t_point p2, int clr)
 		cur_p.y = p1.y + (cur_p.x - p1.x) * d;
 	}
 }
-
-/*
-void	fdf_put_pixel(void *img_ptr, unsigned int x, unsigned int y, int color)
-{
-	char	*img_dta;
-	int		bits_per_pixel;
-	int		size_line;
-	int		endian;
-	int		bytes_per_pixel;
-
-//	x += img->width / 2; 
-//	y += img->height / 2; 
-	if (x >= img->width) // maybe not needed
-		return ; 		// maybe not needed
-	if (y >= img->height) // maybe not needed
-		return ; 		// maybe not needed
-	img_dta = mlx_get_data_addr(img_ptr, &bits_per_pixel, &size_line, &endian);//maybe its already on the img structure?
-	bytes_per_pixel = bits_per_pixel / 8;
-	if (bytes_per_pixel != 4)
-		ft_printf("The bytes per pixel is not 4 !!!!!!!!\n");
-	ft_memcpy(img_dta + ((x * bytes_per_pixel) % size_line + y * size_line),
-		&color, sizeof(int));
-}
-*/
